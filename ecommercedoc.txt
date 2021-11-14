@@ -1,0 +1,1445 @@
+(79)  Install Laravel8
+
+composer create-project laravel/laravel ecommerce
+
+php artisan serve
+
+(80)  Install Laravel default authentication Jetstream
+
+composer require laravel/jetstream
+php artisan jetstream:install livewire
+
+npm install && npm run dev
+
+
+(81) Create database and migrate
+
+
+using phpmyadmin create database ecommerce utf8mb4_general_ci
+
+configure laravel mysql in .env like so
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=ecommerce
+DB_USERNAME=root
+DB_PASSWORD=root
+
+to prevent failure on keylength with early mysql versions
+
+Update your /app/Providers/AppServiceProvider.php to contain:
+
+use Illuminate\Support\Facades\Schema;
+
+/**
+ * Bootstrap any application services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    Schema::defaultStringLength(191);
+}
+
+php artisan migrate
+
+Now we should get a basic landing page with login and register options
+
+(97) Default Auth System profile Update
+
+We alter dashboard.blade.php like so
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        {{ Auth::user()->name }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+
+    </div>
+</x-app-layout>
+
+We can turn some Auth features on and off in config fortify.php
+and config jetstream.php
+in jetstream.php we uncomment profile photos like so to enable the display of profile photos
+Features::profilePhotos(),
+we also have to change APP_URL in .env to display photos like so
+APP_URL=http://localhost:8000
+
+Next we must run 
+php artisan storage:link
+
+Now we can add profile photos
+
+(98)  Setup admin table and seed database
+
+php artisan r:l gives us our Route List
+
+Now we want to create the Admin authentication
+
+So first we create an admin controller
+php artisan make:controller AdminController
+
+Next our model and migration
+php artisan make:model Admin -m
+
+Next we copy our fields from user migration into the admin migration
+after that we copy the entire user model into the admin model then rename the class to Admin
+after that we run the migration
+php artisan migrate
+
+
+Now we want to create a seeder for the Admin Database
+so the first thing that we have to do is create a factory
+php artisan make:factory AdminFactory
+
+Next we open database factorys AdminFactory.php and UserFactory.php
+and copy the return fields from UserFactory to AdminFactory as well as the use
+next we change it like so
+       return [
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+        ];
+
+Next we open database seeder DatabaseSeeder.php and make it like so
+    public function run()
+    {
+         \App\Models\Admin::factory()->create();
+    }
+
+Now we want migrate and seed like so
+php artisan migrate --seed
+
+now our one record was inserted into the table.
+
+(99)  Creating Guards for Admin
+
+first we open config auth.php and add the following lines of code
+in the guards section 
+       'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+in the providers section
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+In the password section 
+        'admins' => [
+            'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+
+Ctl p allows us to search fields
+
+So first we search for and open AuthenticatedSessionController
+Next we search for and open FortifyServiceProvider.php the one under App Providers
+we change the register function like so  
+we copied the AttemptToAuthenticate and RedirectIfTwoFactorAuthenticatable from AuthenticatedSessionController
+   public function register()
+    {
+        $this->app->when([AdminController::class, 
+        AttemptToAuthenticate::class, 
+        RedirectIfTwoFactorAuthenticatable::class, ])
+        ->needs(StatefulGuard::class)
+        ->give(function(){
+            return Auth::guard('admin');
+        });
+    }
+
+We also have to add the supporting use statements like so
+use Illuminate\Contracts\Auth\StatefulGuard;
+use Laravel\Fortify\Actions\AttemptToAuthenticate;
+use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
+use App\Http\Controllers\AdminController;
+
+now under app folder we create a new folder Guards and in this folder we create
+AdminStatefulGuard.php
+next we copy StatefulGuard.php into our new file and rename the interface to AdminStatefulGuard
+
+(100)  Laravel 8 Mutli Auth Part 1
+
+Next we the namespace in AdminStatefulGuard to
+namespace App\Guards;
+
+Next we copy everything from AuthenticatedSessionController to AdminController and we update the namespace and class name
+
+Now in web.php we create routes and add a use for AdminController like so
+use App\Http\Controllers\AdminController;
+Route::group(['prefix'=> 'admin', 'middleware'=>['admin:admin']], function(){
+    Route::get('/login', [AdminController::class, 'loginForm']); 
+    Route::post('/login', [AdminController::class, 'store'])->name('admin.login'); 
+});
+
+We also add a middleware route like so
+Route::middleware(['auth:sanctum,admin', 'verified'])->get('/admin/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+Now we create our loginForm method in AdminController like so specifying that we will use the admin guard
+    public function loginForm(){
+        return view('auth.login', ['guard' => 'admin']);
+    }
+
+Next we open resources views auth login.blade.php and add some logic to our form action like so
+    <form method="POST" action="{{ isset($guard) ? url($guard.'/login') : route('login') }}">
+so if we specify a guard the link will be one thing else default
+
+Next we copy from vendor laravel fortify src actions AttemptToAuthenticate.php and RedirectIfTwoFactorAuthenticatable.php into
+app Actions Fortify
+Next we change the namespace in both to
+namespace App\Actions\Fortify;
+
+(101)  Laravel 8 Mutli Auth Part 2
+
+
+We now have to create our middleware
+
+So in app providers RouteServiceProvider we create a function like so
+   public static function redirectTo($guard){
+        return $guard.'/dashboard';
+    }
+this points back to the web.php route that we created earlier
+
+Next we open up app Http Middleware RedirectIfAuthenticated.php and change it to
+redirect to $guard.'/dashboard' like so
+  public function handle(Request $request, Closure $next, ...$guards)
+    {
+        $guards = empty($guards) ? [null] : $guards;
+
+        foreach ($guards as $guard) {
+            if (Auth::guard($guard)->check()) {
+                return redirect($guard.'/dashboard');
+            }
+        }
+
+        return $next($request);
+    }
+
+So now it could redirect to web/dashboard or admin/dashboard and do so dynamically
+
+So now we want to save RedirectIfAuthenticated as AdminRedirectIfAuthenticated
+and change the class name.
+
+Next, we want to register AdminRedirectIfAuthenticated.php with app Http kernal.php like so
+adding to the bottom in the protected Middleware array
+'admin' => \App\Http\Middleware\AdminRedirectIfAuthenticated::class,
+
+Next in our AdminController we make a call into vendor laravel fortify src http responses LoginResponse.php
+
+So we will create a new folder app http Responses and clone LoginReponse into it.
+
+Next we fix our namespace
+and change the return redirect to go to admin/dashboard like so
+    public function toResponse($request)
+    {
+        return $request->wantsJson()
+                    ? response()->json(['two_factor' => false])
+                    : redirect()->intended('admin/dashboard');
+    }
+
+Now if we test /login we recieve an error Class 'App\Providers\Auth' not found
+
+To fix this we open App Providers FortifyServiceProvider and add the use statement for Auth
+
+So now we get rid of the error but I can't log in because we are now checking the Admins file instead of users file for info so
+So I need to alter the seeded Admins profile to use a known password
+
+So now if we login as admin and then manually bring up admin/dashboard we get a dashboard showing the authenticated name.
+
+Not very smooth at this point.
+
+Now we logout and resolve to solve everything.
+
+
+(102)  Laravel 8 Mutli Auth Part 3
+
+so our admin user can login from login but our std user cant login
+if we try /admin/login we get a class error admin.admin does not exist
+so we go to web.php and change this 
+Route::group(['prefix'=> 'admin', 'middleware'=>['admin.admin']], function(){
+to this
+Route::group(['prefix'=> 'admin', 'middleware'=>['admin:admin']], function(){
+and I go back and fix instructions
+
+So now our admin profile may login using admin/login but no redirect occurs yet to the dashboard
+
+
+To get this to work we want to change our use in AdminController for LoginResponse
+to point to our new LoginResponse that we created like so
+use App\Http\Responses\LoginResponse;
+
+So now admin can login from admin/login and redirect to dashboard.
+
+
+
+(103)  Laravel 8 Mutli Auth Part 4
+
+So now we need to correct App Providers FortifyServiceProvider.php to use some of our modified code like so
+use App\Actions\Fortify\AttemptToAuthenticate;
+use App\Actions\Fortify\RedirectIfTwoFactorAuthenticatable;
+
+We must also change the same use statements in AdminController
+
+So now if we go to login and login as myronrogers.rogers@gmail.com we are able to login as user and
+redirect to user dashboard.
+
+(104)  Page Redirect after logout
+
+So in our AdminController we are referencing the LogoutResponse class like so
+return app(LogoutResponse::class);
+
+This is in vendor laravel fortify src http Responses LogoutResponse.php so we open it up and 
+change our redirect to admin/login  like so
+class LogoutResponse implements LogoutResponseContract
+{
+    /**
+     * Create an HTTP response that represents the object.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function toResponse($request)
+    {
+        return $request->wantsJson()
+                    ? new JsonResponse('', 204)
+                    : redirect('/login');
+    }
+
+
+(105)  Download Auth source
+
+(106)  Project Video
+
+(107) Download excersise fields
+
+(108) Section Intro 
+
+(109) Admin Template Setup
+
+From Ecommerce_Excersise_Files\Project Themes\Admin Theme\main-dark we want
+to copy css, js, and scss to public and create folder backend and paste 
+we also want to copy Admin Theme\images over to backend
+Now we want to copy Admin Theme\assets to public
+
+So next we want to create the resources views admin folder
+
+Next we create admin_master.blade.php and index.blade.php
+
+Under admin folder we want to create another folder body
+and within body we want to create header.blade.php, footer.blade.php, and sidebar.php
+
+Now we want to load Project Themes\Admin THemes\main-dark\index.html
+and copy it into admin_master.blade.php
+
+We change our title and update our css js paths
+<titleEasy Ecommerce Admin - Dashboard</title>
+    <link rel="icon" href="{{ asset('backend/images/favicon.ico') }}">
+
+    <titleEasy Ecommerce Admin - Dashboard</title>
+   
+	<!-- Vendors Style-->
+	<link rel="stylesheet" href="{{ asset('backend/css/vendors_css.css') }}">
+	  
+	<!-- Style-->  
+	<link rel="stylesheet" href="{{ asset('backend/css/style.css') }}">
+	<link rel="stylesheet" href="{{ asset('backend/css/skin_color.css') }}">
+
+	<!-- Vendor JS -->
+	<script src="{{ asset('backend/js/vendors.min.js') }}"></script>
+    <script src="{{ asset('../assets/icons/feather-icons/feather.min.js') }}"></script>	
+	<script src="{{ asset('../assets/vendor_components/easypiechart/dist/jquery.easypiechart.js') }}"></script>
+	<script src="{{ asset('../assets/vendor_components/apexcharts-bundle/irregular-data-series.js') }}"></script>
+	<script src="{{ asset('../assets/vendor_components/apexcharts-bundle/dist/apexcharts.js') }}"></script>
+	
+	<!-- Sunny Admin App -->
+	<script src="{{ asset('backend/js/template.js') }}"></script>
+	<script src="{{ asset('backend/js/pages/dashboard.js') }}"></script>
+
+Next we cut div class container-full out and paste it into index.blade.php
+now where we made the cut we will change the empty div to
+        <div class="content-wrapper">
+
+         @yield('admin')
+         
+        </div>
+
+at the top of index.blade.php we will inserted
+@extends('admin.admin_master')
+
+Under that we will add our admin section id like so
+@section('admin')
+
+we also have to place our @endsection at the bottom
+
+
+So now we want to load this new page in web.php like so
+making our returned view admin.index
+Route::middleware(['auth:sanctum,admin', 'verified'])->get('/admin/dashboard', function () {
+    return view('admin.index');
+})->name('dashboard');
+
+So now if we login as admin we get our new dashboard page
+
+(110) Dashboard Page Segmentation
+
+So first we cut out of admin_master <header class="main-header"> and paste into header.blade.php
+then we add an include in it's place   @include('admin.body.header')
+
+Now we want to do the same for sidebar and footer for sidebar
+   @include('admin.body.sidebar')
+   @include('admin.body.footer')
+
+Next we remove control class control-sidebar
+
+So next in header
+<img src="{{ asset('backend/images/avatar/1.jpg') }}" alt="">
+
+In sidebar
+<h3><b>Easy</b> Shop</h3>
+<img src="{{ asset('backend/images/logo-dark.png') }}" alt="">
+
+
+(111) Admin Logout option
+
+In header
+<a class="dropdown-item" href="{{ route('admin.logout') }}"><i class="ti-lock text-muted mr-2"></i> Logout</a>
+ 
+In web.php
+// Admin All Routes
+
+Route::get('//admin/logout', [AdminController::class, 'destroy'])->name('admin.logout'); 
+
+destroy method already exists in AdminController
+
+(112) Customize Login form
+
+So we open from the main-dark theme directory auth_login.html and copy it to
+resources views auth admin_login.blade.php  
+
+We update our js and css links
+
+Next we want to change our return view from loginForm AdminController like so
+public function loginForm(){
+        return view('auth.admin_login', ['guard' => 'admin']);
+    }
+
+so if we test admin/login we will see our new page
+
+to get it working we copy the form tag and @csrf from login.blade.php over the 
+static form tag in admin_login.blade.php
+
+next we want our field id's etc from login to get copied over.
+along with the forgotten password route
+
+(113) Refresh Admin Template
+
+So we cut alot out of Index.blade.php and updated our image links
+
+And we updated our footer like so
+<footer class="main-footer">
+            <div class="pull-right d-none d-sm-inline-block">
+                <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">www.google.com</a>
+                    </li>
+                </ul>
+            </div>
+            &copy; 2020 <a href="#">Easy Shop</a>. All Rights Reserved.
+        </footer>
+
+(114)  Admin and Profile & Image Update Part 1
+
+Profile name email address etc
+
+First we add our link to admin profile in header.blade
+<a class="dropdown-item" href="{{ route('admin.profile')  }}"><i class="ti-user text-muted mr-2"></i> Profile</a>
+
+Next we create a new Controller
+php artisan make:controller Backend/AdminProfileController
+
+
+Next we add our route in web.php
+use App\Http\Controllers\Backend\AdminProfileController;
+Route::get('/admin/profile', [AdminProfileController::class, 'AdminProfile'])->name('admin.profile'); 
+
+Next we add our method to Controller
+    public function AdminProfile(){
+        $adminData = Admin::find(1);
+        return view('admin.admin_profile_view', compact('adminData'));
+
+    }
+
+Next we create our returned view in the admin folder 
+admin_profile_view.blade.php
+we paste in index 
+then cut it down to this
+@extends('admin.admin_master')
+@section('admin')
+
+<div class="container-full">
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+@endsection
+
+Next we copy box box-widget widget-user from profile.html
+We cut out the backgound style
+we drop in our Admin name and email and photos and profile edit button
+<h3 class="widget-user-username">Admin Name: {{ $adminData->name }}</h3>
+<h6 class="widget-user-desc">Admin Email: {{ $adminData->email }}</h6>
+<img class="rounded-circle" src="{{ (!empty($adminData->profile_photo_path))?
+url('upload/admin_images/'.$adminData->profile_photo_path):url('upload/no_image.jpg') }}" alt="User Avatar">
+<a href="" style="float: right;" class="btn btn-rounded btn-success mb-5">Edit Profile</a>
+We create the upload folder public upload admin_images
+and copy no_image.jpg to public_upload
+
+When we test we get no_image.jpg
+
+(115)  Admin and Profile & Image Update Part 2
+
+First we create a link in admin_profile_view to edit profile using the button created in the previous excercise
+<a href="{{ route('admin.profile.edit') }}" style="float: right;" class="btn btn-rounded btn-success mb-5">Edit Profile</a>
+
+Web.php
+Route::get('/admin/profile/edit', [AdminProfileController::class, 'AdminProfileEdit'])->name('admin.profile.edit'); 
+
+
+AdminProfileController
+    public function AdminProfileEdit(){
+        $editData = Admin::find(1);
+        return view('admin.admin_profile_edit', compact('editData'));
+    }
+
+
+resources views admin create admin_profile_edit from admin_profile_view
+we remove the section class content and replace it with main content from forms_validation.html
+
+If we log into admin and select profile then the edit button we should see our new page
+
+Now we need to pare it down to two fields email, file upload and an update button
+
+(116)  Admin and Profile & Image Update Part 3
+
+Now we add a script to manipulate an image so we start with giving both of our images
+in admin_profile_edit id's.  Next we write the script like so and add the jQuery cdn
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#image').change(function(e){
+        var reader = new FileReader();
+        reader.onload = function(e){
+            $('#showImage').attr('src',e.target.result);
+        }
+        reader.readAsDataURL(e.target.files['0']);
+    });
+});
+</script>
+
+Now when we select an image it displays even before we upload
+
+(117)  Admin and Profile & Image Update Part 4
+
+Now we make more changes to admin_profile_edit so that it updates data.
+
+
+web.php
+Route::post('/admin/profile/store', [AdminProfileController::class, 'AdminProfileStore'])->name('admin.profile.store'); 
+
+AdminProfileController
+    public function AdminProfileStore(Request $request){
+        $data = Admin::find(1);
+        $data->name = $request->name;
+        $data->email = $request->email;
+
+        if ($request->file('profile_photo_path')) {
+            $file = $request->file('profile_photo_path');
+            $unlink(public_path('upload/admin_images'.$data->profile_photo_path));
+            $filename = date('YmdHi').$file->getClientOriginalName();
+            $file->move(public_path('upload/admin_images'),$filename);
+            $data['profile_photo_path'] = $filename;
+        }
+        $data->save();
+        return redirect()->route('admin.profile');
+    }
+
+Now if we update image the new image is displayed
+
+To display the image in header we update our image source to be like admin_profile_view and add some
+php inline in the header like so
+                        @php 
+                        $adminData = DB::table('admins')->first();
+                        @endphp
+<img src="{{ (!empty($adminData->profile_photo_path))?
+    url('upload/admin_images/'.$adminData->profile_photo_path):url('upload/no_image.jpg') }}" alt="">
+ 
+
+(118)  Adding Toastr in for View Message
+
+We make changes to admin profile controller for Toastr
+    public function AdminProfileStore(Request $request){
+        $data = Admin::find(1);
+        $data->name = $request->name;
+        $data->email = $request->email;
+
+        if ($request->file('profile_photo_path')) {
+            $file = $request->file('profile_photo_path');
+            $filename = date('YmdHi').$file->getClientOriginalName();
+            $file->move(public_path('upload/admin_images'),$filename);
+            $data['profile_photo_path'] = $filename;
+        }
+        $data->save();
+
+        $notification = array(
+            'message' => 'Admin Profile Updated Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('admin.profile')->with($notification);
+    }
+
+and we make changes to admin_master.blade.php
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>     
+ 
+    <script>
+ 
+   @if(Session::has('message')) {
+
+  var type = "{{ Session::get('alert-type' , 'info') }}";
+  switch(type){
+    case 'info':
+    toastr.info(" {{ Session::get('message') }}");
+    break;
+
+    case 'success':
+      toastr.success(" {{ Session::get('message') }}");  
+    
+    break;
+
+    case 'warning':
+    toastr.warning(" {{ Session::get('message') }}");
+    break;
+
+    case 'error':
+    toastr.error(" {{ Session::get('message') }}");
+    break;
+  }
+  }
+  @endif
+  </script>  
+
+(119) Admin Profile Change Password Part 1
+
+header.blade.php
+<a class="dropdown-item" href="{{ route('admin.change.password')  }}"><i class="ti-wallet text-muted mr-2"></i> Change Password</a>
+
+web.php
+Route::get('/admin/change/password', [AdminProfileController::class, 'AdminChangePassword'])->name('admin.change.password'); 
+
+create admin admin_change_password.blade.php and copy admin_profile_edit.blade.php
+and edit
+
+
+AdminProfileController
+    public function AdminChangePassword(){
+        return view('admin.admin_change_password');
+    }
+
+web.php
+Route::post('/update/change/password', [AdminProfileController::class, 'AdminUpdateChangePassword'])->name('update.change.password'); 
+
+
+(110) Admin Profile Change Password Part 2
+
+AdminProfileController.php
+    public function AdminUpdateChangePassword(Request $request){
+        $validateData = $request->validate([
+            'current_password' => 'required',
+            'password' => 'required|confirmed',
+        ]);
+
+        $hashedPassword = Admin::find(1)->password;
+        if (Hash::check($request->current_password, $hashedPassword)) {
+            $admin = Admin::find(1);
+            $admin->password = Hash::make($request->password);
+            $admin->save();
+            Auth::logout();
+            return redirect()->route('admin.logout');
+        }else{
+            return redirect()->back();
+        }
+        
+
+        
+    }
+
+
+(121)  Frontend Template Setup Part 1
+
+First we create a new folder under views called frontend.
+In frontend we create two files
+main_master.blade.php
+index.blade.php
+then we create a folder
+body
+next from our frontend template we copy home.html src into main_master
+next we copy assets folder to public frontend
+
+Now we update our links in main_master to point at the assets folder in public frontend
+
+Now we cut header out of main_master and paste it into body header.blade.php
+we also create two more new files footer.blade.php and brand.blade.php
+
+Next we include back into main_master 
+@include('frontend.body.header')
+
+Next we paste the main body into index.blade.php
+and extend it and wrap it in a section
+@extends('frontend.main.master')
+@section('content')
+@endsection
+
+Now in main_master we want to yield content
+@yield('content')
+
+Next we want to cut out footer and paste it into footer then include it back in
+@include('frontend.body.footer')
+
+web.php
+Route::get('/', [IndexController::class, 'index']);
+
+
+(122)  Frontend Template Setup Part 2
+
+Now we create IndexController
+php artisan make:controller Frontend/IndexController
+and add the use to web.php
+use App\Http\Controllers\Frontend\IndexController;
+and remove the welcome route at the top
+
+Now we create our index function in IndexController
+    public function index(){
+        return view('frontend.index');
+    }
+
+Now are page should load
+
+Now we go back through and update all of the image links that we ignored
+earlier check for console log errors on missing stuff and update the links
+
+Now we cut our brands carousel out of the bottom of index and paste it into brands
+then we include it back in
+       @include('frontend.body.brands')
+
+(123) Frontend Template Login Setup
+
+frontend Theme sign-in.html is an all in one registerxxxx
+
+First we open Auth login.blade.php and bak it up then clear it.  Next we fill it in with
+@extends('frontend.main_master')
+@section('content')
+
+@endsection
+
+
+We copy frontend Theme sign-in.html starting after header end
+to just before footer begins into our new section in login
+
+now our new login will display
+
+Next we cut out brands and copy include from index
+      @include('frontend.body.brands')
+
+Now we copy the form tag from our origional and paste it in replacing the form tag
+       <form method="POST" action="{{ isset($guard) ? url($guard.'/login') : route('login') }}">
+            @csrf
+
+Next we update field names and id's and the forgot password route like so
+                        <form method="POST" action="{{ isset($guard) ? url($guard.'/login') : route('login') }}">
+                            @csrf
+                            <div class="form-group">
+                                <label class="info-title" for="email">Email Address <span>*</span></label>
+                                <input type="email" class="form-control unicase-form-control text-input"
+                                    id="email" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label class="info-title" for="password">Password <span>*</span></label>
+                                <input type="password" class="form-control unicase-form-control text-input"
+                                    id="password" name="password">
+                            </div>
+                            <div class="radio outer-xs">
+                                <label>
+                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">Remember
+                                    me!
+                                </label>
+                                <a href="{{ route('password.request') }}" class="forgot-password pull-right">Forgot your Password?</a>
+                            </div>
+                            <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Login</button>
+                        </form>
+
+Now we should be able to login to dashboard page with user
+
+(124) Frontend Template Register Page Setup
+
+Now to make the dual form in login.blade.php work we have to copy our form tag from register.blade.php
+and paste it over our second form tag in login
+       <form method="POST" action="{{ route('register') }}">
+            @csrf
+Now we change our field names types and id's to match the old register form like so
+                        <form method="POST" action="{{ route('register') }}">
+                            @csrf
+                            <div class="form-group">
+                                <label class="info-title" for="name">Name <span>*</span></label>
+                                <input type="text" class="form-control unicase-form-control text-input" id="name"
+                                    name="name">
+                            </div>
+                            <div class="form-group">
+                                <label class="info-title" for="email">Email Address <span>*</span></label>
+                                <input type="email" class="form-control unicase-form-control text-input" id="email"
+                                    id="email">
+                            </div>
+                            <div class="form-group">
+                                <label class="info-title" for="phone">Phone Number <span>*</span></label>
+                                <input type="text" class="form-control unicase-form-control text-input" id="phone"
+                                    name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label class="info-title" for="password">Password <span>*</span></label>
+                                <input type="password" class="form-control unicase-form-control text-input" id="password"
+                                    name="password">
+                            </div>
+                            <div class="form-group">
+                                <label class="info-title" for="password_confirmation">Confirm Password
+                                    <span>*</span></label>
+                                <input type="phone" class="form-control unicase-form-control text-input"
+                                    id="password_confirmation" name="password_confirmation">
+                            </div>
+                            <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Sign Up</button>
+                        </form>
+
+Next we manually add phone in phpmyadmin to avoid running new migration
+
+Next we add phone to User Model
+  protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'password',
+    ];
+
+Next in App Actions Fortify CreateNewUser Validator and User arrays
+       Validator::make($input, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone' => ['required', 'string', 'max:255'],
+            'password' => $this->passwordRules(),
+            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
+        ])->validate();
+
+        return User::create([
+            'name' => $input['name'],
+            'email' => $input['email'],
+            'phone' => $input['phone'],
+            'password' => Hash::make($input['password']),
+        ]);
+
+Now we want to update error checking for all Registration fields like so
+                            <div class="form-group">
+                                <label class="info-title" for="name">Name <span>*</span></label>
+                                <input type="text" class="form-control unicase-form-control text-input" id="name"
+                                    name="name">
+                                    @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror    
+                            </div>
+
+Now we can register and login
+
+Next copy login.blade.php to register.blade.php
+
+Now in frontend body header.blade.php we update our Login item like so
+<li><a href="{{ route('login') }}"><i class="icon fa fa-lock"></i>Login/Register</a></li>
+and we want to update our logo like so
+<div class="logo"> <a href="{{ url('/') }}"> <img src="{{ asset('frontend/assets/images/logo.png') }}" alt="logo"> </a> </div>
+
+Now when we click on logo we are redirected home
+
+
+Next to make the login/register link display at approriate times we change the link
+in header like so and it is half axxed
+              @auth
+              <li><a href="{{ route('login') }}"><i class="icon fa fa-user"></i>User Profile</a></li>
+                @else
+              <li><a href="{{ route('login') }}"><i class="icon fa fa-lock"></i>Login/Register</a></li> 
+              @endauth
+
+(125) Frontend Template Forgot Password Page Setup
+
+So we back up our forgot-password.blade clear it copy in login delete Registration
+and pare login down to email then paste in the form tag from our back up
+and change our button text
+@extends('frontend.main_master')
+@section('content')
+    <div class="breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-inner">
+                <ul class="list-inline list-unstyled">
+                    <li><a href="home.html">Home</a></li>
+                    <li class='active'>Forgot Password</li>
+                </ul>
+            </div><!-- /.breadcrumb-inner -->
+        </div><!-- /.container -->
+    </div><!-- /.breadcrumb -->
+
+    <div class="body-content">
+        <div class="container">
+            <div class="sign-in-page">
+                <div class="row">
+                    <!-- Sign-in -->
+                    <div class="col-md-6 col-sm-6 sign-in">
+                        <h4 class="">Forgot Password</h4>
+                        <p class="">Reset Password</p>
+                        <form method="POST" action="{{ route('password.email') }}">
+                            @csrf                                            <div class="form-group">
+                                <label class="info-title" for="email">Email Address <span>*</span></label>
+                                <input type="email" class="form-control unicase-form-control text-input" id="email"
+                                    name="email">
+                            </div>
+                             <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Email Password Reset Link</button>
+                        </form>
+                    </div>
+                    <!-- Sign-in -->
+
+                </div><!-- /.row -->
+            </div><!-- /.sigin-in-->
+            <!-- ============================================== BRANDS CAROUSEL ============================================== -->
+            @include('frontend.body.brands')
+            <!-- ============================================== BRANDS CAROUSEL : END ============================================== -->
+        </div><!-- /.container -->
+    </div><!-- /.body-content -->
+
+@endsection
+
+Now we set up mailtrap IO.  In the .env file I change SMTP config 
+from
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=null
+MAIL_FROM_NAME="${APP_NAME}"
+to
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=c898f6d70b026f
+MAIL_PASSWORD=e02786a0404b6a
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=myronrogers.rogers@gmail.com
+MAIL_FROM_NAME="${APP_NAME}"
+
+Now we want to back up reset-password blade clear it and copy in forgot-password.blade
+We change our heading text copy in the form tag and token field from our backup 
+then we clone email to 3 fields
+we change the field names ids field types and button text like so
+@extends('frontend.main_master')
+@section('content')
+    <div class="breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-inner">
+                <ul class="list-inline list-unstyled">
+                    <li><a href="home.html">Home</a></li>
+                    <li class='active'>Reset Password</li>
+                </ul>
+            </div><!-- /.breadcrumb-inner -->
+        </div><!-- /.container -->
+    </div><!-- /.breadcrumb -->
+
+    <div class="body-content">
+        <div class="container">
+            <div class="sign-in-page">
+                <div class="row">
+                    <!-- Sign-in -->
+                    <div class="col-md-6 col-sm-6 sign-in">
+                        <h4 class="">Reset Password</h4>
+
+                        <form method="POST" action="{{ route('password.update') }}">
+                            @csrf
+                
+                            <input type="hidden" name="token" value="{{ $request->route('token') }}">
+                
+                            <div class="form-group">
+                                <label class="info-title" for="email">Email Address <span>*</span></label>
+                                <input type="email" class="form-control unicase-form-control text-input" id="email"
+                                    name="email">
+                            </div>
+                            <div class="form-group">
+                                <label class="info-title" for="password">Password <span>*</span></label>
+                                <input type="password" class="form-control unicase-form-control text-input" id="password"
+                                    name="password">
+                            </div>
+                            <div class="form-group">
+                                <label class="info-title" for="password_confirmation">Confirm Password
+                                    <span>*</span></label>
+                                <input type="password" class="form-control unicase-form-control text-input"
+                                    id="password_confirmation" name="password_confirmation">
+                            </div>
+                            <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Reset
+                                Password</button>
+                        </form>
+                    </div>
+                    <!-- Sign-in -->
+
+                </div><!-- /.row -->
+            </div><!-- /.sigin-in-->
+            <!-- ============================================== BRANDS CAROUSEL ============================================== -->
+            @include('frontend.body.brands')
+            <!-- ============================================== BRANDS CAROUSEL : END ============================================== -->
+        </div><!-- /.container -->
+    </div><!-- /.body-content -->
+
+@endsection
+
+
+So now we can test password reset full circle
+
+(126) User Profile Design Part 1
+
+To change our dashboard we clear dashboard.blade.php and extend it then code it by hand like so 
+@extends('frontend.main_master')
+@section('content')
+<div class="body-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"><br>
+                <img class="card-img-top" style="border-radius: 50%" src="{{ (!empty($editData->profile_photo_path))?
+                    url('upload/admin_images/'.$editData->profile_photo_path):url('upload/no_image.jpg') }}" height="100%" width="100%"><br><br>
+                    <ul class="list-group list-group-flush">
+                        <a href="" class="btn btn-primary btn-sm btn-block">Home</a>
+                        <a href="" class="btn btn-primary btn-sm btn-block">Profile Update</a>
+                        <a href="" class="btn btn-primary btn-sm btn-block">Change Password</a>
+                        <a href="{{ route('user.logout') }}" class="btn btn-danger btn-sm btn-block">Logout</a>
+                    </ul>
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <h3 class="text-center"><span class="text-danger">Hi...</span><strong>{{ 
+                        Auth::user()->name }}</strong> Welcome to Easy Online Shop </h3>
+                </div>
+            </div>
+
+ 
+        </div>
+    </div>
+</div>
+
+@endsection
+
+(127) User Profile Design Part 2
+
+Now we want to code the logout button.  
+<a href="{{ route('user.logout') }}" class="btn btn-danger btn-sm btn-block">Logout</a>
+
+web.php
+Route::get('/user/logout', [IndexController::class, 'UserLogout'])->name('user.logout'); 
+
+IndexController
+use Illuminate\Support\Facades\Auth;
+   public function UserLogout() {
+        Auth::logout();
+        return Redirect()->route('login');
+    }
+
+Now we want to code Profile Update button
+<a href="{{ route('user.profile') }}" class="btn btn-primary btn-sm btn-block">Profile Update</a>
+
+web.php
+Route::get('/user/profile', [IndexController::class, 'UserProfile'])->name('user.profile'); 
+
+IndexController
+   public function UserProfile() {
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        return view('frontend.profile.user_profile',compact('user'));
+    }
+
+resources views frontend CREATE profile CREATE user_profile.blade.php
+
+(128) User Profile Design Part 3
+
+Now we copy dashboard to user_profile and test.
+Next we modify it like so.
+@extends('frontend.main_master')
+@section('content')
+<div class="body-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"><br>
+                <img class="card-img-top" style="border-radius: 50%" src="{{ (!empty($editData->profile_photo_path))?
+                    url('upload/admin_images/'.$editData->profile_photo_path):url('upload/no_image.jpg') }}" height="100%" width="100%"><br><br>
+                    <ul class="list-group list-group-flush">
+                        <a href="" class="btn btn-primary btn-sm btn-block">Home</a>
+                        <a href="{{ route('user.profile') }}" class="btn btn-primary btn-sm btn-block">Profile Update</a>
+                        <a href="" class="btn btn-primary btn-sm btn-block">Change Password</a>
+                        <a href="{{ route('user.logout') }}" class="btn btn-danger btn-sm btn-block">Logout</a>
+                    </ul>
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <h3 class="text-center"><span class="text-danger">Hi...</span><strong>{{ 
+                        Auth::user()->name }}</strong> Update Profile </h3>
+                        <div class="card-body">
+                            <form method="POST" action="{{ route('user.profile.store') }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group">
+                                    <label class="info-title" for="name">Name <span></span></label>
+                                    <input type="text" class="form-control" id="name"
+                                        name="name" value="{{ $user->name }}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="info-title" for="email">Email <span></span></label>
+                                    <input type="email" class="form-control" id="email"
+                                        name="email" value="{{ $user->email }}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="info-title" for="phone">Phone <span></span></label>
+                                    <input type="text" class="form-control" id="phone"
+                                        name="phone" value="{{ $user->phone }}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="info-title" for="profile_photo_path">Profile Photo <span></span></label>
+                                    <input type="file" class="form-control" id="profile_photo_path"
+                                        name="profile_photo_path" >
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-danger">Update Profile</button>
+                                </div>
+
+                            </form>
+    
+                        </div>
+                </div>
+            </div>
+
+ 
+        </div>
+    </div>
+</div>
+
+@endsection
+
+web.php
+Route::post('/user/profile/store', [IndexController::class, 'UserProfileStore'])->name('user.profile.store'); 
+
+IndexController
+   public function UserProfileStore(Request $request){
+        $data = User::find(Auth::user()->id);
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->phone = $request->phone;
+
+        if ($request->file('profile_photo_path')) {
+            $file = $request->file('profile_photo_path');
+         //   unlink(public_path('upload/user_images/'.$data->profile_photo_path));
+            $filename = date('YmdHi').$file->getClientOriginalName();
+            $file->move(public_path('upload/user_images'),$filename);
+            $data['profile_photo_path'] = $filename;
+        }
+        $data->save();
+
+        $notification = array(
+            'message' => 'User Profile Updated Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('dashboard')->with($notification);
+
+    }
+}
+
+user_profile.blade
+                <img class="card-img-top" style="border-radius: 50%" src="{{ (!empty($user->profile_photo_path))?
+                    url('upload/user_images/'.$user->profile_photo_path):url('upload/no_image.jpg') }}" height="100%" width="100%"><br><br>
+                    <ul class="list-group list-group-flush">
+                        <a href="{{ route('dashboard') }}" class="btn btn-primary btn-sm btn-block">Home</a>
+
+
+To show the profile image on dashboard
+web.php
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    $id = Auth::user()->id;
+    $user = User::find($id);
+    return view('dashboard',compact('user'));
+})->name('dashboard');
+
+dashboard.blade
+<img class="card-img-top" style="border-radius: 50%" src="{{ (!empty($user->profile_photo_path))?
+    url('upload/user_images/'.$user->profile_photo_path):url('upload/no_image.jpg') }}" height="100%" width="100%"><br><br>
+
+(129) Toastr Alert Add Toastr Alert
+
+we had to copy the toastr stuff from admin_master.blade to main_master.blade
+
+
+(130) User Profile Password Change Part 1
+
+From user.profile.blade.php we copy the following into dashboard.blade.php
+<ul class="list-group list-group-flush">
+    <a href="" class="btn btn-primary btn-sm btn-block">Home</a>
+    <a href="{{ route('user.profile') }}" class="btn btn-primary btn-sm btn-block">Profile Update</a>
+    <a href="" class="btn btn-primary btn-sm btn-block">Change Password</a>
+    <a href="{{ route('user.logout') }}" class="btn btn-danger btn-sm btn-block">Logout</a>
+</ul>
+
+Next we add a route to change password like so
+<a href="{{ route('change.password') }}" class="btn btn-primary btn-sm btn-block">Change Password</a>
+
+Next in web.php we add the following route
+Route::get('/user/change/password', [IndexController::class, 'UserChangePassword'])->name('change.password'); 
+
+Next, in IndexController we add the UserChangePassord method and return our view and pass along the user data
+     public function UserChangePassword(){
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        return view('frontend.profile.change_password',compact('user'));
+    }
+
+Next we create our view under frontend/profile change_password.blade.php
+and copy user_profile.blade.php into it.
+
+Next we make the nameing conventions for the password fields the same as update-password-form.php
+ we remove the photo field and change the rest.  I have made an example entry showing how to do the user data retrieval from within the blade 
+ instead of the controller.
+ @extends('frontend.main_master')
+@section('content')
+<!-- @php
+    $user = DB::table('users')->where('id',Auth::user()->id)->first();
+@endphp -->
+<div class="body-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"><br>
+                <img class="card-img-top" style="border-radius: 50%" src="{{ (!empty($user->profile_photo_path))?
+                    url('upload/user_images/'.$user->profile_photo_path):url('upload/no_image.jpg') }}" height="100%" width="100%"><br><br>
+                    <ul class="list-group list-group-flush">
+                        <a href="{{ route('dashboard') }}" class="btn btn-primary btn-sm btn-block">Home</a>
+                        <a href="{{ route('user.profile') }}" class="btn btn-primary btn-sm btn-block">Profile Update</a>
+                        <a href="" class="btn btn-primary btn-sm btn-block">Change Password</a>
+                        <a href="{{ route('user.logout') }}" class="btn btn-danger btn-sm btn-block">Logout</a>
+                    </ul>
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <h3 class="text-center"><span class="text-danger">Change Password</span><strong></strong></h3>
+                        <div class="card-body">
+                            <form method="POST" action="{{ route('user.profile.store') }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group">
+                                    <label class="info-title" for="current_password">Current Password<span></span></label>
+                                    <input type="password" class="form-control" id="current_password"
+                                        name="current_password" >
+                                </div>
+                                <div class="form-group">
+                                    <label class="info-title" for="password">New Password<span></span></label>
+                                    <input type="password" class="form-control" id="password"
+                                        name="password" >
+                                </div>
+                                <div class="form-group">
+                                    <label class="info-title" for="password_confirmation">Confirm Password<span></span></label>
+                                    <input type="password" class="form-control" id="password_confirmation"
+                                        name="password_confirmation" >
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-danger">Update Profile</button>
+                                </div>
+
+                            </form>
+    
+                        </div>
+                </div>
+            </div>
+
+ 
+        </div>
+    </div>
+</div>
+
+@endsection
+
+
+(131) User Profile Password Change Part 2
+
+
+
+First we will change our form tag in change_password like so
+<form method="POST" action="{{ route('user.password.update') }}">
+
+
+Next we create our user.password.update route in web.php using a post 
+Route::post('/user/password/update', [IndexController::class, 'UserPasswordUpdate'])->name('user.password.update'); 
+
+Next we create our UserPasswordUpdate in IndexController so we copy AdminUpdateChangePassword from AdminController and change it like so
+use Illuminate\Support\Facades\Hash;
+   public function UserPasswordUpdate(Request $request){
+        $validateData = $request->validate([
+            'current_password' => 'required',
+            'password' => 'required|confirmed',
+        ]);
+
+        $hashedPassword = Auth::user()->password;
+        if (Hash::check($request->current_password, $hashedPassword)) {
+            $user = User::find(Auth::id());
+            $user->password = Hash::make($request->password);
+            $user->save();
+            Auth::logout();
+            return redirect()->route('user.logout');
+        }else{
+            return redirect()->back();
+        }
+    }
+
+The next thing we want to flush out is the Change password option in user_profile.blade.php
+ <a href="{{ route('change.password') }}" class="btn btn-primary btn-sm btn-block">Change Password</a>
+
+Since we have completed this menu we now want to copy the change password li to change_password.blade.php
+
+(132) Upload Project to Github.
+
+Go to github and create a new project by selecting the New button
+Enter the project name and click the Create Repository button
+on the next page select the text under ... or create a new repository on the command lines
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/wunmansho/ecommerce.git
+git push -u origin main
+
+Next go to the ecommerce project directory in windows then right click and select git bash to 
+open a bash session.
+Do this to configure git should only have to do this once unless you need a 
+local project configuration for a differant repository
+  git config --global user.email "wunmansho.wunmansho@gmail.com"
+  git config --global user.name "Myron Rogers"
+
+
+Copy and paste the commands one at a time from the text above.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
