@@ -11,4 +11,8 @@ class BrandController extends Controller
         $brands = Brand::latest()->get();
         return view('backend.brand.brand_view',compact('brands'));
     }
+
+    public function BrandStore() {
+        
+    }
 }
