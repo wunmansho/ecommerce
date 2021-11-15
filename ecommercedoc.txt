@@ -1592,6 +1592,41 @@ we will add functionality to it in the next section
 
 (136)  Add Active Sidebar menu
 
+In sidebar.blade.php we want to dynamically make our active options show as active.
+Step one in the process was to retrieve a couple of simple variables.  One is the
+prefix we established for the brand routes and the other is the route name.
+@php
+    $prefix = Request::route()->getPrefix();
+    $route = Route::current()->getName();
+   // dd($route);
+@endphp
+
+Next we put these to work as follows
+<li class="{{ ($route == 'dashboard')? 'active':'' }}">
+<a href="{{ url('admin/dashboard') }}">
+    <i data-feather="pie-chart"></i>
+    <span>Dashboard</span>
+</a>
+</li>
+
+<li class="treeview {{ ($prefix == '/brand')? 'active':'' }}">
+<a href="#">
+    <i data-feather="message-circle"></i>
+    <span>Brands</span>
+    <span class="pull-right-container">
+        <i class="fa fa-angle-right pull-right"></i>
+    </span>
+</a>
+<ul class="treeview-menu">
+    <li class="{{ ($route == 'all.brand')? 'active':'' }}">
+    <a href="{{ route('all.brand') }}"><i class="ti-more"></i>All Brand</a></li>
+</ul>
+</li>
+
+(137)  Install Image Intervention Package.
+
+
+
 
 
 
