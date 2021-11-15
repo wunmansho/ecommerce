@@ -1625,6 +1625,32 @@ Next we put these to work as follows
 
 (137)  Install Image Intervention Package.
 
+First we install Intervention Image from the instructions
+http://image.intervention.io/getting_started/installation
+
+First we do the install using composer remembering in laravel we make some changes to composer
+commands
+php composer.phar require intervention/image 
+must be changed to
+composer require intervention/image
+
+Next we follow the instructions under Integration in Laravel
+
+After you have installed Intervention Image, open your Laravel config file config/app.php and add the following lines.
+In the $providers array add the service providers for this package.  
+Intervention\Image\ImageServiceProvider::class
+Add the facade of this package to the $aliases array.  
+'Image' => Intervention\Image\Facades\Image::class
+Now the Image Class will be auto-loaded by Laravel.
+
+Next we save and publish our configuration
+php artisan vendor:publish --provider="Intervention\Image\ImageServiceProviderLaravelRecent"
+
+(138) Brand Crud Part 1
+
+
+
+
 
 
 
