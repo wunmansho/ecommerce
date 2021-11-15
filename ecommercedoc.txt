@@ -1352,6 +1352,180 @@ local project configuration for a differant repository
 
 
 Copy and paste the commands one at a time from the text above.
+NOTE the git add command must be git add . with the period
+
+(133)  Brand Page Design Part 1
+
+We start by adding the Admin Backend
+
+First we create our Controller
+php artisan make:controller Backend/BrandController
+
+Next we create our model and migration table
+php artisan make:model Brand -m
+
+Now we go to our brand migration and add fields like so
+    public function up()
+    {
+        Schema::create('brands', function (Blueprint $table) {
+            $table->id();
+            $table->string('brand_name_en');
+            $table->string('brand_name_hin');
+            $table->string('brand_slug_en');
+            $table->string('brand_slug_hin');
+            $table->string('brand_image');
+            $table->timestamps();
+        });
+    }
+
+Next we go and modify our Model
+class Brand extends Model
+{
+    use HasFactory;
+    protected $fillable = [
+        'brand_name_en',
+        'brand_name_hin',
+        'brand_slug_en',
+        'brand_slug_hin',
+        'brand_image',
+    ];
+
+}
+
+Next to create our table we will run the migration
+php artisan migrate
+
+from admin body sidebar.blade.php we start by converting the application menu from our template into the Brand menu
+                   <li class="treeview">
+                        <a href="#">
+                            <i data-feather="message-circle"></i>
+                            <span>Brands</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-right pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="{{ route('all.brand') }}"><i class="ti-more"></i>All Brand</a></li>
+                        </ul>
+                    </li>
+
+Next we add the all.brand route to web.php
+Note since we used the prefix option the route will be /brand/view rather than view. So we add our new Controller and create the route
+use App\Http\Controllers\Backend\BrandController;
+
+Route::prefix('brand')->group(function(){
+    Route::get('/view', [BrandController::class, 'BrandView'])->name('all.brand'); 
+});
+
+
+Next in BrandController we want to add our model and the BrandView function.
+use App\Models\Brand;
+class BrandController extends Controller
+{
+    public function BrandView(){
+        $brands = Brand::latest()->get();
+        return view('backend.brand.brand_view',compact('brands'));
+    }
+}
+
+
+Next we need to create our backend folder under views and brand folder under backend 
+and then create brand_view.blade.php
+we copy in the bare bone basics like so and test to see that we hit a page when we click the new link from Admin Dashboard
+@extends('admin.admin_master')
+@section('admin')
+
+
+@endsection
+
+
+(134)  Brand Page Design Part 2
+
+So now we want place use a template for our new page ao we go to
+C:\servers\wamp64\www\laravel8\Ecommerce_Excersise_Files\Project Themes\Admin Theme\main-dark
+and select tables_data.html
+We copy the content wrapper from this page and paste into brand_view
+
+Now we remove the content wrapper begin and end tags becuase we already have that wrapper
+and pare this down to The Data Table with full features example.
+
+Now to support our tables we need to copy a couple of js files from our template and
+paste them into admin_master and modify the source attributes to use laravel API's.
+  <script src=""{{ asset('../assets/vendor_components/datatable/datatables.min.js') }}"></script>
+	  <script src=""{{ asset('backend/js/pages/data-table.js') }}"></script>
+
+Now if we refresh our page to test we should be able to see the pagination and search options work.
+
+Now we want to make the data Dynamic so we cut out static data from the table.
+So we remove everything except the th and one tr.  We also delete the tfoot.
+
+Once we make further changes and add our data logic we end up with
+@extends('admin.admin_master')
+@section('admin')
+    <div class="container-full">
+        <!-- Content Header (Page header) -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+
+                <div class="col-12">
+
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Brand List</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+ 
+                                        <tr>
+                                            <th>Brand En</th>
+                                            <th>Brand Hin</th>
+                                            <th>Image</th>
+                                            <th>Action</th>
+                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($brands as $item)
+                                        <tr>
+                                            <td>{{ $item->brand_name_en }}</td>
+                                            <td>{{ $item->brand_name_hin }}</td>
+                                            <td><img src="{{ asset($item->brand_image) }}" style="width: 70px; height: 40px;"></td>
+                                            <td>
+                                                <a href="" class="btn btn-info">Edit</a>
+                                                <a href="" class="btn btn-info">Delete</a>
+                                            </td>
+                                         </tr>
+                                         @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+
+
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+
+@endsection
+
+
+(135)  Brand Page Design Part 3
+
+
+
+
 
 
 
