@@ -1961,7 +1961,61 @@ Now we create our BrandUpdate method in BrandController
     }
 
 
-(140) Brand Crud Part 3 Delete with Sweelalert Alert 2
+(140) Brand Crud Part 3 Delete with SweetAlert Alert 2
+
+We Copy code from the Sweetalert site in admin_master.blade.php and add the function wrapper
+to trigger onclick with id delete and add the window.location on success
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script type="text/javascript">
+$(function(){
+  $(document).on('click', '#delete',function(e){
+    e.preventDefault();
+    var link = $(this).attr("href");
+
+Swal.fire({
+  title: 'Are you sure?',
+  text: "Delete this Data?",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+       window.location.href = link
+    Swal.fire(
+      'Deleted!',
+      'Your file has been deleted.',
+      'success'
+    )
+  }
+})
+
+});
+});
+
+</script>
+
+
+
+To make it work In brand_view.blade.php we add name and id
+<a href="{{ route('brand.delete', $item->id) }}" class="btn btn-info" name="delete" id="delete">Delete</a>
+
+Now we want to Create our Route in web.php
+Route::get('/delete/{id}', [BrandController::class, 'BrandDelete'])->name('brand.delete'); 
+
+Next we create our BrandDelete method in BrandController
+
+
+
+Finally we change the brand_view buttons to use icons
+<a href="{{ route('brand.edit', $item->id) }}" class="btn btn-info" title"Edit Data"><i class="fa fa-pencil"></i></a>
+<a href="{{ route('brand.delete', $item->id) }}" class="btn btn-info" id="delete" title"Delete Data"><i class="fa fa-trash"></a>
+
+
+(141) Category Crud Part 1
 
 
 
