@@ -1812,6 +1812,160 @@ We go through and add brands
 
 (139) Brand Crud Part 2
 
+Now add functionality to the edit button.  I Start by adding a route to the link 
+and pass along the id with it like so
+<a href="{{ route('brand.edit', $item->id) }}" class="btn btn-info">Edit</a>
+
+Now we add the route to web.php
+Route::get('/edit/{id}', [BrandController::class, 'BrandEdit'])->name('brand.edit');
+
+Next we add our BrandEdit method to BrandController
+    public function BrandEdit($id) {
+        $brand = Brand::findOrFail($id);
+        return view('backend.brand.brand_edit',compact('brand'));
+    }
+
+Now we will add our new view as backend\brand\brand_edit.blade.php
+Then we will copy brand_view in and make changes.
+@extends('admin.admin_master')
+@section('admin')
+    <div class="container-full">
+        <!-- Content Header (Page header) -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+
+
+                <!-- -------------- Edit Brand Page ---------------- -->
+                <div class="col-12">
+
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Edit Brand</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <form method="post" action="{{ route('brand.update', $brand->id) }}" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" name="id" id="id" value="{{ $brand->id }}">
+                                    <input type="hidden" name="old_image" id="old_image" value="{{ $brand->image_name }}">
+                                                <div class="form-group">
+                                                    <h5>Brand Name English <span class="text-danger">*</span></h5>
+                                                    <div class="controls">
+                                                        <input type="text" id="brand_name_en" name="brand_name_en"
+                                                            class="form-control" value="{{ $brand->brand_name_en }}">
+                                                            @error('brand_name_en')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <h5>Brand Name Hindi <span class="text-danger">*</span></h5>
+                                                    <div class="controls">
+                                                        <input type="text" id="brand_name_hin" name="brand_name_hin"
+                                                            class="form-control" value="{{ $brand->brand_name_hin }}">
+                                                            @error('brand_name_hin')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <h5>Brand Image <span class="text-danger">*</span></h5>
+                                                    <div class="controls">
+                                                        <input type="file" id="brand_image"
+                                                            name="brand_image" class="form-control" >
+                                                            @error('brand_image')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+
+                                                    </div>
+                                                </div>    
+                                    <div class="text-xs-right">
+                                        <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Update">
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+
+
+                </div>
+
+            </div>
+            <!-- /.row -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+
+@endsection
+
+Now we create our brand.update route in web.php
+Route::post('/update', [BrandController::class, 'BrandUpdate'])->name('brand.update'); 
+
+
+Now we create our BrandUpdate method in BrandController
+   public function BrandUpdate(Request $request) {
+        $brand_id = $request->id;
+        $old_image = $request->old_image;
+
+        if ($request->file('brand_image')) {
+            if ($old_image) {
+            unlink($old_image);
+            }
+            $image = $request->file('brand_image');
+            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize(300,300)->save('upload/brand/'.$name_gen);
+            $save_url = 'upload/brand/'.$name_gen;
+            Brand::findOrFail($brand_id)->update([
+                'brand_name_en'  => $request->brand_name_en,
+                'brand_name_hin'  => $request->brand_name_hin,
+                'brand_slug_en'  => strtolower(str_replace(' ','-' ,$request->brand_name_en)),
+                'brand_slug_hin'  => str_replace(' ','-' ,$request->brand_name_hin),
+                'brand_image'  => $save_url,
+    
+            ]);
+            $notification = array(
+                'message' => 'Brand Updated Successfully',
+                'alert-type' => 'info'
+            );
+            return redirect()->route('all.brand')->with($notification);
+
+        } else {
+            Brand::findOrFail($brand_id)->update([
+                'brand_name_en'  => $request->brand_name_en,
+                'brand_name_hin'  => $request->brand_name_hin,
+                'brand_slug_en'  => strtolower(str_replace(' ','-' ,$request->brand_name_en)),
+                'brand_slug_hin'  => str_replace(' ','-' ,$request->brand_name_hin),
+     
+            ]);
+            $notification = array(
+                'message' => 'Brand Updated Successfully',
+                'alert-type' => 'info'
+            );
+            return redirect()->route('all.brand')->with($notification);
+
+
+        }
+
+
+    }
+
+
+(140) Brand Crud Part 3 Delete with Sweelalert Alert 2
+
+
+
+
 
 
 
