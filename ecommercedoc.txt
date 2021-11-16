@@ -2017,6 +2017,204 @@ Finally we change the brand_view buttons to use icons
 
 (141) Category Crud Part 1
 
+The first thing that we do is create our menu item in sidebar.blade.php so we use the same sort of approach that we did 
+with Brand so we convert the Mailbox menu item like so
+<li class="treeview {{ ($prefix == '/category')? 'active':'' }}">
+    <a href="#">
+        <i data-feather="mail"></i> <span>Category</span>
+        <span class="pull-right-container">
+            <i class="fa fa-angle-right pull-right"></i>
+        </span>
+    </a>
+    <ul class="treeview-menu">
+        <li class="{{ ($route == 'all.category')? 'active':'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li>
+        </ul>
+</li>
+
+Next we create our CategoryController
+php artisan make:controller Backend/CategoryController
+
+Next we create our Model and migration
+php artisan make:model Category -m
+
+We modify out migration like so
+    public function up()
+    {
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('category_name_en');
+            $table->string('category_name_hin');
+            $table->string('category_slug_en');
+            $table->string('category_slug_hin');
+            $table->string('category_icon');
+            $table->timestamps();
+        });
+    }
+
+Next we run the migration
+php artisan migrate
+
+Next in our model
+    protected $fillable = [
+        'category_name_en',
+        'category_name_hin',
+        'category_slug_en',
+        'category_slug_hin',
+        'category_icon',
+    ];
+
+
+
+In web.php
+use App\Http\Controllers\Backend\CategoryController;
+We clone and change our BrandRoutes Like So
+// Admin Category All Routes
+
+Route::prefix('category')->group(function(){
+    Route::get('/view', [CategoryController::class, 'CategoryView'])->name('all.category'); 
+  //  Route::post('/store', [CategoryController::class, 'CategoryStore'])->name('category.store'); 
+  //  Route::get('/edit/{id}', [CategoryController::class, 'CategoryEdit'])->name('category.edit'); 
+  //  Route::post('/update', [CategoryController::class, 'CategoryUpdate'])->name('category.update');
+ //   Route::get('/delete/{id}', [CategoryController::class, 'CategoryDelete'])->name('category.delete'); 
+});
+
+Next in CategoryController we use our model and clone the BrandView method from BrandController
+    public function CategoryView(){
+        $category = Category::latest()->get();
+        return view('backend.category.category_view',compact('category'));
+    }
+
+
+Next we create our category subfolder and category_view
+@extends('admin.admin_master')
+@section('admin')
+    <div class="container-full">
+        <!-- Content Header (Page header) -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+
+                <div class="col-8">
+
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Category List</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+
+                                        <tr>
+                                            <th>Category Icon</th>
+                                            <th>Category En</th>
+                                            <th>Category Hin</th>                                           
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($category as $item)
+                                            <tr>
+                                                <td><span><i class="{{ $item->category_icon }}"></i></span></td>
+                                                <td>{{ $item->category_name_en }}</td>
+                                                <td>{{ $item->category_name_hin }}</td>
+                                                    <a href="{{ route('category.edit', $item->id) }}" class="btn btn-info" title"Edit Data"><i class="fa fa-pencil"></i></a>
+                                                    <a href="{{ route('category.delete', $item->id) }}" class="btn btn-info" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a>
+                                                                                                    </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+
+
+                </div>
+                <!-- /.col -->
+                <!-- -------------- Add Category Page ---------------- -->
+                <div class="col-4">
+
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Add Category</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <form method="post" action="{{ route('category.store') }}">
+                                    @csrf
+                                                <div class="form-group">
+                                                    <h5>Category English <span class="text-danger">*</span></h5>
+                                                    <div class="controls">
+                                                        <input type="text" id="category_name_en" name="category_name_en"
+                                                            class="form-control">
+                                                            @error('category_name_en')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <h5>Category Hindi <span class="text-danger">*</span></h5>
+                                                    <div class="controls">
+                                                        <input type="text" id="category_name_hin" name="category_name_hin"
+                                                            class="form-control">
+                                                            @error('category_name_hin')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <h5>Category Icon <span class="text-danger">*</span></h5>
+                                                    <div class="controls">
+                                                        <input type="text" id="category_icon" name="category_icon"
+                                                            class="form-control">
+                                                            @error('category_icon')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+
+                                                    </div>
+                                                </div>
+
+
+                                    <div class="text-xs-right">
+                                        <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Add Category">
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+
+
+                </div>
+
+            </div>
+            <!-- /.row -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+
+@endsection
+
+(141) Category Crud Part 2
+
+
+
+
+
+
+
 
 
 
