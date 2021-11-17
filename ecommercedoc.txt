@@ -2619,6 +2619,148 @@ We massage SubCategoryEdit method like so
 
 (147) Subcategory Crud Part 3
 
+we create our subcategory_edit cloning the subcategory_view and massage it like so
+@extends('admin.admin_master')
+@section('admin')
+    <div class="container-full">
+        <!-- Content Header (Page header) -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+
+                 <!-- -------------- Edit SubCategory Page ---------------- -->
+                <div class="col-12">
+
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Edit SubCategory</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <form method="post" action="{{ route('subcategory.update') }}">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $subcategory->id }}">
+                                                <div class="form-group">
+                                                    <h5>Category Select <span class="text-danger">*</span></h5>
+                                                    <div class="controls">
+                                                        <select name="category_id" id="category_id" class="form-control">
+                                                            <option value="" selected="" disabled="">Select Category</option>
+                                                            @foreach($categories as $category)
+                                                            <option value="{{ $category->id }}" {{ $category->id == $subcategory->category_id ? 'selected': '' }}>{{ $category->category_name_en }}</option>
+                                                            @endforeach
+                                                          </select>
+                                                          @error('category_id')
+                                                          <span class="text-danger">{{ $message }}</span>
+                                                          @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <h5>SubCategory English <span class="text-danger">*</span></h5>
+                                                    <div class="controls">
+                                                        <input type="text" id="subcategory_name_en" name="subcategory_name_en"
+                                                            class="form-control" value="{{ $subcategory->subcategory_name_en }}">
+                                                            @error('subcategory_name_en')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <h5>SubCategory Hindi <span class="text-danger">*</span></h5>
+                                                    <div class="controls">
+                                                        <input type="text" id="subcategory_name_hin" name="subcategory_name_hin"
+                                                            class="form-control" value="{{ $subcategory->subcategory_name_hin }}">
+                                                            @error('subcategory_name_hin')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+
+                                                    </div>
+                                                </div>
+
+ 
+
+                                    <div class="text-xs-right">
+                                        <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Update">
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+
+
+                </div>
+
+            </div>
+            <!-- /.row -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+
+@endsection
+
+
+Our route is already done
+Route::post('/sub/update', [SubCategoryController::class, 'SubCategoryUpdate'])->name('subcategory.update');
+
+
+We massage SubCategoryUpdate like so
+    public function SubCategoryUpdate(Request $request) {
+        $subcategory_id = $request->id;
+ 
+
+             SubCategory::findOrFail($subcategory_id)->update([
+                'category_id'  => $request->category_id,
+                'subcategory_name_en'  => $request->subcategory_name_en,
+                'subcategory_name_hin'  => $request->subcategory_name_hin,
+                'subcategory_slug_en'  => strtolower(str_replace(' ','-' ,$request->subcategory_name_en)),
+                'subcategory_slug_hin'  => str_replace(' ','-' ,$request->subcategory_name_hin),
+    
+            ]);
+            $notification = array(
+                'message' => 'SubCategory Updated Successfully',
+                'alert-type' => 'info'
+            );
+            return redirect()->route('all.subcategory')->with($notification);
+    }
+
+Now we want to display the category_name rather than the id in subcategory_view
+
+to do this first we add a method to our SubCategory model that established the relationship to 
+Category
+    public function category(){
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+Next we change our category_id in subcategory view to reference our new method and the field name category_name_en
+<td>{{ $item['category']['category_name_en'] }}</td>
+
+Our delete is already working here is the code.
+<a href="{{ route('subcategory.delete', $item->id) }}" class="btn btn-info" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a>
+Route::get('/sub/delete/{id}', [SubCategoryController::class, 'SubCategoryDelete'])->name('subcategory.delete'); 
+   public function SubCategoryDelete($id){
+        $subcategory = SubCategory::findOrFail($id);
+        SubCategory::findOrFail($id)->delete();
+        $notification = array(
+            'message' => 'SubCategory Deleted Successfully',
+            'alert-type' => 'info',
+        );
+        return redirect()->back()->with($notification);
+    }
+
+()
+
+(148) Sub Subcategory Crud Part 1
+
+
+
 
 
 
