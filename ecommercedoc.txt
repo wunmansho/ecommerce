@@ -2372,6 +2372,72 @@ Route::post('/update', [CategoryController::class, 'CategoryUpdate'])->name('cat
         return redirect()->back()->with($notification);
     } 
 
+(145) Subcategory Crud Part 1
+
+First we want to add a subcategory menu item to sidebar.blade.php
+<li class="{{ ($route == 'all.subcategory')? 'active':'' }}"><a href="{{ route('all.subcategory') }}"><i class="ti-more"></i>All SubCategory</a></li>
+
+Next we clone our Routes from Category and change them like so
+
+// Admin Sub Category All Routes
+
+Route::get('/sub/view', [SubCategoryController::class, 'SubCategoryView'])->name('all.subcategory'); 
+Route::post('/sub/store', [SubCategoryController::class, 'SubCategoryStore'])->name('subcategory.store'); 
+Route::get('/sub/edit/{id}', SubCategoryController::class, 'SubCategoryEdit'])->name('subcategory.edit'); 
+Route::post('/sub/update', [SubCategoryController::class, 'SubCategoryUpdate'])->name('subcategory.update');
+Route::get('/sub/delete/{id}', [SubCategoryController::class, 'SubCategoryDelete'])->name('subcategory.delete'); 
+
+use App\Http\Controllers\Backend\SubCategoryController;
+
+php artisan make:Controller Backend/SubCategoryController
+
+
+php artisan make:model SubCategory -m
+
+For the migration
+    public function up()
+    {
+        Schema::create('sub_categories', function (Blueprint $table) {
+            $table->id();
+            $table->integer('category_id');
+            $table->string('subcategory_name_en');
+            $table->string('subcategory_name_hin');
+            $table->string('subcategory_slug_en');
+            $table->string('subcategory_slug_hin');
+            $table->timestamps();
+        });
+    }
+
+For the model
+   protected $fillable = [
+        'category_id',
+        'subcategory_name_en',
+        'subcategory_name_hin',
+        'subcategory_slug_en',
+        'subcategory_slug_hin',
+    ];
+
+php artisan migrate
+
+Now in the real world I have already cloned and altered everything minus the handling
+of our category_id foriegn key in the SubCategoryController.  So in our controller we start with
+    public function SubCategoryView(){
+        $subcategory = SubCategory::latest()->get();
+        return view('backend.category.subcategory_view',compact('subcategory'));
+    }
+
+Make our subcategory_view
+
+We clone category view to subcategory_view and make changes then we open forms_validation from our
+templates and clone the Basic Select dropdown
+Ecommerce_Excersise_Files\Project Themes\Admin Theme\main-dark\
+
+We will use this to select our Foriegn Key item
+
+
+(146) Subcategory Crud Part 2
+
+
 
 
 

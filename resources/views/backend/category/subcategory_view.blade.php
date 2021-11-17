@@ -11,7 +11,7 @@
 
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Category List</h3>
+                            <h3 class="box-title">SubCategory List</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
@@ -20,20 +20,20 @@
                                     <thead>
 
                                         <tr>
-                                            <th>Category Icon</th>
-                                            <th>Category En</th>
-                                            <th>Category Hin</th>                                           
+                                            <th>Category </th>
+                                            <th>SubCategory En</th>
+                                            <th>SubCategory Hin</th>                                           
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($category as $item)
+                                        @foreach ($subcategory as $item)
                                             <tr>
-                                                <td><span><i class="{{ $item->category_icon }}"></i></span></td>
-                                                <td>{{ $item->category_name_en }}</td>
-                                                <td>{{ $item->category_name_hin }}</td>
-                                                  <td>  <a href="{{ route('category.edit', $item->id) }}" class="btn btn-info" title"Edit Data"><i class="fa fa-pencil"></i></a>
-                                                    <a href="{{ route('category.delete', $item->id) }}" class="btn btn-info" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a>
+                                                <td>{{ $item->category_id }}</td>
+                                                <td>{{ $item->subcategory_name_en }}</td>
+                                                <td>{{ $item->subcategory_name_hin }}</td>
+                                                  <td>  <a href="{{ route('subcategory.edit', $item->id) }}" class="btn btn-info" title"Edit Data"><i class="fa fa-pencil"></i></a>
+                                                    <a href="{{ route('subcategory.delete', $item->id) }}" class="btn btn-info" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a>
                                                                                                     </td>
                                             </tr>
                                         @endforeach
@@ -48,53 +48,57 @@
 
                 </div>
                 <!-- /.col -->
-                <!-- -------------- Add Category Page ---------------- -->
+                <!-- -------------- Add SubCategory Page ---------------- -->
                 <div class="col-4">
 
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Add Category</h3>
+                            <h3 class="box-title">Add SubCategory</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="table-responsive">
-                                <form method="post" action="{{ route('category.store') }}">
+                                <form method="post" action="{{ route('subcategory.store') }}">
                                     @csrf
                                                 <div class="form-group">
-                                                    <h5>Category English <span class="text-danger">*</span></h5>
+                                                    <h5>Category Select <span class="text-danger">*</span></h5>
                                                     <div class="controls">
-                                                        <input type="text" id="category_name_en" name="category_name_en"
-                                                            class="form-control">
-                                                            @error('category_name_en')
-                                                            <span class="text-danger">{{ $message }}</span>
-                                                            @enderror
+                                                        <select name="select" id="select" required class="form-control">
+                                                            <option value="">Select Your City</option>
+                                                            <option value="1">India</option>
+                                                            <option value="2">USA</option>
+                                                            <option value="3">UK</option>
+                                                            <option value="4">Canada</option>
+                                                            <option value="5">Dubai</option>
+                                                        </select>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <h5>Category Hindi <span class="text-danger">*</span></h5>
+                                                    <h5>SubCategory English <span class="text-danger">*</span></h5>
                                                     <div class="controls">
-                                                        <input type="text" id="category_name_hin" name="category_name_hin"
+                                                        <input type="text" id="subcategory_name_en" name="subcategory_name_en"
                                                             class="form-control">
-                                                            @error('category_name_hin')
+                                                            @error('subcategory_name_en')
                                                             <span class="text-danger">{{ $message }}</span>
                                                             @enderror
-
                                                     </div>
                                                 </div>
+
 
                                                 <div class="form-group">
-                                                    <h5>Category Icon <span class="text-danger">*</span></h5>
+                                                    <h5>SubCategory Hindi <span class="text-danger">*</span></h5>
                                                     <div class="controls">
-                                                        <input type="text" id="category_icon" name="category_icon"
+                                                        <input type="text" id="subcategory_name_hin" name="subcategory_name_hin"
                                                             class="form-control">
-                                                            @error('category_icon')
+                                                            @error('subcategory_name_hin')
                                                             <span class="text-danger">{{ $message }}</span>
                                                             @enderror
 
                                                     </div>
                                                 </div>
 
+ 
 
                                     <div class="text-xs-right">
                                         <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Add">
