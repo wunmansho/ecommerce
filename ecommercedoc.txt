@@ -2072,10 +2072,10 @@ We clone and change our BrandRoutes Like So
 
 Route::prefix('category')->group(function(){
     Route::get('/view', [CategoryController::class, 'CategoryView'])->name('all.category'); 
-  //  Route::post('/store', [CategoryController::class, 'CategoryStore'])->name('category.store'); 
-  //  Route::get('/edit/{id}', [CategoryController::class, 'CategoryEdit'])->name('category.edit'); 
-  //  Route::post('/update', [CategoryController::class, 'CategoryUpdate'])->name('category.update');
- //   Route::get('/delete/{id}', [CategoryController::class, 'CategoryDelete'])->name('category.delete'); 
+    Route::post('/store', [CategoryController::class, 'CategoryStore'])->name('category.store'); 
+    Route::get('/edit/{id}', [CategoryController::class, 'CategoryEdit'])->name('category.edit'); 
+    Route::post('/update', [CategoryController::class, 'CategoryUpdate'])->name('category.update');
+    Route::get('/delete/{id}', [CategoryController::class, 'CategoryDelete'])->name('category.delete'); 
 });
 
 Next in CategoryController we use our model and clone the BrandView method from BrandController
@@ -2207,8 +2207,42 @@ Next we create our category subfolder and category_view
 
 @endsection
 
-(141) Category Crud Part 2
+(142) Category Crud Part 2
 
+Now we uncomment our CategoryStore in web.php
+
+
+Now we clone BrandStore to CategoryStore and change it like so
+   public function CategoryStore(Request $request) {
+        $request->validate([
+            'category_name_en' => 'required',
+            'category_name_hin' => 'required',
+            'category_icon' => 'required',    
+        ],[
+            'category_name_en.required' => 'Input Category English Name',
+            'category_name_hin.required' => 'Input Category Hindi Name',
+
+        ]);
+
+        Category::insert([
+            'category_name_en'  => $request->category_name_en,
+            'category_name_hin'  => $request->category_name_hin,
+            'category_slug_en'  => strtolower(str_replace(' ','-' ,$request->category_name_en)),
+            'category_slug_hin'  => str_replace(' ','-' ,$request->category_name_hin),
+            'category_icon'  => $request->category_icon,
+
+        ]);
+        $notification = array(
+            'message' => 'Category Inserted Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
+
+    Now we add Category Data with fontawsome icons
+
+    (143) Category Crud Part 3
+    
 
 
 
