@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SubCategory;
 use App\Models\Category;
+use App\Models\SubSubCategory;
 
 class SubCategoryController extends Controller
 {
@@ -76,4 +77,82 @@ class SubCategoryController extends Controller
         );
         return redirect()->back()->with($notification);
     }
+
+    /////////////////////////////////////// Sub SubCategory Stuff
+
+    public function SubSubCategoryView(){
+        $categories = Category::orderBy('category_name_en', 'ASC')->get();
+      //  $subcategories = SubCategory::orderBy('subcategory_name_en', 'ASC')->get();
+        $subsubcategory = SubSubCategory::latest()->get();
+    //    return view('backend.category.subsubcategory_view',compact('subsubcategory','categories', 'subcategories'));
+        return view('backend.category.subsubcategory_view',compact('subsubcategory','categories'));
+    }
+
+    public function SubSubCategoryStore(Request $request) {
+        $request->validate([
+            'category_id' => 'required',
+            'subcategory_id' => 'required',
+            'subsubcategory_name_en' => 'required',
+            'subsubcategory_name_hin' => 'required',
+        ],[
+            'category_id.required' => 'Please Select An option',
+            'subcategory_id.required' => 'Please Select An option',
+            'subsubcategory_name_en.required' => 'Input SubSubCategory English Name',
+            'subsubcategory_name_hin.required' => 'Input SubSubCategory Hindi Name',
+
+        ]);
+
+        SubSubCategory::insert([
+            'category_id'  => $request->category_id,
+            'subcategory_id'  => $request->subcategory_id,
+            'subsubcategory_name_en'  => $request->subsubcategory_name_en,
+            'subsubcategory_name_hin'  => $request->subsubcategory_name_hin,
+            'subsubcategory_slug_en'  => strtolower(str_replace(' ','-' ,$request->subsubcategory_name_en)),
+            'subsubcategory_slug_hin'  => str_replace(' ','-' ,$request->subsubcategory_name_hin),
+
+        ]);
+        $notification = array(
+            'message' => 'SubSubCategory Inserted Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
+
+    public function SubSubCategoryEdit($id) {
+        $categories = Category::orderBy('category_name_en', 'ASC')->get();
+        $subcategories = SubCategory::orderBy('subcategory_name_en', 'ASC')->get();
+        $subsubcategory = SubSubCategory::findOrFail($id);
+        return view('backend.category.subsubcategory_edit',compact('subsubcategory', 'categories','subcategories'));
+    }
+
+    public function SubSubCategoryUpdate(Request $request) {
+        $subsubcategory_id = $request->id;
+ 
+
+             SubSubCategory::findOrFail($subsubcategory_id)->update([
+                'category_id'  => $request->category_id,
+                'subcategory_id'  => $request->subcategory_id,
+                'subsubcategory_name_en'  => $request->subsubcategory_name_en,
+                'subsubcategory_name_hin'  => $request->subsubcategory_name_hin,
+                'subsubcategory_slug_en'  => strtolower(str_replace(' ','-' ,$request->subsubcategory_name_en)),
+                'subsubcategory_slug_hin'  => str_replace(' ','-' ,$request->subsubcategory_name_hin),
+    
+            ]);
+            $notification = array(
+                'message' => 'SubSubCategory Updated Successfully',
+                'alert-type' => 'info'
+            );
+            return redirect()->route('all.subsubcategory')->with($notification);
+    }
+
+    public function SubSubCategoryDelete($id){
+        $subsubcategory = SubSubCategory::findOrFail($id);
+        SubSubCategory::findOrFail($id)->delete();
+        $notification = array(
+            'message' => 'SubSubCategory Deleted Successfully',
+            'alert-type' => 'info',
+        );
+        return redirect()->back()->with($notification);
+    }
+
 }

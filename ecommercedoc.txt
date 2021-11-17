@@ -2482,7 +2482,7 @@ We go over the subcategory_view and smooth it out like so
                                                 <td>{{ $item->category_id }}</td>
                                                 <td>{{ $item->subcategory_name_en }}</td>
                                                 <td>{{ $item->subcategory_name_hin }}</td>
-                                                  <td>  <a href="{{ route('subcategory.edit', $item->id) }}" class="btn btn-info" title"Edit Data"><i class="fa fa-pencil"></i></a>
+                                                  <td width="30%">  <a href="{{ route('subcategory.edit', $item->id) }}" class="btn btn-info" title"Edit Data"><i class="fa fa-pencil"></i></a>
                                                     <a href="{{ route('subcategory.delete', $item->id) }}" class="btn btn-info" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a>
                                                                                                     </td>
                                             </tr>
@@ -2759,6 +2759,55 @@ Route::get('/sub/delete/{id}', [SubCategoryController::class, 'SubCategoryDelete
 
 (148) Sub Subcategory Crud Part 1
 
+We start by adding a new menu option to sidebar
+<li class="{{ ($route == 'all.subsubcategory')? 'active':'' }}"><a href="{{ route('all.subsubcategory') }}"><i class="ti-more"></i>All Sub->SubCategory</a></li>
+
+php artisan make:model SubSubCategory -m
+
+            $table->id();
+            $table->integer('category_id');
+            $table->integer('subcategory_id');
+            $table->string('subsubcategory_name_en');
+            $table->string('subsubcategory_name_hin');
+            $table->string('subsubcategory_slug_en');
+            $table->string('subsubcategory_slug_hin');
+            $table->timestamps();
+
+
+    protected $fillable = [
+        'category_id',
+        'subcategory_id',
+        'subsubcategory_name_en',
+        'subsubcategory_name_hin',
+        'subsubcategory_slug_en',
+        'subsubcategory_slug_hin',
+    ];
+
+    public function category(){
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    public function subcategory(){
+        return $this->belongsTo(SubCategory::class, 'subcategory_id', 'id');
+    }
+
+php artisan migrate
+
+Next we create our route - Im pretending that I haven't already done them all
+Route::get('/sub/sub/view', [SubCategoryController::class, 'SubSubCategoryView'])->name('all.subsubcategory'); 
+
+Now we add our method to SubCategoryController
+use App\Models\SubSubCategory;
+
+    public function SubSubCategoryView(){
+        $categories = Category::orderBy('category_name_en', 'ASC')->get();
+      //  $subcategories = SubCategory::orderBy('subcategory_name_en', 'ASC')->get();
+        $subsubcategory = SubSubCategory::latest()->get();
+    //    return view('backend.category.subsubcategory_view',compact('subsubcategory','categories', 'subcategories'));
+        return view('backend.category.subsubcategory_view',compact('subsubcategory','categories'));
+    }
+
+(149) Sub Subcategory Crud Part 2
 
 
 
