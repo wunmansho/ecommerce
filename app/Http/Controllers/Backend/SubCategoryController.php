@@ -81,11 +81,16 @@ class SubCategoryController extends Controller
     /////////////////////////////////////// Sub SubCategory Stuff
 
     public function SubSubCategoryView(){
-        $categories = Category::orderBy('category_name_en', 'ASC')->get();
-      //  $subcategories = SubCategory::orderBy('subcategory_name_en', 'ASC')->get();
-        $subsubcategory = SubSubCategory::latest()->get();
-    //    return view('backend.category.subsubcategory_view',compact('subsubcategory','categories', 'subcategories'));
-        return view('backend.category.subsubcategory_view',compact('subsubcategory','categories'));
+        $categories = Category::orderBy('category_name_en','ASC')->get();
+    	$subsubcategory = SubSubCategory::latest()->get();
+    	return view('backend.category.sub_subcategory_view',compact('subsubcategory','categories'));
+    }
+
+    public function GetSubCategory($category_id){
+
+        $subcat = SubCategory::where('category_id',$category_id)->orderBy('
+        subcategory_name_en','ASC')->get();
+        return json_encode($subcat);
     }
 
     public function SubSubCategoryStore(Request $request) {
