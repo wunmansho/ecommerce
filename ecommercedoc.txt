@@ -3004,7 +3004,41 @@ So I am going to move on and commit these changes with errors and populate the D
 
 (150) Sub Subcategory Crud Part 3
 
+<form method="post" action="{{ route('subsubcategory.store') }}" >
 
+Route::post('/sub/sub/store', [SubCategoryController::class, 'SubSubCategoryStore'])->name('subsubcategory.store'); 
+
+    public function SubSubCategoryStore(Request $request) {
+        $request->validate([
+            'category_id' => 'required',
+            'subcategory_id' => 'required',
+            'subsubcategory_name_en' => 'required',
+            'subsubcategory_name_hin' => 'required',
+        ],[
+            'category_id.required' => 'Please Select An option',
+            'subcategory_id.required' => 'Please Select An option',
+            'subsubcategory_name_en.required' => 'Input SubSubCategory English Name',
+            'subsubcategory_name_hin.required' => 'Input SubSubCategory Hindi Name',
+
+        ]);
+
+        SubSubCategory::insert([
+            'category_id'  => $request->category_id,
+            'subcategory_id'  => $request->subcategory_id,
+            'subsubcategory_name_en'  => $request->subsubcategory_name_en,
+            'subsubcategory_name_hin'  => $request->subsubcategory_name_hin,
+            'subsubcategory_slug_en'  => strtolower(str_replace(' ','-' ,$request->subsubcategory_name_en)),
+            'subsubcategory_slug_hin'  => str_replace(' ','-' ,$request->subsubcategory_name_hin),
+
+        ]);
+        $notification = array(
+            'message' => 'SubSubCategory Inserted Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
+
+    
 
 
 
