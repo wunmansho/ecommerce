@@ -107,3 +107,9 @@ Route::post('/sub/sub/update', [SubCategoryController::class, 'SubSubCategoryUpd
 Route::get('/sub/sub/delete/{id}', [SubCategoryController::class, 'SubSubCategoryDelete'])->name('subsubcategory.delete'); 
 
 });
+
+// Admin Products All Routes
+
+Route::prefix('product')->group(function(){
+    Route::get('/add', [ProductController::class, 'AddProduct'])->name('add-product'); 
+});

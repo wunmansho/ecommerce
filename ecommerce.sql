@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 20, 2021 at 04:33 PM
+-- Generation Time: Nov 20, 2021 at 06:52 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.3.21
 
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -159,7 +159,25 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (8, '2021_11_14_172138_create_brands_table', 4),
 (9, '2021_11_16_205818_create_categories_table', 5),
 (10, '2021_11_17_170351_create_sub_categories_table', 6),
-(11, '2021_11_17_205026_create_sub_sub_categories_table', 7);
+(11, '2021_11_17_205026_create_sub_sub_categories_table', 7),
+(12, '2021_11_20_181706_create_products_table', 8),
+(13, '2021_11_20_184405_create_multi_imgs_table', 8);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `multi_imgs`
+--
+
+DROP TABLE IF EXISTS `multi_imgs`;
+CREATE TABLE IF NOT EXISTS `multi_imgs` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `photo_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -200,6 +218,48 @@ CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `products`
+--
+
+DROP TABLE IF EXISTS `products`;
+CREATE TABLE IF NOT EXISTS `products` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `brand_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `subcategory_id` int(11) NOT NULL,
+  `subsubcategory_id` int(11) NOT NULL,
+  `product_name_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_name_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_slug_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_slug_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_qty` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_tags_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_tags_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_size_en` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_size_hin` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_color_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_color_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `selling_price` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `discount_price` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `short_desc_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `short_desc_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `long_desc_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `long_desc_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product__thumbnail` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hot_deals` int(11) DEFAULT NULL,
+  `featured` int(11) DEFAULT NULL,
+  `special_offer` int(11) DEFAULT NULL,
+  `special_deals` int(11) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sessions`
 --
 
@@ -221,9 +281,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('69Jwx7PuFWbJuDQu4TVPWWrWDvUkxDgsvG3tj5Hp', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiSVVMSVVxTDJJR2tRY0t2YnpqOTB5VHhFa1RuaHZtc2NUamllRGFQYSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYXRlZ29yeS9zdWJjYXRlZ29yeS9hamF4LzEiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUyOiJsb2dpbl9hZG1pbl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1637253469),
-('98Nhudd9iN19gQHw4Lx1vcBoSlm3LZh7LYM7Gn1j', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMlQzcGkyOVg0YUl2NGhiM2gwNkdKajVrMEtlTTJhejBJdk5OeHJTdiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYXRlZ29yeS9zdWIvc3ViL3ZpZXciO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1637273897),
-('LMegdRPBb3zLkgmk5Jf7K6ajUDqVYUlgC0Zn4n4x', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoieGE4ZERwd0V1ckdSc3hkOGtzOGl4Q096c1V4aGRqZlBORjBXdlZ6SCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYXRlZ29yeS9zdWIvc3ViL3ZpZXciO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUyOiJsb2dpbl9hZG1pbl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1637425742);
+('LMegdRPBb3zLkgmk5Jf7K6ajUDqVYUlgC0Zn4n4x', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoieGE4ZERwd0V1ckdSc3hkOGtzOGl4Q096c1V4aGRqZlBORjBXdlZ6SCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYXRlZ29yeS9zdWIvc3ViL3ZpZXciO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUyOiJsb2dpbl9hZG1pbl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1637430318);
 
 -- --------------------------------------------------------
 
@@ -273,7 +331,7 @@ CREATE TABLE IF NOT EXISTS `sub_sub_categories` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `sub_sub_categories`
@@ -285,7 +343,7 @@ INSERT INTO `sub_sub_categories` (`id`, `category_id`, `subcategory_id`, `subsub
 (3, 1, 9, 'MacBook', 'मैकबुक', 'macbook', 'मैकबुक', NULL, NULL),
 (4, 1, 6, 'Realme Phones', 'रियलमी फोन', 'realme-phones', 'रियलमी-फोन', NULL, NULL),
 (5, 1, 6, 'Samsung Phone', 'सैमसंग फोन', 'samsung-phone', 'सैमसंग-फोन', NULL, NULL),
-(6, 1, 6, 'Vivo Phones', 'लाइव फ़ोन', 'vivo-phones', 'लाइव-फ़ोन', NULL, NULL),
+(6, 1, 6, 'Vivo Phones', 'लाइव फ़ोन', 'vivo-phones', 'लाइव-फ़ोन', NULL, '2021-11-20 22:29:52'),
 (7, 2, 2, 'Body Scrubs', 'बॉडी स्क्रब', 'body-scrubs', 'बॉडी-स्क्रब', NULL, NULL),
 (8, 2, 2, 'Foot Care', 'पैरों की देखभाल', 'foot-care', 'पैरों-की-देखभाल', NULL, NULL);
 

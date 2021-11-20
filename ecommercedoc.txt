@@ -3227,6 +3227,108 @@ Next the SubSubCategoryDelete method
 
 (153) Add Product Database and Page Design Part 1
 
+Now we want to create a way to add products so we start with the sidebar menu
+so we convert the Pages menu to this               
+    <li class="treeview {{ ($prefix == '/product')? 'active':'' }}">
+                        <a href="#">
+                            <i data-feather="file"></i>
+                            <span>Products</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-right pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{ ($route == 'add-product')? 'active':'' }}"><a href="{{ route('add-product') }}"><i class="ti-more"></i>Add Products</a></li>
+                            <li ><a href="invoice.html"><i class="ti-more"></i>Manage Products</a></li>
+                        </ul>
+                    </li>
+
+Next we add our routing prefix by cloning and changing the Brand routes in web.php
+Route::prefix('product')->group(function(){
+    Route::get('/add', [ProductController::class, 'AddProduct'])->name('add-product'); 
+});
+
+
+
+Next we create our controller
+php artisan make:controller Backend/ProductController
+
+Now we create our model and migration
+php artisan make:model Product -m
+
+Now we chan ge our migration like so
+    public function up()
+    {
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->integer('brand_id');
+            $table->integer('category_id');
+            $table->integer('subcategory_id');
+            $table->integer('subsubcategory_id');
+            $table->string('product_name_en');
+            $table->string('product_name_hin');
+            $table->string('product_slug_en');
+            $table->string('product_slug_hin');
+            $table->string('product_code');
+            $table->string('product_qty');
+            $table->string('product_tags_en');
+            $table->string('product_tags_hin');
+            $table->string('product_size_en')->nullable();
+            $table->string('product_size_hin')->nullable();
+            $table->string('product_color_en');
+            $table->string('product_color_hin');
+            $table->string('selling_price');
+            $table->string('discount_price')->nullable();
+            $table->string('short_desc_en');
+            $table->string('short_desc_hin');
+            $table->string('long_desc_en');
+            $table->string('long_desc_hin');
+            $table->string('product__thumbnail');
+            $table->integer('hot_deals')->nullable();
+            $table->integer('featured')->nullable();
+            $table->integer('special_offer')->nullable();
+            $table->integer('special_deals')->nullable();
+            $table->integer('status')->default(0);
+            $table->timestamps();
+        });
+
+For our model we do a workaround to aviod creating all of the protected fillables that we normally create
+class Product extends Model
+{
+    use HasFactory;
+    protected $guarded = [];
+}
+
+Next we create an additional model so that we may attach multiple pictures to a product
+php artisan make:model MultiImg -m
+
+We alter our migration
+    public function up()
+    {
+        Schema::create('multi_imgs', function (Blueprint $table) {
+            $table->id();
+            $table->integer('product_id');
+            $table->string('photo_name');
+            $table->timestamps();
+        });
+    }
+
+We alter our Model
+class MultiImg extends Model
+{
+    use HasFactory;
+    protected $guarded = [];
+}
+
+
+Now we migrate
+php artisan migrate
+
+(154) Add Product Database and Page Design Part 2
+
+
+
+
 
 
 
