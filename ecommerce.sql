@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 14, 2021 at 06:26 PM
+-- Generation Time: Nov 20, 2021 at 04:33 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.3.21
 
@@ -67,7 +67,49 @@ CREATE TABLE IF NOT EXISTS `brands` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `brands`
+--
+
+INSERT INTO `brands` (`id`, `brand_name_en`, `brand_name_hin`, `brand_slug_en`, `brand_slug_hin`, `brand_image`, `created_at`, `updated_at`) VALUES
+(3, 'Samsung', 'सैमसंग', 'samsung', 'सैमसंग', 'upload/brand/1716534569698407.png', NULL, NULL),
+(4, 'Xiaomi', 'Xiaomi', 'xiaomi', 'Xiaomi', 'upload/brand/1716534979515995.png', NULL, NULL),
+(5, 'Apple', 'सेब', 'apple', 'सेब', 'upload/brand/1716535055513167.png', NULL, NULL),
+(6, 'Oppo', 'विपक्ष', 'oppo', 'विपक्ष', 'upload/brand/1716535171449880.png', NULL, NULL),
+(7, 'Vivo', 'विवो', 'vivo', 'विवो', 'upload/brand/1716535303948025.png', NULL, NULL),
+(8, 'Huawei', 'हुवाई', 'huawei', 'हुवाई', 'upload/brand/1716609137518934.png', NULL, '2021-11-16 23:07:26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE IF NOT EXISTS `categories` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `category_name_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category_name_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category_slug_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category_slug_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category_icon` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `category_name_en`, `category_name_hin`, `category_slug_en`, `category_slug_hin`, `category_icon`, `created_at`, `updated_at`) VALUES
+(1, 'Electronic Devices', 'इलेक्ट्रॉनिक उपकरणों', 'electronic-devices', 'इलेक्ट्रॉनिक-उपकरणों', 'fa fa-id-card-o', NULL, '2021-11-17 21:28:57'),
+(2, 'Health and Beauty', 'आरोग्य और सुंदरता', 'health-and-beauty', 'आरोग्य-और-सुंदरता', 'fa fa-telegram', NULL, NULL),
+(3, 'Tshirt', 'टी शर्ट', 'tshirt', 'टी-शर्ट', 'fa fa-handshake-o', NULL, NULL),
+(4, 'Sports and Outdoor', 'खेल और आउटडोर', 'sports-and-outdoor', 'खेल-और-आउटडोर', 'fa fa-asterisk', NULL, NULL),
+(5, 'Home Appliances', 'घरेलू उपकरण', 'home-appliances', 'घरेलू-उपकरण', 'fa fa-bar-chart', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -100,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -114,7 +156,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (5, '2019_12_14_000001_create_personal_access_tokens_table', 2),
 (6, '2021_10_28_222439_create_sessions_table', 2),
 (7, '2021_10_31_162337_create_admins_table', 3),
-(8, '2021_11_14_172138_create_brands_table', 4);
+(8, '2021_11_14_172138_create_brands_table', 4),
+(9, '2021_11_16_205818_create_categories_table', 5),
+(10, '2021_11_17_170351_create_sub_categories_table', 6),
+(11, '2021_11_17_205026_create_sub_sub_categories_table', 7);
 
 -- --------------------------------------------------------
 
@@ -176,9 +221,73 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('dEpUnAMCNUJihaHC0kok0TDF66wNEj84YxF1tTO7', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36', 'YTo3OntzOjM6InVybCI7YTowOnt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjY6Il90b2tlbiI7czo0MDoiZDUwOHBnbTh0cXhNQ0JzdDZjTVhnUzF6VFpIQjBvQmZCQjRQcWh4eCI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MjtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJFRTTHI1LnNIQzZEVVRvUS8vaHNTYXVOS3FXMXNMYWxFU0ZTV05GU1RyLzlFaHFrT3ZiR0dHIjtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCRUU0xyNS5zSEM2RFVUb1EvL2hzU2F1TktxVzFzTGFsRVNGU1dORlNUci85RWhxa092YkdHRyI7fQ==', 1636825618),
-('d1JH9A9Y8N57kf0DvBMRxg56nW3AdIfH98n14M5O', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiYmYyQ2YybkdFVm16eGI4Qk5ITDhDSzQ3Z1BqVHU3dGtrZlduVnFXVyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC91c2VyL2NoYW5nZS9wYXNzd29yZCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMCRUU0xyNS5zSEM2RFVUb1EvL2hzU2F1TktxVzFzTGFsRVNGU1dORlNUci85RWhxa092YkdHRyI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkVFNMcjUuc0hDNkRVVG9RLy9oc1NhdU5LcVcxc0xhbEVTRlNXTkZTVHIvOUVocWtPdmJHR0ciO30=', 1636898320),
-('FR0stoc5BLVxsh1IPembYnMTUbOWr8qgG3oEncTs', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiY242NjBjbjN4c3pQQ1F5bGg2a01CcmR1U3RlaDkwUnRIeVJmdm1GNiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9icmFuZC92aWV3Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MjoibG9naW5fYWRtaW5fNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1636914101);
+('69Jwx7PuFWbJuDQu4TVPWWrWDvUkxDgsvG3tj5Hp', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiSVVMSVVxTDJJR2tRY0t2YnpqOTB5VHhFa1RuaHZtc2NUamllRGFQYSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYXRlZ29yeS9zdWJjYXRlZ29yeS9hamF4LzEiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUyOiJsb2dpbl9hZG1pbl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1637253469),
+('98Nhudd9iN19gQHw4Lx1vcBoSlm3LZh7LYM7Gn1j', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMlQzcGkyOVg0YUl2NGhiM2gwNkdKajVrMEtlTTJhejBJdk5OeHJTdiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYXRlZ29yeS9zdWIvc3ViL3ZpZXciO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1637273897),
+('LMegdRPBb3zLkgmk5Jf7K6ajUDqVYUlgC0Zn4n4x', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoieGE4ZERwd0V1ckdSc3hkOGtzOGl4Q096c1V4aGRqZlBORjBXdlZ6SCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYXRlZ29yeS9zdWIvc3ViL3ZpZXciO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUyOiJsb2dpbl9hZG1pbl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1637425742);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sub_categories`
+--
+
+DROP TABLE IF EXISTS `sub_categories`;
+CREATE TABLE IF NOT EXISTS `sub_categories` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL,
+  `subcategory_name_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subcategory_name_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subcategory_slug_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subcategory_slug_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sub_categories`
+--
+
+INSERT INTO `sub_categories` (`id`, `category_id`, `subcategory_name_en`, `subcategory_name_hin`, `subcategory_slug_en`, `subcategory_slug_hin`, `created_at`, `updated_at`) VALUES
+(9, 1, 'Laptop', 'लैपटॉप', 'laptop', 'लैपटॉप', NULL, NULL),
+(2, 2, 'Bath and Body', 'स्नान और शरीर', 'bath-and-body', 'स्नान-और-शरीर', NULL, NULL),
+(4, 3, 'Men\'s T Shirt', 'पुरुषों की टी शर्ट', 'men\'s-t-shirt', 'पुरुषों-की-टी-शर्ट', NULL, NULL),
+(5, 3, 'Women\'s T Shirt', 'महिलाओं की टी शर्ट', 'women\'s-t-shirt', 'महिलाओं-की-टी-शर्ट', NULL, NULL),
+(6, 1, 'Smartphone', 'स्मार्टफोन', 'smartphone', 'स्मार्टफोन', NULL, '2021-11-18 00:56:32');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sub_sub_categories`
+--
+
+DROP TABLE IF EXISTS `sub_sub_categories`;
+CREATE TABLE IF NOT EXISTS `sub_sub_categories` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL,
+  `subcategory_id` int(11) NOT NULL,
+  `subsubcategory_name_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subsubcategory_name_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subsubcategory_slug_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subsubcategory_slug_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sub_sub_categories`
+--
+
+INSERT INTO `sub_sub_categories` (`id`, `category_id`, `subcategory_id`, `subsubcategory_name_en`, `subsubcategory_name_hin`, `subsubcategory_slug_en`, `subsubcategory_slug_hin`, `created_at`, `updated_at`) VALUES
+(1, 1, 9, 'Laptops and Notebooks', 'लैपटॉप और नोटबुक', 'laptops-and-notebooks', 'लैपटॉप-और-नोटबुक', NULL, NULL),
+(2, 1, 9, 'Gaming Laptops', 'गेमिंग लैपटॉप', 'gaming-laptops', 'गेमिंग-लैपटॉप', NULL, NULL),
+(3, 1, 9, 'MacBook', 'मैकबुक', 'macbook', 'मैकबुक', NULL, NULL),
+(4, 1, 6, 'Realme Phones', 'रियलमी फोन', 'realme-phones', 'रियलमी-फोन', NULL, NULL),
+(5, 1, 6, 'Samsung Phone', 'सैमसंग फोन', 'samsung-phone', 'सैमसंग-फोन', NULL, NULL),
+(6, 1, 6, 'Vivo Phones', 'लाइव फ़ोन', 'vivo-phones', 'लाइव-फ़ोन', NULL, NULL),
+(7, 2, 2, 'Body Scrubs', 'बॉडी स्क्रब', 'body-scrubs', 'बॉडी-स्क्रब', NULL, NULL),
+(8, 2, 2, 'Foot Care', 'पैरों की देखभाल', 'foot-care', 'पैरों-की-देखभाल', NULL, NULL);
 
 -- --------------------------------------------------------
 
