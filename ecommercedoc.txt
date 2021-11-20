@@ -3208,7 +3208,25 @@ prior to the Lesson the delete is really already done.
 
    (152) Sub SubCategory Crud Part 5   
 
-    
+ In our sub_subcategory_view we create our delete link
+ <a href="{{ route('subsubcategory.delete',$item->id) }}" class="btn btn-danger" title="Delete Data" id="delete">
+
+
+ Next our web route
+ Route::get('/sub/sub/delete/{id}', [SubCategoryController::class, 'SubSubCategoryDelete'])->name('subsubcategory.delete'); 
+
+Next the SubSubCategoryDelete method
+    public function SubSubCategoryDelete($id){
+       SubSubCategory::findOrFail($id)->delete();
+        $notification = array(
+            'message' => 'SubSubCategory Deleted Successfully',
+            'alert-type' => 'info',
+        );
+        return redirect()->back()->with($notification);
+    }
+
+(153) Add Product Database and Page Design Part 1
+
 
 
 
