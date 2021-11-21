@@ -3361,6 +3361,12 @@ adding the category select three times.
 (155) Add Product Database and Page Design Part 3
 
 Finishing product_add
+We add more fields and Copy the Tags example from forms_advanced.html
+We also had to mod editor.js to support 2 instances of CKEDIT
+See product_add.blade.php for details
+
+
+(156) Add Product Database and Page Design Part 4
 
 
 
