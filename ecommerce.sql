@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 20, 2021 at 06:52 PM
+-- Generation Time: Nov 21, 2021 at 10:44 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.3.21
 
@@ -98,18 +98,18 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `categories`
 --
 
 INSERT INTO `categories` (`id`, `category_name_en`, `category_name_hin`, `category_slug_en`, `category_slug_hin`, `category_icon`, `created_at`, `updated_at`) VALUES
-(1, 'Electronic Devices', 'इलेक्ट्रॉनिक उपकरणों', 'electronic-devices', 'इलेक्ट्रॉनिक-उपकरणों', 'fa fa-id-card-o', NULL, '2021-11-17 21:28:57'),
-(2, 'Health and Beauty', 'आरोग्य और सुंदरता', 'health-and-beauty', 'आरोग्य-और-सुंदरता', 'fa fa-telegram', NULL, NULL),
-(3, 'Tshirt', 'टी शर्ट', 'tshirt', 'टी-शर्ट', 'fa fa-handshake-o', NULL, NULL),
-(4, 'Sports and Outdoor', 'खेल और आउटडोर', 'sports-and-outdoor', 'खेल-और-आउटडोर', 'fa fa-asterisk', NULL, NULL),
-(5, 'Home Appliances', 'घरेलू उपकरण', 'home-appliances', 'घरेलू-उपकरण', 'fa fa-bar-chart', NULL, NULL);
+(11, 'Beauty', 'सुंदरता', 'beauty', 'सुंदरता', 'fa fa-id-card-o', NULL, NULL),
+(10, 'Appliances', 'उपकरण', 'appliances', 'उपकरण', 'fa-fa-telegram', NULL, NULL),
+(9, 'Sweet Home', 'प्यारा घर', 'sweet-home', 'प्यारा-घर', 'fa fa-shopping-cart', NULL, NULL),
+(7, 'Fashion', 'फैशन', 'fashion', 'फैशन', 'fa fa-ravelry', NULL, NULL),
+(8, 'Electronics', 'इलेक्ट्रानिक्स', 'electronics', 'इलेक्ट्रानिक्स', 'fa fa-user', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -281,7 +281,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('LMegdRPBb3zLkgmk5Jf7K6ajUDqVYUlgC0Zn4n4x', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoieGE4ZERwd0V1ckdSc3hkOGtzOGl4Q096c1V4aGRqZlBORjBXdlZ6SCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYXRlZ29yeS9zdWIvc3ViL3ZpZXciO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUyOiJsb2dpbl9hZG1pbl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1637430318);
+('ewNOaRaMw8BRJdbBCvlPfeDit2LKj7vBriuArxaL', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZnVURDdKVzNqTXBEcG5teU05a3dyaVVYdlVzTW9jRTZzeWZkUkRLSSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYXRlZ29yeS9zdWIvc3ViL3ZpZXciO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUyOiJsb2dpbl9hZG1pbl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1637534524);
 
 -- --------------------------------------------------------
 
@@ -300,18 +300,29 @@ CREATE TABLE IF NOT EXISTS `sub_categories` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `sub_categories`
 --
 
 INSERT INTO `sub_categories` (`id`, `category_id`, `subcategory_name_en`, `subcategory_name_hin`, `subcategory_slug_en`, `subcategory_slug_hin`, `created_at`, `updated_at`) VALUES
-(9, 1, 'Laptop', 'लैपटॉप', 'laptop', 'लैपटॉप', NULL, NULL),
-(2, 2, 'Bath and Body', 'स्नान और शरीर', 'bath-and-body', 'स्नान-और-शरीर', NULL, NULL),
-(4, 3, 'Men\'s T Shirt', 'पुरुषों की टी शर्ट', 'men\'s-t-shirt', 'पुरुषों-की-टी-शर्ट', NULL, NULL),
-(5, 3, 'Women\'s T Shirt', 'महिलाओं की टी शर्ट', 'women\'s-t-shirt', 'महिलाओं-की-टी-शर्ट', NULL, NULL),
-(6, 1, 'Smartphone', 'स्मार्टफोन', 'smartphone', 'स्मार्टफोन', NULL, '2021-11-18 00:56:32');
+(14, 8, 'Computer Peripherals', 'कंप्यूटर पेरिफेरल्स', 'computer-peripherals', 'कंप्यूटर-पेरिफेरल्स', NULL, NULL),
+(13, 7, 'Women\'s Footwear', 'महिलाओं के जूते', 'women\'s-footwear', 'महिलाओं-के-जूते', NULL, NULL),
+(12, 7, 'Men\'s Footwear', 'पुरुषों के जूते', 'men\'s-footwear', 'पुरुषों-के-जूते', NULL, NULL),
+(10, 7, 'Men\'s Shirts', 'पुरुषों की कमीज', 'men\'s-shirts', 'पुरुषों-की-कमीज', NULL, NULL),
+(11, 7, 'Men\'s Pants', 'पुरुषों की पैंट', 'men\'s-pants', 'पुरुषों-की-पैंट', NULL, NULL),
+(15, 8, 'Mobile Accessories', 'मोबाइल से जुड़े सामान', 'mobile-accessories', 'मोबाइल-से-जुड़े-सामान', NULL, NULL),
+(16, 8, 'Gaming', 'गेमिंग', 'gaming', 'गेमिंग', NULL, NULL),
+(17, 9, 'Home Furnishings', 'घर का सामान', 'home-furnishings', 'घर-का-सामान', NULL, NULL),
+(18, 9, 'Living Room', 'लिविंग रूम', 'living-room', 'लिविंग-रूम', NULL, NULL),
+(19, 9, 'Home Decor', 'गृह सज्जा', 'home-decor', 'गृह-सज्जा', NULL, NULL),
+(20, 10, 'Televisions', 'टेलीविजन', 'televisions', 'टेलीविजन', NULL, NULL),
+(21, 10, 'Washing Machines', 'वाशिंग मशीन', 'washing-machines', 'वाशिंग-मशीन', NULL, NULL),
+(22, 10, 'Refrigerators', 'रेफ्रिजरेटर', 'refrigerators', 'रेफ्रिजरेटर', NULL, NULL),
+(23, 11, 'Beauty and Personal Care', 'सौंदर्य और व्यक्तिगत देखभाल', 'beauty-and-personal-care', 'सौंदर्य-और-व्यक्तिगत-देखभाल', NULL, NULL),
+(24, 11, 'Food and Drinks', 'खाद्य और पेय', 'food-and-drinks', 'खाद्य-और-पेय', NULL, NULL),
+(25, 11, 'Baby Care', 'बेबी केयर', 'baby-care', 'बेबी-केयर', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -331,21 +342,61 @@ CREATE TABLE IF NOT EXISTS `sub_sub_categories` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `sub_sub_categories`
 --
 
 INSERT INTO `sub_sub_categories` (`id`, `category_id`, `subcategory_id`, `subsubcategory_name_en`, `subsubcategory_name_hin`, `subsubcategory_slug_en`, `subsubcategory_slug_hin`, `created_at`, `updated_at`) VALUES
-(1, 1, 9, 'Laptops and Notebooks', 'लैपटॉप और नोटबुक', 'laptops-and-notebooks', 'लैपटॉप-और-नोटबुक', NULL, NULL),
-(2, 1, 9, 'Gaming Laptops', 'गेमिंग लैपटॉप', 'gaming-laptops', 'गेमिंग-लैपटॉप', NULL, NULL),
-(3, 1, 9, 'MacBook', 'मैकबुक', 'macbook', 'मैकबुक', NULL, NULL),
-(4, 1, 6, 'Realme Phones', 'रियलमी फोन', 'realme-phones', 'रियलमी-फोन', NULL, NULL),
-(5, 1, 6, 'Samsung Phone', 'सैमसंग फोन', 'samsung-phone', 'सैमसंग-फोन', NULL, NULL),
-(6, 1, 6, 'Vivo Phones', 'लाइव फ़ोन', 'vivo-phones', 'लाइव-फ़ोन', NULL, '2021-11-20 22:29:52'),
-(7, 2, 2, 'Body Scrubs', 'बॉडी स्क्रब', 'body-scrubs', 'बॉडी-स्क्रब', NULL, NULL),
-(8, 2, 2, 'Foot Care', 'पैरों की देखभाल', 'foot-care', 'पैरों-की-देखभाल', NULL, NULL);
+(15, 7, 11, 'Men\'s Cargos', 'पुरुषों का कार्गो', 'men\'s-cargos', 'पुरुषों-का-कार्गो', NULL, NULL),
+(14, 7, 11, 'Men\'s Trousers', 'पुरुषों की पतलून', 'men\'s-trousers', 'पुरुषों-की-पतलून', NULL, NULL),
+(13, 7, 11, 'Men\'s Jeans', 'पुरुषों की जींस', 'men\'s-jeans', 'पुरुषों-की-जींस', NULL, NULL),
+(12, 7, 10, 'Men\'s Kurtas', 'पुरुषों की कुर्ता', 'men\'s-kurtas', 'पुरुषों-की-कुर्ता', NULL, NULL),
+(11, 7, 10, 'Men\'s Casual Shirts', 'पुरुषों की आकस्मिक शर्ट्स', 'men\'s-casual-shirts', 'पुरुषों-की-आकस्मिक-शर्ट्स', NULL, NULL),
+(10, 7, 10, 'Men\'s Tshirt', 'पुरुषों की टीशर्ट', 'men\'s-tshirt', 'पुरुषों-की-टीशर्ट', NULL, NULL),
+(16, 7, 12, 'Men\'s Sports Shoes', 'पुरुषों के खेल के जूते', 'men\'s-sports-shoes', 'पुरुषों-के-खेल-के-जूते', NULL, NULL),
+(17, 7, 12, 'Men\'s Casual Shoes', 'पुरुषों के आरामदायक जूते', 'men\'s-casual-shoes', 'पुरुषों-के-आरामदायक-जूते', NULL, NULL),
+(18, 7, 12, 'Men\'s Formal Shoes', 'पुरुषों के औपचारिक जूते', 'men\'s-formal-shoes', 'पुरुषों-के-औपचारिक-जूते', NULL, NULL),
+(19, 7, 13, 'Women\'s Flats', 'महिलाओं के फ्लैट', 'women\'s-flats', 'महिलाओं-के-फ्लैट', NULL, NULL),
+(20, 7, 13, 'Women\'s Heels', 'महिलाओं की हील्स', 'women\'s-heels', 'महिलाओं-की-हील्स', NULL, NULL),
+(21, 7, 13, 'Women\'s Sneakers and Athletic', 'महिला स्नीकर्स और एथलेटिक', 'women\'s-sneakers-and-athletic', 'महिला-स्नीकर्स-और-एथलेटिक', NULL, NULL),
+(22, 8, 14, 'Printers', 'प्रिंटर', 'printers', 'प्रिंटर', NULL, NULL),
+(23, 8, 14, 'Monitors', 'मॉनिटर्स', 'monitors', 'मॉनिटर्स', NULL, NULL),
+(24, 8, 14, 'Projectors', 'प्रोजेक्टर', 'projectors', 'प्रोजेक्टर', NULL, NULL),
+(25, 8, 15, 'Plain Cases', 'सादा मामले', 'plain-cases', 'सादा-मामले', NULL, NULL),
+(26, 8, 15, 'Designer Cases', 'डिजाइनर मामले', 'designer-cases', 'डिजाइनर-मामले', NULL, NULL),
+(27, 8, 15, 'Screen Guards', 'स्क्रीन गार्ड', 'screen-guards', 'स्क्रीन-गार्ड', NULL, NULL),
+(28, 8, 16, 'Gaming Mouse', 'गेमिंग माउस', 'gaming-mouse', 'गेमिंग-माउस', NULL, NULL),
+(29, 8, 16, 'Gaming Keyboards', 'गेमिंग कीबोर्ड', 'gaming-keyboards', 'गेमिंग-कीबोर्ड', NULL, NULL),
+(30, 8, 16, 'Gaming Mousepads', 'गेमिंग माउसपैड', 'gaming-mousepads', 'गेमिंग-माउसपैड', NULL, NULL),
+(31, 9, 17, 'Bed Liners', 'बेड लाइनर्स', 'bed-liners', 'बेड-लाइनर्स', NULL, '2021-11-22 03:01:45'),
+(32, 9, 17, 'Bedsheets', 'बेडशीट', 'bedsheets', 'बेडशीट', NULL, NULL),
+(33, 9, 17, 'Blankets', 'कंबल', 'blankets', 'कंबल', NULL, NULL),
+(34, 9, 18, 'Tv Stands', 'टीवी स्टैंड', 'tv-stands', 'टीवी-स्टैंड', NULL, NULL),
+(35, 9, 18, 'Dining Sets', 'डाइनिंग सेट', 'dining-sets', 'डाइनिंग-सेट', NULL, NULL),
+(36, 9, 18, 'Coffee Tables', 'कॉफी टेबल', 'coffee-tables', 'कॉफी-टेबल', NULL, NULL),
+(37, 9, 19, 'Lighting', 'प्रकाश', 'lighting', 'प्रकाश', NULL, NULL),
+(38, 9, 19, 'Clocks', 'घड़ियां', 'clocks', 'घड़ियां', NULL, NULL),
+(39, 9, 19, 'Wall Decor', 'दीवार की सजावट', 'wall-decor', 'दीवार-की-सजावट', NULL, NULL),
+(40, 10, 20, 'Big Screen TVs', 'बिग स्क्रीन टीवी', 'big-screen-tvs', 'बिग-स्क्रीन-टीवी', NULL, NULL),
+(41, 10, 20, 'Smart TVs', 'स्मार्ट टीवी', 'smart-tvs', 'स्मार्ट-टीवी', NULL, NULL),
+(42, 10, 20, 'OLED TVs', 'OLED टीवी', 'oled-tvs', 'OLED-टीवी', NULL, NULL),
+(43, 10, 21, 'Washer Dryers', 'वॉशर ड्रायर', 'washer-dryers', 'वॉशर-ड्रायर', NULL, NULL),
+(44, 10, 21, 'Washers', 'वाशर', 'washers', 'वाशर', NULL, NULL),
+(45, 10, 21, 'Energy Efficient', 'ऊर्जा कुशल', 'energy-efficient', 'ऊर्जा-कुशल', NULL, NULL),
+(46, 10, 22, 'Single Door', 'सिंगल डोर', 'single-door', 'सिंगल-डोर', NULL, NULL),
+(47, 10, 22, 'Double Door', 'डबल डोर', 'double-door', 'डबल-डोर', NULL, NULL),
+(48, 10, 22, 'Mini Refrigerators', 'मिनी रेफ्रिजरेटर', 'mini-refrigerators', 'मिनी-रेफ्रिजरेटर', NULL, NULL),
+(49, 11, 23, 'Eye Shadow', 'आई शैडो', 'eye-shadow', 'आई-शैडो', NULL, NULL),
+(50, 11, 23, 'Lipstick', 'लिपस्टिक', 'lipstick', 'लिपस्टिक', NULL, NULL),
+(51, 11, 23, 'Hair Care', 'बालों की देखभाल', 'hair-care', 'बालों-की-देखभाल', NULL, NULL),
+(52, 11, 24, 'Beverages', 'पेय पदार्थ', 'beverages', 'पेय-पदार्थ', NULL, NULL),
+(53, 11, 24, 'Chocolates', 'चॉकलेट', 'chocolates', 'चॉकलेट', NULL, NULL),
+(54, 11, 24, 'Snacks', 'स्नैक्स', 'snacks', 'स्नैक्स', NULL, NULL),
+(55, 11, 25, 'Baby Diapers', 'बेबी डायपर', 'baby-diapers', 'बेबी-डायपर', NULL, NULL),
+(56, 11, 25, 'Baby Wipes', 'बेबी वाइप्स', 'baby-wipes', 'बेबी-वाइप्स', NULL, NULL),
+(57, 11, 25, 'Baby Food', 'बेबी फ़ूड', 'baby-food', 'बेबी-फ़ूड', NULL, NULL);
 
 -- --------------------------------------------------------
 

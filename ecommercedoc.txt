@@ -3434,6 +3434,11 @@ Next we create our GetSubSubCategory method in SubCategoryController
 
 (157)  Add Some Demo Data for Categories
 
+The Demo Data has been inserted
+
+
+(158) Solve Select Category Javascript brand_slug_en
+
 
 
 
