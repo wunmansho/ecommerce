@@ -3437,7 +3437,11 @@ Next we create our GetSubSubCategory method in SubCategoryController
 The Demo Data has been inserted
 
 
-(158) Solve Select Category Javascript brand_slug_en
+(158) Solve Select Category Javascript error
+
+I inserted an additional fix
+
+(159) Product Upload Part 1
 
 
 
