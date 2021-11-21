@@ -3244,6 +3244,9 @@ so we convert the Pages menu to this
                     </li>
 
 Next we add our routing prefix by cloning and changing the Brand routes in web.php
+
+use App\Http\Controllers\Backend\ProductController;
+
 Route::prefix('product')->group(function(){
     Route::get('/add', [ProductController::class, 'AddProduct'])->name('add-product'); 
 });
@@ -3325,6 +3328,39 @@ Now we migrate
 php artisan migrate
 
 (154) Add Product Database and Page Design Part 2
+
+For ProductController we add our use statements and the AddProduct method
+use App\Models\Category;
+use App\Models\SubCategory;
+use App\Models\SubSubCategory;
+use App\Models\Brand;
+use App\Models\Product;
+
+    public function AddProduct(){
+        $categories = Category::latest()->get();
+        $brands = Brand::latest()->get();
+        return view('backend.product.product_add',compact('categories','brands'));
+
+    }
+
+
+We create our backend.product.product_add view
+and copy in the std template
+@extends('admin.admin_master')
+@section('admin')
+
+
+@endsection
+
+Now we test our Add Product link to make sure everything holds up
+
+So from our templates dark themes we extract the content wrapper from forms_validation.html
+and then remove the begin and end content wrapper tags.  We then trim it down and massage it like so
+adding the category select three times.
+
+(155) Add Product Database and Page Design Part 3
+
+Finishing product_add
 
 
 
