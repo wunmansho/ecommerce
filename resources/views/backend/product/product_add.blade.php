@@ -297,12 +297,12 @@
                                                     <h5>Main Thumbnail<span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <input type="file" name="product_thumbnail" id="product_thumbnail"
-                                                            class="form-control">
+                                                            class="form-control" onChange="mainThumbUrl(this)"  required="">
                                                     </div>
                                                     @error('product_thumbnail')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
-
+                                                    <img src="" id="mainThmb">
                                                 </div>
 
                                             </div>
@@ -310,12 +310,12 @@
                                                 <div class="form-group">
                                                     <h5>Multiple Image<span class="text-danger">*</span></h5>
                                                     <div class="controls">
-                                                        <input type="file" name="multi_img[]" class="form-control">
+                                                        <input type="file" name="multi_img[]" class="form-control" multiple=""  id="multiImg" required="">
                                                     </div>
                                                     @error('multi_img')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
-
+                                                    <div class="row" id="preview_img"></div>
                                                 </div>
 
                                             </div>
@@ -357,8 +357,8 @@
                                                     <h5>Long Description English<span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <textarea id="editor1" name="long_desc_en" rows="10" cols="80">
-                                                        Long Description English
-                                                    </textarea>
+                                                            Long Description English
+                                                        </textarea>
 
                                                     </div>
 
@@ -369,8 +369,8 @@
                                                     <h5>Long Description Hindi<span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <textarea id="editor2" name="long_desc_hin" rows="10" cols="80">
-                                            Long Description Hindi
-                                                        </textarea>
+                                                Long Description Hindi
+                                                            </textarea>
 
                                                     </div>
 
@@ -453,11 +453,11 @@
                         type: "GET",
                         dataType: "json",
                         success: function(data) {
-                           
+
                             $('select[name="subsubcategory_id"]').html('');
                             var d = $('select[name="subcategory_id"]').empty();
                             $('select[name="subcategory_id"]').append(
-                                    '<option value="' + '' + '">' + '' + '</option>');
+                                '<option value="' + '' + '">' + '' + '</option>');
 
                             $.each(data, function(key, value) {
                                 $('select[name="subcategory_id"]').append(
@@ -500,7 +500,7 @@
 
 
     <script type="text/javascript">
-        function mainThamUrl(input) {
+        function mainThumbUrl(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function(e) {
@@ -521,7 +521,7 @@
                     var data = $(this)[0].files; //this file data
 
                     $.each(data, function(index, file) { //loop though each file
-                        if (/(\.|\/)(gif|jpe?g|png)$/i.test(file
+                        if (/(\.|\/)(gif|jpe?g|png|jpg)$/i.test(file
                                 .type)) { //check supported file type
                             var fRead = new FileReader(); //new filereader
                             fRead.onload = (function(file) { //trigger function on successful read
