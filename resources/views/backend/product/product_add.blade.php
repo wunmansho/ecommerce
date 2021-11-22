@@ -203,7 +203,7 @@
                                                     <div class="controls">
                                                         <input type="text" name="product_size_en" id="product_size_en"
                                                             class="form-control" value="Small,Medium,Large"
-                                                            data-role="tagsinput" required="">
+                                                            data-role="tagsinput">
                                                     </div>
                                                     @error('product_size_en')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -218,7 +218,7 @@
                                                     <div class="controls">
                                                         <input type="text" name="product_size_hin" id="product_size_hin"
                                                             class="form-control" value="Small,Medium,Large"
-                                                            data-role="tagsinput" required="">
+                                                            data-role="tagsinput">
                                                     </div>
                                                     @error('product_size_hin')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -237,7 +237,7 @@
                                                     <h5>Product Color En<span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <input type="text" name="product_color_en" id="product_color_en"
-                                                            class="form-control" value="Red,Black,White" data-role="tagsinput" required="">
+                                                            class="form-control" value="Red,Black,White" data-role="tagsinput">
                                                     </div>
                                                     @error('product_color_en')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -251,7 +251,7 @@
                                                     <h5>Product Color Hin<span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <input type="text" name="product_color_hin" id="product_color_hin"
-                                                            class="form-control" value="Red,Black,White" data-role="tagsinput" required="">
+                                                            class="form-control" value="Red,Black,White" data-role="tagsinput">
                                                     </div>
                                                     @error('product_color_hin')
                                                         <span class="text-danger">{{ $message }}</span>

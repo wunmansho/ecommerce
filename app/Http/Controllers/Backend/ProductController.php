@@ -56,7 +56,7 @@ class ProductController extends Controller
            'special_offer' => $request->special_offer,
            'special_deals' => $request->special_deals,
 
-           'product__thumbnail' => $save_url,
+           'product_thumbnail' => $save_url,
            'status' => 1,
            'created_at' => Carbon::now(),   
  
@@ -88,8 +88,8 @@ class ProductController extends Controller
 			'message' => 'Product Inserted Successfully',
 			'alert-type' => 'success'
 		);
-        return redirect()->back()->with($notification); 
-	//	return redirect()->route('manage-product')->with($notification);
+ 
+		return redirect()->route('manage-product')->with($notification);
     }
 
     public function ManageProduct(){
