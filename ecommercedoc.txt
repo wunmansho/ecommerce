@@ -3533,14 +3533,13 @@ Now we create our method in ProductController
 use App\Models\MultiImg;
 use Carbon\Carbon;
 use Image;
-    public function StoreProduct(Request $request){
+     public function StoreProduct(Request $request){
         $image = $request->file('product_thumbnail');
     	$name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
     	Image::make($image)->resize(917,1000)->save('upload/products/thumbnail/'.$name_gen);
     	$save_url = 'upload/products/thumbnail/'.$name_gen;
 
-        Product::insert([
-           'brand_id' => $request->brand_id, 
+        $product_id = Product::insertGetId([           'brand_id' => $request->brand_id, 
            'category_id' => $request->category_id,
            'subcategory_id' => $request->subcategory_id,
            'subsubcategory_id' => $request->subsubcategory_id,
@@ -3592,7 +3591,7 @@ use Image;
 
       }
 
-      ////////// Een Multiple Image Upload Start ///////////
+      ////////// End Multiple Image Upload Start ///////////
 
 
        $notification = array(
@@ -3600,14 +3599,24 @@ use Image;
 			'alert-type' => 'success'
 		);
 
-		return redirect()->route('manage-product')->with($notification);
+		 return redirect()->back()->with($notification); 
     }
 
 We create the folder /public/upload/products/thumbnail for our product images
+We create the folder /public/upload/products/multi-image for our product images
 
 We go back to product_add and mark most of our fields up to long desc as required=""
 
 (161)  Product Upload Part 3
+
+We add records
+
+(162)  Manage Products Read All Product Data
+
+
+
+
+
 
 
 
