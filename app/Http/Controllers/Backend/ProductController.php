@@ -110,6 +110,8 @@ class ProductController extends Controller
         return view('backend.product.product_edit',compact('categories','brands','subcategory','subsubcategory','products','multiImgs'));
     }
 
+
+
     public function ProductDataUpdate(Request $request){
        
         $product_id = $request->id;
@@ -257,5 +259,35 @@ class ProductController extends Controller
 
         return redirect()->back()->with($notification);
     }
-    
+
+    public function ViewProduct($id){
+        $multiImgs = MultiImg::where('product_id',$id)->get();
+        $products = Product::findOrFail($id);
+        $categories = Category::findOrFail($products->category_id);
+        $brands = Brand::latest()->findOrFail($products->brand_id);
+        $subcategory = SubCategory::findOrFail($products->subcategory_id);
+        $subsubcategory = SubSubCategory::findOrFail($products->subsubcategory_id);
+       
+        return view('backend.product.product_details',compact('categories','brands','subcategory','subsubcategory','products','multiImgs'));
+    }
+
+    public function ProductInactive($id){
+        Product::findOrFail($id)->update(['status' => 0 ]);
+        $notification = array(
+            'message' => 'Product Inactive',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
+
+    public function ProductActive($id){
+        Product::findOrFail($id)->update(['status' => 1 ]);
+        $notification = array(
+            'message' => 'Product Active',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
 }
