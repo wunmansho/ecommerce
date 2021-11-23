@@ -4417,6 +4417,97 @@ in ProductController
 
 (168) Manage Product Update Single & Multiple Image Part 3
 
+product_edit
+                       <!-- /////////////// Start Thumbnail Image Update Area ////////////// -->
+
+        <section class="content">
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="box bt-3 border-info">
+                      <div class="box-header">
+                        <h4 class="box-title">Product Thumbnail Image <strong>Update</strong></h4>
+                      </div>
+
+                      <form method="post" action="{{ route('update-product-thumbnail') }}" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $products->id }}">
+                        <input type="hidden" name="old_img" value="{{ $products->product_thumbnail }}">
+                        <div class="row row-sm">
+                           
+                            <div class="col-md-3">
+
+                                <div class="card">
+                                    <img src="{{ asset($products->product_thumbnail) }}" class="card-img-top" style="height: 130px; width: 280px;">
+                                    <div class="card-body">
+                                    <p class="card-text">
+                                          <div class="form-group">
+                                              <label class="form-control-label">Change Image<span class="tx-danger">*</span></label>
+                                              <input type="file" name="product_thumbnail" id="product_thumbnail"
+                                              class="form-control" onChange="mainThumbUrl(this)" >
+                                              <img src="" id="mainThmb">
+
+                                                                            </div>
+                                      </p>
+                                    </div>
+                                  </div>
+
+
+                            </div> {{-- End col md 3 --}}
+                           
+                        </div>
+
+                        <div class="form-layout-footer">
+                            <input type="submit" class="btn btn-rounded btn-primary mb-5"
+                            value="Update Image">
+       
+                        </div>
+                    
+                    </form>
+                     </div>
+                  </div>
+
+            </div> <!-- end row -->
+
+
+
+        </section>
+               <!-- /////////////// End Thumbnail Image Update Area ////////////// -->
+
+web.php
+   Route::post('/thumbnail/update', [ProductController::class, 'ThumbnailImageUpdate'])->name('update-product-thumbnail'); 
+
+
+
+ProductController
+    public function ThumbnailImageUpdate(Request $request){
+       $pro_id = $request->id;
+       $oldImage = $request->old_img;
+       unlink($oldImage);
+       
+       $image = $request->file('product_thumbnail');
+       $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+       Image::make($image)->resize(917,1000)->save('upload/products/thumbnail/'.$name_gen);
+       $save_url = 'upload/products/thumbnail/'.$name_gen;
+      
+       Product::findOrFail($pro_id)->update([
+        'product_thumbnail' => $save_url,
+        'updated_at' => Carbon::now(),
+
+    ]);
+    $notification = array(
+        'message' => 'Product Thumbnail Image Updated Successfully',
+        'alert-type' => 'info'
+    );
+
+
+    return redirect()->back()->with($notification);
+
+       
+    }
+
+
+(169) Multiple image Delete
 
 
 

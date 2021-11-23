@@ -482,6 +482,62 @@
         </section>
                <!-- /////////////// End Multiple Image Update Area ////////////// -->
 
+                       <!-- /////////////// Start Thumbnail Image Update Area ////////////// -->
+
+        <section class="content">
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="box bt-3 border-info">
+                      <div class="box-header">
+                        <h4 class="box-title">Product Thumbnail Image <strong>Update</strong></h4>
+                      </div>
+
+                      <form method="post" action="{{ route('update-product-thumbnail') }}" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $products->id }}">
+                        <input type="hidden" name="old_img" value="{{ $products->product_thumbnail }}">
+                        <div class="row row-sm">
+                           
+                            <div class="col-md-3">
+
+                                <div class="card">
+                                    <img src="{{ asset($products->product_thumbnail) }}" class="card-img-top" style="height: 130px; width: 280px;">
+                                    <div class="card-body">
+                                    <p class="card-text">
+                                          <div class="form-group">
+                                              <label class="form-control-label">Change Image<span class="tx-danger">*</span></label>
+                                              <input type="file" name="product_thumbnail" id="product_thumbnail"
+                                              class="form-control" onChange="mainThumbUrl(this)" >
+                                              <img src="" id="mainThmb">
+
+                                                                            </div>
+                                      </p>
+                                    </div>
+                                  </div>
+
+
+                            </div> {{-- End col md 3 --}}
+                           
+                        </div>
+
+                        <div class="form-layout-footer">
+                            <input type="submit" class="btn btn-rounded btn-primary mb-5"
+                            value="Update Image">
+       
+                        </div>
+                    
+                    </form>
+                     </div>
+                  </div>
+
+            </div> <!-- end row -->
+
+
+
+        </section>
+               <!-- /////////////// End Thumbnail Image Update Area ////////////// -->
+
     </div>
 
     <script type="text/javascript">
