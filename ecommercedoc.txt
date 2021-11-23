@@ -4531,6 +4531,135 @@ ProductController
         return redirect()->back()->with($notification);
     }
 
+(169b) Multi Image Insert
+
+product_edit
+
+        <!-- /////////////// Start Multiple Image Insert Area ////////////// -->
+
+        <section class="content">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="box bt-3 border-info">
+                        <div class="box-header">
+                            <h4 class="box-title">Product Multiple Image <strong>Insert</strong></h4>
+                        </div>
+
+                        <form method="post" action="{{ route('insert-product-images') }}" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $products->id }}">
+                            <div class="row row-sm">
+                                <div class="col-md-3">
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                            </h5>
+                                            <p class="card-text">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Insert Image<span
+                                                        class="tx-danger">*</span></label>
+                                                <input type="file" name="multi_img2[]" class="form-control" multiple=""
+                                                    id="multiImg">
+                                                <div class="row" id="preview_img" class="card-img-top"
+                                                    style="height: 130px; width: 280px;"></div>
+
+                                            </div>
+
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+                                </div> {{-- End col md 3 --}}
+                            </div>
+
+                            <div class="form-layout-footer">
+                                <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Insert Images">
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div> <!-- end row -->
+
+
+
+        </section>
+        <!-- /////////////// End Multiple Image Insert Area ////////////// -->
+
+    <script>
+        $(document).ready(function() {
+            $('#multiImg').on('change', function() { //on file input change
+                if (window.File && window.FileReader && window.FileList && window
+                    .Blob) //check File API supported browser
+                {
+                    var data = $(this)[0].files; //this file data
+
+                    $.each(data, function(index, file) { //loop though each file
+                        if (/(\.|\/)(gif|jpe?g|png|jpg)$/i.test(file
+                                .type)) { //check supported file type
+                            var fRead = new FileReader(); //new filereader
+                            fRead.onload = (function(file) { //trigger function on successful read
+                                return function(e) {
+                                    var img = $('<img/>').addClass('thumb').attr('src',
+                                            e.target.result).width(80)
+                                        .height(80); //create image element 
+                                    $('#preview_img').append(
+                                        img); //append image to output element
+                                };
+                            })(file);
+                            fRead.readAsDataURL(file); //URL representing the file's data.
+                        }
+                    });
+
+                } else {
+                    alert("Your browser doesn't support File API!"); //if File API is absent
+                }
+            });
+        });
+    </script>
+
+    web.php
+    Route::post('/multiimg/insert', [ProductController::class, 'MultiImageInsert'])->name('insert-product-images'); 
+
+
+    ProductController
+    public function MultiImageInsert(Request $request){
+        $product_id = $request->id;
+                ////////// Multiple Image Upload Start ///////////
+
+      $images = $request->file('multi_img2');
+      foreach ($images as $img) {
+       	$make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
+    	Image::make($img)->resize(917,1000)->save('upload/products/multi-image/'.$make_name);
+    	$uploadPath = 'upload/products/multi-image/'.$make_name;
+
+    	MultiImg::insert([
+
+    		'product_id' => $product_id,
+    		'photo_name' => $uploadPath,
+    		'created_at' => Carbon::now(), 
+
+    	]);
+
+      }
+
+      ////////// End Multiple Image Upload  ///////////
+      $notification = array(
+        'message' => 'Product Images Inserted Successfully',
+        'alert-type' => 'info'
+    );
+
+
+    return redirect()->back()->with($notification);
+
+    }
+
+
+
 (170) Product Active Inactive
 
 

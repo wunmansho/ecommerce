@@ -64,11 +64,11 @@ class ProductController extends Controller
 
         ]);
 
-         ////////// Multiple Image Upload Start ///////////
+        ////////// Multiple Image Upload Start ///////////
 
       $images = $request->file('multi_img');
       foreach ($images as $img) {
-      	$make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
+       	$make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
     	Image::make($img)->resize(917,1000)->save('upload/products/multi-image/'.$make_name);
     	$uploadPath = 'upload/products/multi-image/'.$make_name;
 
@@ -82,7 +82,7 @@ class ProductController extends Controller
 
       }
 
-      ////////// End Multiple Image Upload Start ///////////
+      ////////// End Multiple Image Upload ///////////
 
 
        $notification = array(
@@ -163,8 +163,7 @@ class ProductController extends Controller
         $imgs = $request->multi_img;
 
         foreach ($imgs as $id => $img) {
-            $x = $img;
-            $imgDel = MultiImg::findOrFail($id);
+             $imgDel = MultiImg::findOrFail($id);
             unlink($imgDel->photo_name);
             $make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
 
@@ -187,6 +186,37 @@ class ProductController extends Controller
 
 
         return redirect()->back()->with($notification);
+    }
+
+    public function MultiImageInsert(Request $request){
+        $product_id = $request->id;
+                ////////// Multiple Image Upload Start ///////////
+
+      $images = $request->file('multi_img2');
+      foreach ($images as $img) {
+       	$make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
+    	Image::make($img)->resize(917,1000)->save('upload/products/multi-image/'.$make_name);
+    	$uploadPath = 'upload/products/multi-image/'.$make_name;
+
+    	MultiImg::insert([
+
+    		'product_id' => $product_id,
+    		'photo_name' => $uploadPath,
+    		'created_at' => Carbon::now(), 
+
+    	]);
+
+      }
+
+      ////////// End Multiple Image Upload  ///////////
+      $notification = array(
+        'message' => 'Product Images Inserted Successfully',
+        'alert-type' => 'info'
+    );
+
+
+    return redirect()->back()->with($notification);
+
     }
 
     public function ThumbnailImageUpdate(Request $request){
