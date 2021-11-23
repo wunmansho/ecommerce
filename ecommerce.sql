@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 21, 2021 at 10:44 PM
+-- Generation Time: Nov 22, 2021 at 10:37 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.3.21
 
@@ -177,7 +177,23 @@ CREATE TABLE IF NOT EXISTS `multi_imgs` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `multi_imgs`
+--
+
+INSERT INTO `multi_imgs` (`id`, `product_id`, `photo_name`, `created_at`, `updated_at`) VALUES
+(16, 6, 'upload/products/multi-image/1717169379562467.jpeg', '2021-11-23 03:32:14', NULL),
+(15, 5, 'upload/products/multi-image/1717164734865760.jpeg', '2021-11-23 02:18:24', NULL),
+(14, 5, 'upload/products/multi-image/1717164734731763.jpeg', '2021-11-23 02:18:24', NULL),
+(13, 5, 'upload/products/multi-image/1717164734598396.jpeg', '2021-11-23 02:18:24', NULL),
+(12, 4, 'upload/products/multi-image/1717161857044060.jpeg', '2021-11-23 01:32:40', NULL),
+(11, 4, 'upload/products/multi-image/1717161856921797.jpeg', '2021-11-23 01:32:40', NULL),
+(10, 4, 'upload/products/multi-image/1717161856743229.jpeg', '2021-11-23 01:32:40', NULL),
+(9, 4, 'upload/products/multi-image/1717161856608291.jpeg', '2021-11-23 01:32:39', NULL),
+(17, 6, 'upload/products/multi-image/1717169379663069.jpeg', '2021-11-23 03:32:14', NULL),
+(18, 6, 'upload/products/multi-image/1717169379756069.jpeg', '2021-11-23 03:32:14', NULL);
 
 -- --------------------------------------------------------
 
@@ -236,17 +252,17 @@ CREATE TABLE IF NOT EXISTS `products` (
   `product_qty` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_tags_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_tags_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product_size_en` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_size_en` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_size_hin` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `product_color_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product_color_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_color_en` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_color_hin` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `selling_price` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `discount_price` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `short_desc_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `short_desc_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `long_desc_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `long_desc_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product__thumbnail` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `short_desc_en` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `short_desc_hin` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `long_desc_en` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `long_desc_hin` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_thumbnail` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `hot_deals` int(11) DEFAULT NULL,
   `featured` int(11) DEFAULT NULL,
   `special_offer` int(11) DEFAULT NULL,
@@ -255,7 +271,16 @@ CREATE TABLE IF NOT EXISTS `products` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `brand_id`, `category_id`, `subcategory_id`, `subsubcategory_id`, `product_name_en`, `product_name_hin`, `product_slug_en`, `product_slug_hin`, `product_code`, `product_qty`, `product_tags_en`, `product_tags_hin`, `product_size_en`, `product_size_hin`, `product_color_en`, `product_color_hin`, `selling_price`, `discount_price`, `short_desc_en`, `short_desc_hin`, `long_desc_en`, `long_desc_hin`, `product_thumbnail`, `hot_deals`, `featured`, `special_offer`, `special_deals`, `status`, `created_at`, `updated_at`) VALUES
+(4, 6, 7, 10, 10, 'Printed Men Round Neck', 'प्रिंटेड मेन राउंड नेक', '', '', '453453', '200', 'Round Neck', 'Round Neck', 'Small,Medium,Large', 'Small,Medium,Large', 'Red,Black,White', 'Red,Black,White', '25.00', '20.00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'दर्द ही दर्द का प्यार है, मुख्य पारिस्थितिक समस्याएं हैं, लेकिन मैं इस तरह के समय को नीचे गिरने के लिए देता हूं, ताकि कुछ महान दर्द और दर्द हो। कम से कम आने के उद्देश्य से हममें से कौन किसी रोजगार का प्रयोग करे सिवाय उसके परिणाम का लाभ उठाने के। लेकिन फिल', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>', '<p>दर्द ही दर्द का प्यार है, मुख्य पारिस्थितिक समस्याएं हैं, लेकिन मैं इस तरह के समय को नीचे गिरने के लिए देता हूं, ताकि कुछ महान दर्द और दर्द हो। कम से कम आने के उद्देश्य से हममें से कौन किसी रोजगार का प्रयोग करे सिवाय उसके परिणाम का लाभ उठाने के। लेकिन फिल्म में जो दर्द है, उसकी निंदा करना लाजमी है, जिस खुशी में वह दर्द में अनाड़ी होने के दर्द से बचना चाहती है, उसका कोई नतीजा नहीं निकलता. वे अपवाद हैं जिनके लिए अंधे तरसते हैं, वे नहीं देखते हैं, वे वही हैं जो अपनी जिम्मेदारियों को उस गलती के लिए छोड़ देते हैं जो आत्मा की कठिनाइयों को शांत कर रही है।</p>', 'upload/products/thumbnail/1717161856467245.jpeg', 1, NULL, NULL, NULL, 1, '2021-11-23 01:32:39', NULL),
+(5, 7, 7, 10, 10, 'Striped Men\'s Hooded Neck Red', 'धारीदार पुरुषों की हुड वाली गर्दन लाल', '', '', '322342', '300', 'Neck Red', 'Neck Red', 'Small,Medium,Large', 'Small,Medium,Large', 'Red,Black,White', 'Red,Black,White', '30.00', '25.00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'दर्द ही दर्द का प्यार है, मुख्य पारिस्थितिक समस्याएं हैं, लेकिन मैं इस तरह के समय को नीचे गिरने के लिए देता हूं, ताकि कुछ महान दर्द और दर्द हो। कम से कम आने के उद्देश्य से हममें से कौन किसी रोजगार का प्रयोग करे सिवाय उसके परिणाम का लाभ उठाने के। लेकिन फिल्म में जो दर्द है, उसकी निंदा करना लाजमी है, जिस खुशी में वह दर्द में अनाड़ी होने के दर्द से बचना चाहती है, उसका कोई नतीजा नहीं निकलता.', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>', '<p>दर्द ही दर्द का प्यार है, मुख्य पारिस्थितिक समस्याएं हैं, लेकिन मैं इस तरह के समय को नीचे गिरने के लिए देता हूं, ताकि कुछ महान दर्द और दर्द हो। कम से कम आने के उद्देश्य से हममें से कौन किसी रोजगार का प्रयोग करे सिवाय उसके परिणाम का लाभ उठाने के। लेकिन फिल्म में जो दर्द है, उसकी निंदा करना लाजमी है, जिस खुशी में वह दर्द में अनाड़ी होने के दर्द से बचना चाहती है, उसका कोई नतीजा नहीं निकलता. वे अपवाद हैं जिनके लिए अंधे तरसते हैं, वे नहीं देखते हैं, वे वही हैं जो अपनी जिम्मेदारियों को उस गलती के लिए छोड़ देते हैं जो आत्मा की कठिनाइयों को शांत कर रही है।</p>', 'upload/products/thumbnail/1717164734473419.jpeg', NULL, 1, 1, NULL, 1, '2021-11-23 02:18:24', NULL),
+(6, 4, 8, 16, 29, 'Amkette EvoFox Fireblade LED', 'Amkette EvoFox Fireblade LED', '', '', '2222222', '200', 'LED', 'LED', 'Large', 'Large', 'Black', 'Black', '40.00', '35.00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'दर्द ही दर्द का प्यार है, मुख्य पारिस्थितिक समस्याएं हैं, लेकिन मैं इस तरह के समय को नीचे गिरने के लिए देता हूं, ताकि कुछ महान दर्द और दर्द हो। कम से कम आने के उद्देश्य से हममें से कौन किसी रोजगार का प्रयोग करे सिवाय उसके परिणाम का लाभ उठाने के। लेकिन फिल्म में जो दर्द है, उसकी निंदा करना लाजमी है, जिस खुशी में वह दर्द में अनाड़ी होने के दर्द से बचना चाहती है, उसका कोई नतीजा नहीं निकलता.', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>', '<p>दर्द ही दर्द का प्यार है, मुख्य पारिस्थितिक समस्याएं हैं, लेकिन मैं इस तरह के समय को नीचे गिरने के लिए देता हूं, ताकि कुछ महान दर्द और दर्द हो। कम से कम आने के उद्देश्य से हममें से कौन किसी रोजगार का प्रयोग करे सिवाय उसके परिणाम का लाभ उठाने के। लेकिन फिल्म में जो दर्द है, उसकी निंदा करना लाजमी है, जिस खुशी में वह दर्द में अनाड़ी होने के दर्द से बचना चाहती है, उसका कोई नतीजा नहीं निकलता. वे अपवाद हैं जिनके लिए अंधे तरसते हैं, वे नहीं देखते हैं, वे वही हैं जो अपनी जिम्मेदारियों को उस गलती के लिए छोड़ देते हैं जो आत्मा की कठिनाइयों को शांत कर रही है।</p>', 'upload/products/thumbnail/1717169379444803.jpeg', NULL, 1, NULL, NULL, 1, '2021-11-23 03:32:14', NULL);
 
 -- --------------------------------------------------------
 
@@ -281,7 +306,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('ewNOaRaMw8BRJdbBCvlPfeDit2LKj7vBriuArxaL', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZnVURDdKVzNqTXBEcG5teU05a3dyaVVYdlVzTW9jRTZzeWZkUkRLSSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYXRlZ29yeS9zdWIvc3ViL3ZpZXciO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUyOiJsb2dpbl9hZG1pbl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1637534524);
+('aCl8XC6FSgMN3hI7D0V3wnWIsqxgnJM9mJIfJh1z', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiUVFVdXE0UUtNTEhJZ2ZrOVRFN05xbTRHSVI2S2pLcUxtMHBETU5WdSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9kdWN0L21hbmFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTI6ImxvZ2luX2FkbWluXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1637620336);
 
 -- --------------------------------------------------------
 

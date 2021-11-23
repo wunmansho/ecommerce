@@ -3697,9 +3697,30 @@ return redirect()->route('manage-product')->with($notification);
 
 
 
-    163. Manage Product Edit Option Part 1
+(163) Manage Product Edit Option Part 1
+
+product_view
+<td>  <a href="{{ route('product.edit', $item->id) }}" class="btn btn-info" title"Edit Data"><i class="fa fa-pencil"></i></a>
+
+web.php
+    Route::get('/edit/{id}', [ProductController::class, 'EditProduct'])->name('product.edit');
 
 
+ProductController
+    public function EditProduct($id){
+        $categories = Category::latest()->get();
+        $brands = Brand::latest()->get();
+        $subcategory = SubCategory::latest()->get();
+        $subsubcategory = SubSubCategory::latest()->get();
+        $products = Product::findOrFail($id);
+        return view('backend.product.product_edit',compact('categories','brands','subcategory','subsubcategory','products'));
+    }
+
+product_edit
+
+(164) Manage Product Edit Option Part 2
+
+product_edit
 
 
 
