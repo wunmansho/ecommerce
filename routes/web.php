@@ -122,6 +122,9 @@ Route::prefix('product')->group(function(){
     Route::post('/data/update', [ProductController::class, 'ProductDataUpdate'])->name('product-update'); 
     Route::post('/image/update', [ProductController::class, 'MutiImageUpdate'])->name('update-product-image'); 
     Route::post('/thumbnail/update', [ProductController::class, 'ThumbnailImageUpdate'])->name('update-product-thumbnail'); 
+    Route::post('/thumbnail/update', [ProductController::class, 'ThumbnailImageUpdate'])->name('update-product-thumbnail'); 
+    Route::get('/multiimg/delete/{id}', [ProductController::class, 'MutiImageDelete'])->name('product.multiimg.delete');
 
+    
 });
 

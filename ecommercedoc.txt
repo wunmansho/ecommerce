@@ -4510,7 +4510,28 @@ ProductController
 (169) Multiple image Delete
 
 
+product_edit
+<a href="{{ route('product.multiimg.delete',$img->id) }}" class="btn btn-danger btn-sm" id="delete" name="delete" title="Delete Data"><i class="fa fa-trash"></i></a>
 
+
+web.php
+  Route::get('/multiimg/delete/{id}', [ProductController::class, 'MutiImageDelete'])->name('product.multiimg.delete');
+
+ProductController
+    public function MutiImageDelete($id){
+        $oldimg = MultiImg::findOrFail($id);
+        unlink($oldimg->photo_name);
+        MultiImg::findOrFail($id)->delete();
+
+        $notification = array(
+            'message' => 'Product Image Deleted Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
+
+(170) Product Active Inactive
 
 
 
