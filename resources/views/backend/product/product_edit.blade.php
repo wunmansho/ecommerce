@@ -176,7 +176,7 @@
                                                     <div class="controls">
                                                         <input type="text" name="product_tags_en" id="product_tags_en"
                                                             class="form-control" 
-                                                            data-role="tagsinput" required="" value="{{ $products->product_tags_en }}">
+                                                            data-role="tagsinput" value="{{ $products->product_tags_en }}">
                                                     </div>
                                                     @error('product_tags_en')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -196,7 +196,7 @@
                                                     <div class="controls">
                                                         <input type="text" name="product_tags_hin" id="product_tags_hin"
                                                             class="form-control" 
-                                                            data-role="tagsinput" required="" value="{{ $products->product_tags_hin }}">
+                                                            data-role="tagsinput" value="{{ $products->product_tags_hin }}">
                                                     </div>
                                                     @error('product_tags_hin')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -240,7 +240,7 @@
 
                                         <!-- 5th row -->
                                         <div class='row'>
-                                            <div class='col-md-4'>
+                                            <div class='col-md-6'>
                                                 <div class="form-group">
                                                     <h5>Product Color En<span class="text-danger">*</span></h5>
                                                     <div class="controls">
@@ -254,7 +254,7 @@
                                                 </div>
 
                                             </div>
-                                            <div class='col-md-4'>
+                                            <div class='col-md-6'>
                                                 <div class="form-group">
                                                     <h5>Product Color Hin<span class="text-danger">*</span></h5>
                                                     <div class="controls">
@@ -268,7 +268,13 @@
                                                 </div>
 
                                             </div>
-                                            <div class='col-md-4'>
+                                         </div>
+                                        <!-- End 5th Row -->
+
+                                        <!-- 6th row -->
+
+                                        <div class='row'>
+                                            <div class='col-md-6'>
                                                 <div class="form-group">
                                                     <h5>Product Selling Price<span class="text-danger">*</span></h5>
                                                     <div class="controls">
@@ -278,16 +284,12 @@
                                                     @error('selling_price')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
-
+    
                                                 </div>
-
+    
                                             </div>
-                                        </div>
-                                        <!-- End 5th Row -->
-
-                                        <!-- 6th row -->
-                                        <div class='row'>
-                                            <div class='col-md-4'>
+    
+                                            <div class='col-md-6'>
                                                 <div class="form-group">
                                                     <h5>Product Discount Price<span class="text-danger">*</span></h5>
                                                     <div class="controls">
@@ -298,33 +300,6 @@
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
 
-                                                </div>
-
-                                            </div>
-                                            <div class='col-md-4'>
-                                                <div class="form-group">
-                                                    <h5>Main Thumbnail<span class="text-danger">*</span></h5>
-                                                    <div class="controls">
-                                                        <input type="file" name="product_thumbnail" id="product_thumbnail"
-                                                            class="form-control" onChange="mainThumbUrl(this)"  required="">
-                                                    </div>
-                                                    @error('product_thumbnail')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
-                                                    <img src="" id="mainThmb">
-                                                </div>
-
-                                            </div>
-                                            <div class='col-md-4'>
-                                                <div class="form-group">
-                                                    <h5>Multiple Image<span class="text-danger">*</span></h5>
-                                                    <div class="controls">
-                                                        <input type="file" name="multi_img[]" class="form-control" multiple=""  id="multiImg" required="">
-                                                    </div>
-                                                    @error('multi_img')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
-                                                    <div class="row" id="preview_img"></div>
                                                 </div>
 
                                             </div>
@@ -402,12 +377,12 @@
                                                     <div class="controls">
                                                         <fieldset>
                                                             <input type="checkbox" id="checkbox_2" name="hot_deals"
-                                                                value="1">
+                                                                value="1" {{  $products->hot_deals == 1 ? 'checked': '' }}>
                                                             <label for="checkbox_2">Hot Deals</label>
                                                         </fieldset>
                                                         <fieldset>
                                                             <input type="checkbox" id="checkbox_3" name="featured"
-                                                                value="1">
+                                                                value="1" {{  $products->featured == 1 ? 'checked': '' }}>
                                                             <label for="checkbox_3">Featured</label>
                                                         </fieldset>
                                                     </div>
@@ -422,12 +397,12 @@
                                                     <div class="controls">
                                                         <fieldset>
                                                             <input type="checkbox" id="checkbox_4" name="special_offer"
-                                                                value="1">
+                                                                value="1" {{  $products->special_offer == 1 ? 'checked': '' }}>
                                                             <label for="checkbox_4">Special Offer</label>
                                                         </fieldset>
                                                         <fieldset>
                                                             <input type="checkbox" id="checkbox_5" name="special_deals"
-                                                                value="1">
+                                                                value="1" {{  $products->special_deals == 1 ? 'checked': '' }}>
                                                             <label for="checkbox_5">Special Deals</label>
                                                         </fieldset>
                                                     </div>
@@ -437,7 +412,7 @@
 
                                         <div class="text-xs-right">
                                             <input type="submit" class="btn btn-rounded btn-primary mb-5"
-                                                value="Add Product">
+                                                value="Update Product">
                                         </div>
                             </form>
 

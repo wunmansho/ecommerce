@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 22, 2021 at 10:37 PM
+-- Generation Time: Nov 23, 2021 at 01:50 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.3.21
 
@@ -250,8 +250,8 @@ CREATE TABLE IF NOT EXISTS `products` (
   `product_slug_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_qty` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product_tags_en` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product_tags_hin` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_tags_en` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_tags_hin` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_size_en` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_size_hin` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_color_en` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -306,7 +306,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('aCl8XC6FSgMN3hI7D0V3wnWIsqxgnJM9mJIfJh1z', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiUVFVdXE0UUtNTEhJZ2ZrOVRFN05xbTRHSVI2S2pLcUxtMHBETU5WdSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9kdWN0L21hbmFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTI6ImxvZ2luX2FkbWluXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1637620336);
+('aCl8XC6FSgMN3hI7D0V3wnWIsqxgnJM9mJIfJh1z', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiUVFVdXE0UUtNTEhJZ2ZrOVRFN05xbTRHSVI2S2pLcUxtMHBETU5WdSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9kdWN0L2VkaXQvNiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTI6ImxvZ2luX2FkbWluXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1637627434);
 
 -- --------------------------------------------------------
 
