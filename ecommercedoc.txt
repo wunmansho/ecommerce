@@ -5574,6 +5574,31 @@ SliderController
 
 (174) Slider Edit & Update Delete Part 2
 
+slider_view
+<a href="{{ route('slider.delete', $item->id) }}" class="btn btn-info btn-sm" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a>
+
+
+web.php
+Route::get('/delete/{id}', [SliderController::class, 'SliderDelete'])->name('slider.delete'); 
+
+SliderController
+    public function SliderDelete($id){
+        $slider = Slider::findOrFail($id);
+        $img = $slider->slider_img;
+        unlink($img);
+
+        Slider::findOrFail($id)->delete();
+        $notification = array(
+            'message' => 'Slider Deleted Successfully',
+            'alert-type' => 'info',
+        );
+        return redirect()->back()->with($notification);
+    }
+
+(174) Slider Active Inactive
+
+
+
 
 
 
