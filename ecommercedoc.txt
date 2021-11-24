@@ -5170,6 +5170,40 @@ See github for these changes
 
 (171) Product Delete With Multiple Image
 
+product_view
+<a href="{{ route('product.delete', $item->id) }}" class="btn btn-info" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a>
+
+web.php
+   Route::get('/delete/{id}', [ProductController::class, 'ProductDelete'])->name('product.delete');
+
+
+ProductController
+    public function ProductDelete($id){
+        $product = Product::findOrFail($id);
+        $images = MultiImg::where('product_id',$id)->get();
+        foreach ($images as $img) {
+            unlink($img->photo_name);
+            MultiImg::where('product_id',$id)->delete();
+
+        }
+        unlink($product->product_thumbnail);
+        Product::findOrFail($id)->delete();
+
+
+       $notification = array(
+            'message' => 'Product Deleted Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+
+
+    }
+
+
+
+172. Upload Slider and Show All Slider List Part 1
+
 
 
 

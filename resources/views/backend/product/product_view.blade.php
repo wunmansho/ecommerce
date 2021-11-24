@@ -62,7 +62,7 @@
 
                                                       <a href="{{ route('product.edit', $item->id) }}" class="btn btn-info" title"Edit Data"><i class="fa fa-pencil"></i></a>
 
-                                                    <a href="{{ route('category.delete', $item->id) }}" class="btn btn-info" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a>
+                                                    <a href="{{ route('product.delete', $item->id) }}" class="btn btn-info" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a>
                                                     @if($item->status == 1)
                                                     <a href="{{ route('product.inactive', $item->id) }}" class="btn btn-danger" title"Deactivate"><i class="fa fa-arrow-down"></i></a>
                                                     @else
