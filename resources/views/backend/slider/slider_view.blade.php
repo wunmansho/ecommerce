@@ -53,8 +53,8 @@
                                                 </td>
 
                                                 <td width="30%">
-                                                    <a href="{{ route('brand.edit', $item->id) }}" class="btn btn-info btn-sm" title"Edit Data"><i class="fa fa-pencil"></i></a>
-                                                    <a href="{{ route('brand.delete', $item->id) }}" class="btn btn-info btn-sm" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a>
+                                                    <a href="{{ route('slider.edit', $item->id) }}" class="btn btn-info btn-sm" title"Edit Data"><i class="fa fa-pencil"></i></a>
+                                                    <a href="{{ route('slider.delete', $item->id) }}" class="btn btn-info btn-sm" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a>
                                                     @if($item->status == 1)
                                                     <a href="{{ route('product.inactive', $item->id) }}" class="btn btn-danger btn-sm" title"Deactivate"><i class="fa fa-arrow-down"></i></a>
                                                     @else

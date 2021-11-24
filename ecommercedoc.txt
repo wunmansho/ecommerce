@@ -5437,6 +5437,143 @@ SliderController
 
 (174) Slider Edit & Update Delete Part 1
 
+slider_view
+<a href="{{ route('slider.edit', $item->id) }}" class="btn btn-info btn-sm" title"Edit Data"><i class="fa fa-pencil"></i></a>
+
+web.php
+Route::get('/edit/{id}', [SliderController::class, 'SliderEdit'])->name('slider.edit'); 
+
+
+SliderController
+    public function SliderEdit($id){
+        $sliders = Slider::findOrFail($id);
+        return view('backend.slider.slider_edit',compact('sliders'));
+    }
+
+
+slider_edit
+@extends('admin.admin_master')
+@section('admin')
+    <div class="container-full">
+        <!-- Content Header (Page header) -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+
+
+                <!-- -------------- Edit Slider Page ---------------- -->
+                <div class="col-12">
+
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Edit Slider</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <form method="post" action="{{ route('slider.update') }}"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" name="id" id="id" value="{{ $sliders->id }}">
+                                    <input type="hidden" name="old_image" id="old_image"
+                                        value="{{ $sliders->slider_img }}">
+                                    <div class="form-group">
+                                        <h5>Slider Title <span class="text-danger">*</span></h5>
+                                        <div class="controls">
+                                            <input type="text" id="title" name="title" class="form-control"
+                                                value="{{ $sliders->title }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h5>Slider Description<span class="text-danger">*</span></h5>
+                                        <div class="controls">
+                                            <input type="text" id="description" name="description" class="form-control"
+                                                value="{{ $sliders->description }}">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <h5>Slider Image <span class="text-danger">*</span></h5>
+                                        <div class="controls">
+                                            <input type="file" id="slider_img" name="slider_img" class="form-control">
+                                            @error('slider_img')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+
+                                        </div>
+                                    </div>
+                                    <div class="text-xs-right">
+                                        <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Update">
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+
+
+                </div>
+
+            </div>
+            <!-- /.row -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+
+@endsection
+
+web.php
+Route::post('/update', [SliderController::class, 'SliderUpdate'])->name('slider.update');
+
+SliderController
+    public function SliderUpdate(Request $request) {
+        $slider_id = $request->id;
+        $old_img = $request->old_image;
+
+        if ($request->file('slider_img')) {
+            if ($old_img) {
+            unlink($old_img);
+            }
+            $image = $request->file('slider_img');
+            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize(870,370)->save('upload/slider/'.$name_gen);
+            $save_url = 'upload/slider/'.$name_gen;
+            Slider::findOrFail($slider_id)->update([
+                'title'  => $request->title,
+                'description'  => $request->description,
+                'slider_img'  => $save_url,
+    
+            ]);
+            $notification = array(
+                'message' => 'Slider Updated Successfully',
+                'alert-type' => 'info'
+            );
+            return redirect()->route('manage-slider')->with($notification);
+
+        } else {
+            Slider::findOrFail($slider_id)->update([
+                'title'  => $request->title,
+                'description'  => $request->description,
+     
+            ]);
+            $notification = array(
+                'message' => 'Slider Updated Without Image Successfully',
+                'alert-type' => 'info'
+            );
+            return redirect()->route('manage-slider')->with($notification);
+        }
+
+    }
+
+
+(174) Slider Edit & Update Delete Part 2
+
 
 
 
