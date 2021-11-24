@@ -5204,9 +5204,64 @@ ProductController
 
 172. Upload Slider and Show All Slider List Part 1
 
+sidebar
+<li class="treeview {{ ($prefix == '/slider')? 'active':'' }}">
+    <a href="#">
+        <i data-feather="file"></i>
+        <span>Slider</span>
+        <span class="pull-right-container">
+            <i class="fa fa-angle-right pull-right"></i>
+        </span>
+    </a>
+    <ul class="treeview-menu">
+    <li class="{{ ($route == 'manage-slider')? 'active':'' }}"><a href="{{ route('manage-slider') }}"><i class="ti-more"></i>Manage Slider</a></li>
+    </ul>
+</li>
 
 
+php artisan make:controller Backend/SliderController
+php artisan make:model Slider -m
 
+    public function up()
+    {
+        Schema::create('sliders', function (Blueprint $table) {
+            $table->id();
+            $table->string('slider_img');
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
+            $table->integer('status')->default(1);
+            $table->timestamps();
+        });
+    }
+
+class Slider extends Model
+{
+    use HasFactory;
+    protected $guarded = [];
+}
+
+
+php artisan migrate
+
+web.php
+use App\Http\Controllers\Backend\SliderController;
+    Route::get('/view', [SliderController::class, 'SliderView'])->name('manage-slider'); 
+
+
+SliderController
+use App\Models\Slider;
+use Carbon\Carbon;
+use Image;
+    public function SliderView(){
+        $sliders = Slider::latest()->get();
+        return view('backend.slider.slider_view',compact('sliders'));
+    }
+
+
+we create backend.slider.slider_view
+MT 
+
+(173) Upload Slider and Show All Slider List Part 2
 
 
 
