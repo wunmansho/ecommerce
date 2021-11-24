@@ -5595,8 +5595,49 @@ SliderController
         return redirect()->back()->with($notification);
     }
 
-(174) Slider Active Inactive
+(176) Slider Active Inactive
 
+slider_view
+@if($item->status == 1)
+<span class="badge badge-pill badge-success">Active</span>
+@else
+<span class="badge badge-pill badge-danger">InActive</span>
+@endif
+
+
+@if($item->status == 1)
+<a href="{{ route('slider.inactive', $item->id) }}" class="btn btn-danger btn-sm" title"Deactivate"><i class="fa fa-arrow-down"></i></a>
+@else
+<a href="{{ route('slider.active', $item->id) }}" class="btn btn-success btn-sm" title"Activate"><i class="fa fa-arrow-up"></i></a>
+@endif
+
+web.php
+Route::get('/inactive/{id}', [SliderController::class, 'SliderInactive'])->name('slider.inactive');
+Route::get('/active/{id}', [SliderController::class, 'SliderActive'])->name('slider.active');
+
+SliderController
+    public function SliderInactive($id){
+        Slider::findOrFail($id)->update(['status' => 0 ]);
+        $notification = array(
+            'message' => 'Slider Inactive',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
+
+    public function SliderActive($id){
+        Slider::findOrFail($id)->update(['status' => 1 ]);
+        $notification = array(
+            'message' => 'Slider Active',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
+
+
+(177) Fix Error for Protect Admin Dashboard
 
 
 
