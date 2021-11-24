@@ -5639,6 +5639,15 @@ SliderController
 
 (177) Fix Error for Protect Admin Dashboard
 
+added this to the end of all admin related routes
+->middleware('auth:admin')
+
+In RedirectIfAuthenticated
+replaced this line
+return redirect($guard.'/dashboard');
+with this
+return redirect(RouteServiceProvider::HOME);
+
 
 
 
