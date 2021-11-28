@@ -5754,9 +5754,15 @@ Here we finish out our header menus with the multilingual logic
 @if (session()->get('language') == 'hindi') {{ $subsubcategory->subsubcategory_name_hin }} @else {{ $subsubcategory->subsubcategory_name_en }} @endif
 
 
-
-
 (181) Frontend Show Category Subcategory and Subsubcategory Part 3
+
+Here we begin work on index.blade.php
+we start by modifying IndexController to pass category data.  
+We then pick up our categories in index.blade  and add translation logic.
+
+(182) Frontend Show Category Subcategory and Subsubcategory Part 4
+
+
 
 
 

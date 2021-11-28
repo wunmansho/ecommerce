@@ -72,7 +72,7 @@ Route::prefix('category')->group(function(){
     Route::get('/view', [CategoryController::class, 'CategoryView'])->name('all.category')->middleware('auth:admin'); 
     Route::post('/store', [CategoryController::class, 'CategoryStore'])->name('category.store')->middleware('auth:admin'); 
     Route::get('/edit/{id}', [CategoryController::class, 'CategoryEdit'])->name('category.edit')->middleware('auth:admin'); 
-    Route::post('/update', [CategoryController::class, 'CategoryUpdate'])->name('category.update')->middleware('auth:admin');
+    Route::post('/update/{id}', [CategoryController::class, 'CategoryUpdate'])->name('category.update')->middleware('auth:admin');
     Route::get('/delete/{id}', [CategoryController::class, 'CategoryDelete'])->name('category.delete')->middleware('auth:admin'); 
 
 // Admin Sub Category All Routes

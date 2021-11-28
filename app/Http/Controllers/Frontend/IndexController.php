@@ -7,11 +7,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Category;
+use App\Models\SubCategory;
+use App\Models\SubSubCategory;
 
 class IndexController extends Controller
 {
     public function index(){
-        return view('frontend.index');
+        $categories = Category::orderBy('category_name_en','ASC')->get();
+       // $subcategories = SubCategory::where('category_id',$category->id)->orderBy('subcategory_name_en','ASC')->get();
+       // $subsubcategories = SubSubCategory::where('subcategory_id',$subcategory->id)->orderBy('subsubcategory_name_en','ASC')->get();
+        return view('frontend.index',compact('categories'));
     }
 
     
