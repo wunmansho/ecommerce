@@ -5762,6 +5762,12 @@ We then pick up our categories in index.blade  and add translation logic.
 
 (182) Frontend Show Category Subcategory and Subsubcategory Part 4
 
+Here we basically duplicate the code from header for subcategories and subsubcategories
+
+
+
+(183) Frontend Dynamic Main Sliders
+
 
 
 

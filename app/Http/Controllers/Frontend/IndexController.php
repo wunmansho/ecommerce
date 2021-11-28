@@ -15,8 +15,6 @@ class IndexController extends Controller
 {
     public function index(){
         $categories = Category::orderBy('category_name_en','ASC')->get();
-       // $subcategories = SubCategory::where('category_id',$category->id)->orderBy('subcategory_name_en','ASC')->get();
-       // $subsubcategories = SubSubCategory::where('subcategory_id',$subcategory->id)->orderBy('subsubcategory_name_en','ASC')->get();
         return view('frontend.index',compact('categories'));
     }
 
