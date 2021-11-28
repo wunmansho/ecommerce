@@ -5693,125 +5693,59 @@ translations for header
 @if(session()->get('language') == 'hindi') चेक आउट @else Checkout @endif
 @if(session()->get('language') == 'hindi') उपयोगकर्ता प्रोफ़ाइल @else User Profile @endif
 @if(session()->get('language') == 'hindi') लॉग इन/रजिस्टर @else Login/Register @endif
-@if(session()->get('language') == 'hindi') USD @else USD @endif
-@if(session()->get('language') == 'hindi') USD @else USD @endif
-@if(session()->get('language') == 'hindi') INR @else INR @endif
-@if(session()->get('language') == 'hindi') GBP @else GBP @endif
-@if(session()->get('language') == 'hindi') श्रेणियाँ @else Categories @endif
-@if(session()->get('language') == 'hindi') संगणक @else Computer @endif
-@if(session()->get('language') == 'hindi') - कपड़े @else - Clothing @endif
-@if(session()->get('language') == 'hindi') - इलेक्ट्रॉनिक्स @else - Electronics @endif
-@if(session()->get('language') == 'hindi') - जूते @else - Shoes @endif
-@if(session()->get('language') == 'hindi') - घड़ियों @else - Watches @endif
-@if(session()->get('language') == 'hindi') गाड़ी - @else cart - @endif
-@if(session()->get('language') == 'hindi') सरल उत्पाद @else Simple Product @endif
-@if(session()->get('language') == 'hindi') उप कुल : @else Sub Total : @endif
-@if(session()->get('language') == 'hindi') चेक आउट @else Checkout @endif
-@if(session()->get('language') == 'hindi') टॉगल से संचालित करना @else Toggle navigation @endif
-@if(session()->get('language') == 'hindi') घर @else Home @endif
-@if(session()->get('language') == 'hindi') कपड़े @else Clothing @endif
-@if(session()->get('language') == 'hindi') पुरुषों @else Men @endif
-@if(session()->get('language') == 'hindi') कपड़े @else Dresses @endif
-@if(session()->get('language') == 'hindi') जूते @else Shoes @endif
-@if(session()->get('language') == 'hindi') जैकेट @else Jackets @endif
-@if(session()->get('language') == 'hindi') धूप का चश्मा @else Sunglasses @endif
-@if(session()->get('language') == 'hindi') खेल के वस्त्र @else Sport Wear @endif
-@if(session()->get('language') == 'hindi') ब्लेजर्स @else Blazers @endif
-@if(session()->get('language') == 'hindi') कमीज @else Shirts @endif
-@if(session()->get('language') == 'hindi') महिला @else Women @endif
-@if(session()->get('language') == 'hindi') हैंडबैग @else Handbags @endif
-@if(session()->get('language') == 'hindi') आभूषण @else Jewelry @endif
-@if(session()->get('language') == 'hindi') तैराकी पोशाक @else Swimwear @endif
-@if(session()->get('language') == 'hindi') सबसे ऊपर @else Tops @endif
-@if(session()->get('language') == 'hindi') फ्लैटों @else Flats @endif
-@if(session()->get('language') == 'hindi') जूते @else Shoes @endif
-@if(session()->get('language') == 'hindi') शीतकालीन पहनें @else Winter Wear @endif
-@if(session()->get('language') == 'hindi') लड़के @else Boys @endif
-@if(session()->get('language') == 'hindi') खिलौने और खेल @else Toys & Games @endif
-@if(session()->get('language') == 'hindi') जीन्स @else Jeans @endif
-@if(session()->get('language') == 'hindi') कमीज @else Shirts @endif
-@if(session()->get('language') == 'hindi') जूते @else Shoes @endif
-@if(session()->get('language') == 'hindi') स्कूल का बस्ता @else School Bags @endif
-@if(session()->get('language') == 'hindi') खाने का डिब्बा @else Lunch Box @endif
-@if(session()->get('language') == 'hindi') जूते @else Footwear @endif
-@if(session()->get('language') == 'hindi') लड़कियाँ @else Girls @endif
-@if(session()->get('language') == 'hindi') सैंडल @else Sandals @endif
-@if(session()->get('language') == 'hindi') निकर @else Shorts @endif
-@if(session()->get('language') == 'hindi') कपड़े @else Dresses @endif
-@if(session()->get('language') == 'hindi') आभूषण @else Jwellery @endif
-@if(session()->get('language') == 'hindi') बैग @else Bags @endif
-@if(session()->get('language') == 'hindi') रात की पोशाक @else Night Dress @endif
-@if(session()->get('language') == 'hindi') तैरना पहनें @else Swim Wear @endif
-@if(session()->get('language') == 'hindi') इलेक्ट्रॉनिक्स हॉट @else Electronics hot @endif
-@if(session()->get('language') == 'hindi') लैपटॉप @else Laptops @endif
-@if(session()->get('language') == 'hindi') जुआ @else Gaming @endif
-@if(session()->get('language') == 'hindi') लैपटॉप की खाल @else Laptop Skins @endif
-@if(session()->get('language') == 'hindi') सेब @else Apple @endif
-@if(session()->get('language') == 'hindi') गड्ढा @else Dell @endif
-@if(session()->get('language') == 'hindi') Lenovo @else Lenovo @endif
-@if(session()->get('language') == 'hindi') माइक्रोसॉफ्ट @else Microsoft @endif
-@if(session()->get('language') == 'hindi') Asus @else Asus @endif
-@if(session()->get('language') == 'hindi') एडेप्टर @else Adapters @endif
-@if(session()->get('language') == 'hindi') बैटरियों @else Batteries @endif
-@if(session()->get('language') == 'hindi') कूलिंग पैड @else Cooling Pads @endif
-@if(session()->get('language') == 'hindi') डेस्कटॉप @else Desktops @endif
-@if(session()->get('language') == 'hindi') राउटर और मोडेम @else Routers & Modems @endif
-@if(session()->get('language') == 'hindi') सीपीयू, प्रोसेसर @else CPUs, Processors @endif
-@if(session()->get('language') == 'hindi') पीसी गेमिंग स्टोर @else PC Gaming Store @endif
-@if(session()->get('language') == 'hindi') ग्राफिक्स कार्ड @else Graphics Cards @endif
-@if(session()->get('language') == 'hindi') अवयव @else Components @endif
-@if(session()->get('language') == 'hindi') वेबकैम @else Webcam @endif
-@if(session()->get('language') == 'hindi') मेमोरी (रैम) @else Memory (RAM) @endif
-@if(session()->get('language') == 'hindi') motherboards @else Motherboards @endif
-@if(session()->get('language') == 'hindi') कीबोर्ड @else Keyboards @endif
-@if(session()->get('language') == 'hindi') हेडफोन @else Headphones @endif
-@if(session()->get('language') == 'hindi') कैमरों @else Cameras @endif
-@if(session()->get('language') == 'hindi') सामान @else Accessories @endif
-@if(session()->get('language') == 'hindi') दूरबीन @else Binoculars @endif
-@if(session()->get('language') == 'hindi') दूरबीन @else Telescopes @endif
-@if(session()->get('language') == 'hindi') कैमकोर्डर @else Camcorders @endif
-@if(session()->get('language') == 'hindi') डिजिटल @else Digital @endif
-@if(session()->get('language') == 'hindi') फिल्म कैमरा @else Film Cameras @endif
-@if(session()->get('language') == 'hindi') चमक @else Flashes @endif
-@if(session()->get('language') == 'hindi') लेंस @else Lenses @endif
-@if(session()->get('language') == 'hindi') निगरानी @else Surveillance @endif
-@if(session()->get('language') == 'hindi') ट्राइपॉड @else Tripods @endif
-@if(session()->get('language') == 'hindi') मोबाइल फोन @else Mobile Phones @endif
-@if(session()->get('language') == 'hindi') सेब @else Apple @endif
-@if(session()->get('language') == 'hindi') सैमसंग @else Samsung @endif
-@if(session()->get('language') == 'hindi') Lenovo @else Lenovo @endif
-@if(session()->get('language') == 'hindi') मोटोरोला @else Motorola @endif
-@if(session()->get('language') == 'hindi') लेईको @else LeEco @endif
-@if(session()->get('language') == 'hindi') Asus @else Asus @endif
-@if(session()->get('language') == 'hindi') एसर @else Acer @endif
-@if(session()->get('language') == 'hindi') सामान @else Accessories @endif
-@if(session()->get('language') == 'hindi') हेडफोन @else Headphones @endif
-@if(session()->get('language') == 'hindi') मेमोरी कार्ड्स @else Memory Cards @endif
-@if(session()->get('language') == 'hindi') स्वास्थ्य और सौंदर्य नया @else Health & Beauty new @endif
-@if(session()->get('language') == 'hindi') घड़ियों @else Watches @endif
-@if(session()->get('language') == 'hindi') आभूषण @else Jewelry @endif
-@if(session()->get('language') == 'hindi') जूते @else Shoes @endif
-@if(session()->get('language') == 'hindi') बच्चे और लड़कियां @else Kids & Girls @endif
-@if(session()->get('language') == 'hindi') पृष्ठों @else Pages @endif
-@if(session()->get('language') == 'hindi') घर @else Home @endif
-@if(session()->get('language') == 'hindi') श्रेणी @else Category @endif
-@if(session()->get('language') == 'hindi') विस्तार @else Detail @endif
-@if(session()->get('language') == 'hindi') शॉपिंग कार्ट समरी @else Shopping Cart Summary @endif
-@if(session()->get('language') == 'hindi') चेक आउट @else Checkout @endif
-@if(session()->get('language') == 'hindi') ब्लॉग @else Blog @endif
-@if(session()->get('language') == 'hindi') ब्लॉग विवरण @else Blog Detail @endif
-@if(session()->get('language') == 'hindi') संपर्क @else Contact @endif
-@if(session()->get('language') == 'hindi') साइन इन करें @else Sign In @endif
-@if(session()->get('language') == 'hindi') इच्छा-सूची @else Wishlist @endif
-@if(session()->get('language') == 'hindi') नियम व शर्तें @else Terms and Condition @endif
-@if(session()->get('language') == 'hindi') ट्रैक ऑर्डर @else Track Orders @endif
-@if(session()->get('language') == 'hindi') उत्पाद-तुलना @else Product-Comparison @endif
-@if(session()->get('language') == 'hindi') सामान्य प्रश्न @else FAQ @endif
-@if(session()->get('language') == 'hindi') आज का ऑफर @else Todays offer @endif 							
 
 
 
+(179) Frontend Show Category Subcategory and Subsubcategory Part 1
 
+At this point we made our header menus more dynamic
+ <!-- // Get Category Table Data -->
+@php
+  $categories = App\Models\Category::orderBy('category_name_en','ASC')->get();
+@endphp
+                                @foreach($categories as $category)
+                                <li class="dropdown yamm mega-menu"> <a href="home.html" data-hover="dropdown"
+                                        class="dropdown-toggle" data-toggle="dropdown">{{ $category->category_name_en }}
+                                    </a>
+                                    <ul class="dropdown-menu container">
+                                        <li>
+                                            <div class="yamm-content ">
+                                                <div class="row">
+ <!-- // Get SubCategory Table Data -->
+ @php
+ $subcategories = App\Models\SubCategory::where('category_id',$category->id)->orderBy('subcategory_name_en','ASC')->get();
+@endphp
+                                                    @foreach($subcategories as $subcategory)
+                                                    <div class="col-xs-12 col-sm-6 col-md-2 col-menu">
+                                                        <h2 class="title">{{ $subcategory->subcategory_name_en }}
+                                                        </h2>
+ <!-- // Get SubSubCategory Table Data -->
+ @php
+ $subsubcategories = App\Models\SubSubCategory::where('subcategory_id',$subcategory->id)->orderBy('subsubcategory_name_en','ASC')->get();
+@endphp
+                                                        @foreach($subsubcategories as $subsubcategory)
+                                                        <ul class="links">
+                                                            <li><a href="#">{{ $subsubcategory->subsubcategory_name_en }}</a></li>
+                                                        </ul>
+                                                        @endforeach
+                                                    </div>
+                                                    <!-- /.col -->
+                                                    @endforeach
+
+                                                    <div class="col-xs-12 col-sm-6 col-md-4 col-menu banner-image">
+                                                        <img class="img-responsive"
+                                                            src="{{ asset('frontend/assets/images/banners/top-menu-banner.jpg') }}"
+                                                            alt="">
+                                                    </div>
+                                                    <!-- /.yamm-content -->
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                @endforeach
+
+(180) Frontend Show Category Subcategory and Subsubcategory Part 2
 
 
 
