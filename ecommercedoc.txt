@@ -5745,9 +5745,18 @@ At this point we made our header menus more dynamic
                                 </li>
                                 @endforeach
 
+
 (180) Frontend Show Category Subcategory and Subsubcategory Part 2
 
+Here we finish out our header menus with the multilingual logic
+@if (session()->get('language') == 'hindi') {{ $category->category_name_hin }} @else {{ $category->category_name_en }} @endif
+@if (session()->get('language') == 'hindi') {{ $subcategory->subcategory_name_hin }} @else {{ $subcategory->subcategory_name_en }} @endif
+@if (session()->get('language') == 'hindi') {{ $subsubcategory->subsubcategory_name_hin }} @else {{ $subsubcategory->subsubcategory_name_en }} @endif
 
+
+
+
+(181) Frontend Show Category Subcategory and Subsubcategory Part 3
 
 
 
