@@ -309,7 +309,7 @@
                                                     <h5>Product Discount Price<span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <input type="text" name="discount_price" id="discount_price"
-                                                            class="form-control" required=""
+                                                            class="form-control" 
                                                             value="{{ $products->discount_price }}">
                                                     </div>
                                                     @error('discount_price')

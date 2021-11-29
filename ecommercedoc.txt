@@ -5943,6 +5943,37 @@ we added Product to IndexController and pulled products into NewProducts Area
 
 (186) Frontend Product Discount ,Product Price Show With Multiple Language Part 1
 
+Here I continue working on the New Products tab with logic to identify a product as 
+new or discounted and logic to display the discount price
+                           @php
+                              $amount = $product->selling_price - $product->discount_price;
+                              $discount = ($amount/$product->selling_price) * 100;
+                            @endphp
+
+                            <div>
+                              @if ($product->discount_price == NULL) 
+                              <div class="tag new"><span>new</span></div>
+                              @else
+                              <div class="tag hot"><span>{{ round($discount) }}%</span></div>
+                              @endif
+                            </div>
+                            
+                          </div>
+                          <!-- /.product-image -->
+                          
+                          <div class="product-info text-left">
+                            <h3 class="name"><a href="detail.html">@if (session()->get('language') == 'hindi') {{ $product->product_name_hin }} @else {{ $product->product_name_en }} @endif</a></h3>
+                            <div class="rating rateit-small"></div>
+                            <div class="description"></div>
+                            @if ($product->discount_price == NULL) 
+                            <div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span></div>
+                            <!-- /.product-price --> 
+
+                            @else
+                            <div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">${{ $product->selling_price }}</span> </div>
+                            <!-- /.product-price --> 
+
+                            @endif
 
 
 
@@ -5952,6 +5983,8 @@ we added Product to IndexController and pulled products into NewProducts Area
 
 
 
+
+(187) Frontend Product Discount ,Product Price Show With Multiple Language Part 2
 
 
 
