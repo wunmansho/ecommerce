@@ -6054,6 +6054,26 @@ or catwise Area
 
 (188) Product Details Show Part 1
 
+So we set up a product_details page we create a url link in index
+<h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en) }}">@if (session()->get('language') == 'hindi') {{ $product->product_name_hin }} @else {{ $product->product_name_en }} @endif</a></h3>
+
+web.php
+//// Frontend Product Details ////
+Route::get('/product/details/{id}/{slug}', [IndexController::class, 'ProductDetails']); 
+
+
+IndexController
+    public function ProductDetails($id,$slug){
+        $product = Product::findOrFail($id);
+        return view('frontend.product.product_details',compact('product'));
+    }
+
+And we create our page using details.html from our frontend templates
+
+
+
+(189) Product Details Show Part 2
+
 
 
 
