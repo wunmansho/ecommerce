@@ -5797,6 +5797,153 @@ we added Product to IndexController and pulled products into NewProducts Area
 
 (185) Frontend Dynamic Bootstrap Tabs Part 2
 
+    public function index(){
+        $products = Product::where('status',1)->orderBy('id','DESC')->get();
+        $sliders = Slider::where('status',1)->orderBy('id','DESC')->limit(3)->get();
+        $categories = Category::orderBy('category_name_en','ASC')->get();
+        return view('frontend.index',compact('categories','sliders','products'));
+    }
+    
+
+         <!-- ============================================== SCROLL TABS ============================================== -->
+          <div id="product-tabs-slider" class="scroll-tabs outer-top-vs wow fadeInUp">
+            <div class="more-info-tab clearfix ">
+              <h3 class="new-product-title pull-left">New Products</h3>
+              <ul class="nav nav-tabs nav-tab-line pull-right" id="new-products-1">
+                <li class="active"><a data-transition-type="backSlide" href="#all" data-toggle="tab">All</a></li>
+               @foreach($categories as $category)
+                <li><a data-transition-type="backSlide" href="#category{{ $category->id }}" data-toggle="tab">@if (session()->get('language') == 'hindi') {{ $category->category_name_hin }} @else {{ $category->category_name_en }} @endif</a></li>
+               @endforeach
+                {{-- <li><a data-transition-type="backSlide" href="#laptop" data-toggle="tab">Electronics</a></li>
+                <li><a data-transition-type="backSlide" href="#apple" data-toggle="tab">Shoes</a></li> --}}
+              </ul>
+              <!-- /.nav-tabs --> 
+            </div>
+            <div class="tab-content outer-top-xs">
+              <div class="tab-pane in active" id="all">
+                <div class="product-slider">
+                  <div class="owl-carousel home-owl-carousel custom-carousel owl-theme" data-item="4">
+                    @foreach($products as $product)
+                    <div class="item item-carousel">
+                      <div class="products">
+                        <div class="product">
+                          <div class="product-image">
+                            <div class="image"> <a href="detail.html"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> </div>
+                            <!-- /.image -->
+                            
+                            <div class="tag new"><span>new</span></div>
+                          </div>
+                          <!-- /.product-image -->
+                          
+                          <div class="product-info text-left">
+                            <h3 class="name"><a href="detail.html">@if (session()->get('language') == 'hindi') {{ $product->product_name_hin }} @else {{ $product->product_name_en }} @endif</a></h3>
+                            <div class="rating rateit-small"></div>
+                            <div class="description"></div>
+                            <div class="product-price"> <span class="price"> $450.99 </span> <span class="price-before-discount">$ 800</span> </div>
+                            <!-- /.product-price --> 
+                            
+                          </div>
+                          <!-- /.product-info -->
+                          <div class="cart clearfix animate-effect">
+                            <div class="action">
+                              <ul class="list-unstyled">
+                                <li class="add-cart-button btn-group">
+                                  <button data-toggle="tooltip" class="btn btn-primary icon" type="button" title="Add Cart"> <i class="fa fa-shopping-cart"></i> </button>
+                                  <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
+                                </li>
+                                <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
+                                <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
+                              </ul>
+                            </div>
+                            <!-- /.action --> 
+                          </div>
+                          <!-- /.cart --> 
+                        </div>
+                        <!-- /.product --> 
+                        
+                      </div>
+                      <!-- /.products --> 
+                    </div>
+                    <!-- /.item -->
+                    @endforeach
+
+                  </div>
+                  <!-- /.home-owl-carousel --> 
+                </div>
+                <!-- /.product-slider --> 
+              </div>
+              <!-- /.tab-pane -->
+
+
+
+              @foreach($categories as $category)
+              <div class="tab-pane" id="category{{ $category->id }}">
+                <div class="product-slider">
+                  <div class="owl-carousel home-owl-carousel custom-carousel owl-theme" data-item="4">
+                   
+@php
+  $catwiseProduct = App\Models\Product::where('category_id',$category->id)->orderBy('id','DESC')->get();
+@endphp                   
+                   
+                    @forelse($catwiseProduct as $product)
+                    <div class="item item-carousel">
+                      <div class="products">
+                        <div class="product">
+                          <div class="product-image">
+                            <div class="image"> <a href="detail.html"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> </div>
+                            <!-- /.image -->
+                            
+                            <div class="tag new"><span>new</span></div>
+                          </div>
+                          <!-- /.product-image -->
+                          
+                          <div class="product-info text-left">
+                            <h3 class="name"><a href="detail.html">@if (session()->get('language') == 'hindi') {{ $product->product_name_hin }} @else {{ $product->product_name_en }} @endif</a></h3>
+                            <div class="rating rateit-small"></div>
+                            <div class="description"></div>
+                            <div class="product-price"> <span class="price"> $450.99 </span> <span class="price-before-discount">$ 800</span> </div>
+                            <!-- /.product-price --> 
+                            
+                          </div>
+                          <!-- /.product-info -->
+                          <div class="cart clearfix animate-effect">
+                            <div class="action">
+                              <ul class="list-unstyled">
+                                <li class="add-cart-button btn-group">
+                                  <button data-toggle="tooltip" class="btn btn-primary icon" type="button" title="Add Cart"> <i class="fa fa-shopping-cart"></i> </button>
+                                  <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
+                                </li>
+                                <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
+                                <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
+                              </ul>
+                            </div>
+                            <!-- /.action --> 
+                          </div>
+                          <!-- /.cart --> 
+                        </div>
+                        <!-- /.product --> 
+                        
+                      </div>
+                      <!-- /.products --> 
+                    </div>
+                    <!-- /.item -->
+                    @empty
+                    <h5 class text-danger>No Product Found</h5>
+                    @endforelse
+
+                  </div>
+                  <!-- /.home-owl-carousel --> 
+                </div>
+                <!-- /.product-slider --> 
+              </div>
+              <!-- /.tab-pane -->
+              @endforeach
+
+
+
+(186) Frontend Product Discount ,Product Price Show With Multiple Language Part 1
+
+
 
 
 
