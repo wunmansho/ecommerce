@@ -6073,6 +6073,10 @@ And we create our page using details.html from our frontend templates
 
 
 (189) Product Details Show Part 2
+Here we added our pricing and descriptions
+
+
+(190) Product Details Show Part 3
 
 
 
