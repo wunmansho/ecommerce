@@ -6427,8 +6427,10 @@ I also made a fix in ProductController to prevent long desc from updating with h
 
 (197) Update Product HotDeals Get Only Discount Product
 
+Added additional filter to ensure hot deals actually has a discount
+$hot_deals = Product::where('hot_deals',1)->where('discount_price','!=',NULL)->orderBy('id','DESC')->limit(3)->get();
 
-
+(198) Product Tags Show
 
 
 
