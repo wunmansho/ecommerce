@@ -930,7 +930,7 @@ My Online Shop
                       <div class="products">
                         <div class="product">
                           <div class="product-image">
-                            <div class="image"> <a href="detail.html"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> </div>
+                            <div class="image"> <a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en) }}"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> </div>
                             <!-- /.image -->
                             
 
@@ -1012,7 +1012,7 @@ My Online Shop
                       <div class="products">
                         <div class="product">
                           <div class="product-image">
-                            <div class="image"> <a href="detail.html"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> </div>
+                            <div class="image"> <a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en) }}"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> </div>
                             <!-- /.image -->
                             
 
@@ -1033,7 +1033,7 @@ My Online Shop
                           <!-- /.product-image -->
                           
                           <div class="product-info text-left">
-                            <h3 class="name"><a href="detail.html">@if (session()->get('language') == 'hindi') {{ $product->product_name_hin }} @else {{ $product->product_name_en }} @endif</a></h3>
+                            <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en) }}">@if (session()->get('language') == 'hindi') {{ $product->product_name_hin }} @else {{ $product->product_name_en }} @endif</a></h3>
                             <div class="rating rateit-small"></div>
                             <div class="description"></div>
                             @if ($product->discount_price == NULL) 
