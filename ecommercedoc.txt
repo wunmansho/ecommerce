@@ -6309,6 +6309,27 @@ but we were able to borrow items.  I had to mend some css as well to make the ne
                     </div>
                     @endforeach
 
+(194b)  I did a little extra work to expand paging in special offers and special deals
+        $special_offer = Product::where('special_offer',1)->orderBy('id','DESC')->limit(9)->get();
+        $special_deals = Product::where('special_deals',1)->orderBy('id','DESC')->limit(9)->get();
+
+                <div class="item">
+                  <div class="products special-product">
+                  @php
+                    $imagecount = 0;
+                  @endphp
+                    @foreach($special_offer as $product)
+                    @php
+                    $imagecount = $imagecount + 1;
+                  @endphp 
+               @if ($imagecount == 4 || $imagecount == 7 ) 
+              </div>
+              </div>     
+              <div class="item">
+                <div class="products special-product">
+               @endif
+
+
 
 (195) Product Show With Skip Category & Brand Part 1
 

@@ -152,7 +152,19 @@ My Online Shop
                 
                 <div class="item">
                   <div class="products special-product">
+                  @php
+                    $imagecount = 0;
+                  @endphp
                     @foreach($special_offer as $product)
+                    @php
+                    $imagecount = $imagecount + 1;
+                  @endphp 
+               @if ($imagecount == 4 || $imagecount == 7 ) 
+              </div>
+              </div>     
+              <div class="item">
+                <div class="products special-product">
+               @endif
                     <div class="product">
                       <div class="product-micro">
                         <div class="row product-micro-row">
@@ -211,7 +223,21 @@ My Online Shop
               <div class="owl-carousel sidebar-carousel special-offer custom-carousel owl-theme outer-top-xs">
                 <div class="item">
                   <div class="products special-product">
+                    @php
+                      $imagecount = 0;
+                    @endphp
+                    
                     @foreach($special_deals as $product)
+                    @php
+                      $imagecount = $imagecount + 1;
+                    @endphp 
+                 @if ($imagecount == 4 || $imagecount == 7 ) 
+                </div>
+                </div>     
+                <div class="item">
+                  <div class="products special-product">
+                 @endif
+
                     <div class="product">
                       <div class="product-micro">
                         <div class="row product-micro-row">
