@@ -6117,8 +6117,106 @@ cycles over our featured retrieval from IndexController
     }
 
 (192) Hot Deals Product Show
+Here we add our hot_deals lookup to IndexController then on our hot deals card
+we integrate the fields and discount logic from the featured as product foreach loop.  We couldn't really clone the card
+but we were able to borrow items.  I had to mend some css as well to make the new product position properly
 
+    public function index(){
+        $products = Product::where('status',1)->orderBy('id','DESC')->limit(6)->get();
+        $sliders = Slider::where('status',1)->orderBy('id','DESC')->limit(3)->get();
+        $categories = Category::orderBy('category_name_en','ASC')->get();
+        $featured = Product::where('featured',1)->orderBy('id','DESC')->limit(6)->get();
+        $hot_deals = Product::where('hot_deals',1)->orderBy('id','DESC')->limit(3)->get();
 
+        return view('frontend.index',compact('categories','sliders','products','featured','hot_deals'));
+    }
+
+            @foreach($hot_deals as $product)
+              <div class="item">
+                <div class="products">
+                  <div class="hot-deal-wrapper">
+                    <div class="image"> <img src="{{ asset($product->product_thumbnail) }}" alt=""> </div>
+                    @php
+                    $amount = $product->selling_price - $product->discount_price;
+                    $discount = ($amount/$product->selling_price) * 100;
+                  @endphp
+
+                  
+                    @if ($product->discount_price == NULL) 
+                    <div class="tagx new"><span>new</span></div>
+                    @else
+                    <div class="sale-offer-tag"><span>{{ round($discount) }}%<br>
+                    off</span></div>
+                    @endif
+                  
+                    <div class="timing-wrapper">
+                      <div class="box-wrapper">
+                        <div class="date box"> <span class="key">120</span> <span class="value">DAYS</span> </div>
+                      </div>
+                      <div class="box-wrapper">
+                        <div class="hour box"> <span class="key">20</span> <span class="value">HRS</span> </div>
+                      </div>
+                      <div class="box-wrapper">
+                        <div class="minutes box"> <span class="key">36</span> <span class="value">MINS</span> </div>
+                      </div>
+                      <div class="box-wrapper hidden-md">
+                        <div class="seconds box"> <span class="key">60</span> <span class="value">SEC</span> </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.hot-deal-wrapper -->
+                  
+                  <div class="product-info text-left m-t-20">
+                    <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en) }}">@if (session()->get('language') == 'hindi') {{ $product->product_name_hin }} @else {{ $product->product_name_en }} @endif</a></h3>
+                    <div class="rating rateit-small"></div>
+                    @if ($product->discount_price == NULL) 
+                    <div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span></div>
+                    <!-- /.product-price --> 
+                    @else
+                    <div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">${{ $product->selling_price }}</span> </div>
+                    <!-- /.product-price --> 
+                    @endif
+                     
+                  </div>
+                  <!-- /.product-info -->
+                  
+                  <div class="cart clearfix animate-effect">
+                    <div class="action">
+                      <div class="add-cart-button btn-group">
+                        <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
+                        <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
+                      </div>
+                    </div>
+                    <!-- /.action --> 
+                  </div>
+                  <!-- /.cart --> 
+                </div>
+              </div>
+              @endforeach
+
+.tagx  {
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 40px;
+  width: 40px;
+  height: 40px;
+  text-transform: uppercase;
+  top: 2.5%;
+  z-index: 100;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  color: #fff;
+  right: 10px;
+  /*11px;*/
+  text-align: center;
+  position: absolute;
+}
+.tagx.new {
+  background: #46aad7;
+}
+
+(193) Special Offer Product Show
 
 
 
