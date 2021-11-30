@@ -6416,13 +6416,16 @@ we basically cloned FEATURED PRODUCTS
 
 (196) Product Show With Skip Category & Brand Part 2
 
+Rinse and Repeat with brand
+       $skip_brand_1 = Brand::skip(1)->first();
+        $skip_brand_product_1 = Product::where('status',1)->where('brand_id',$skip_brand_1->id)->orderBy('id','DESC')->get();
+
+I also made a fix in ProductController to prevent long desc from updating with html tags.
 
 
 
 
-
-
-
+(197) Update Product HotDeals Get Only Discount Product
 
 
 

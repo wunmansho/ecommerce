@@ -28,7 +28,8 @@ class ProductController extends Controller
     	$name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
     	Image::make($image)->resize(917,1000)->save('upload/products/thumbnail/'.$name_gen);
     	$save_url = 'upload/products/thumbnail/'.$name_gen;
-
+        $long_desc_en = strip_tags($request->long_desc_en);
+        $long_desc_hin = strip_tags($request->long_desc_hin);
         $product_id = Product::insertGetId([           
             'brand_id' => $request->brand_id, 
            'category_id' => $request->category_id,
@@ -50,8 +51,8 @@ class ProductController extends Controller
            'discount_price' => $request->discount_price,
            'short_desc_en' => $request->short_desc_en,
            'short_desc_hin' => $request->short_desc_hin,
-           'long_desc_en' => $request->long_desc_en,
-           'long_desc_hin' => $request->long_desc_hin,
+           'long_desc_en' => $long_desc_en,
+           'long_desc_hin' => $long_desc_hin,
            'hot_deals' => $request->hot_deals,
            'featured' => $request->featured,
            'special_offer' => $request->special_offer,
@@ -115,6 +116,8 @@ class ProductController extends Controller
     public function ProductDataUpdate(Request $request){
        
         $product_id = $request->id;
+        $long_desc_en = strip_tags($request->long_desc_en);
+        $long_desc_hin = strip_tags($request->long_desc_hin);
 
         Product::findOrFail($product_id)->update([           
             'brand_id' => $request->brand_id, 
@@ -137,8 +140,8 @@ class ProductController extends Controller
            'discount_price' => $request->discount_price,
            'short_desc_en' => $request->short_desc_en,
            'short_desc_hin' => $request->short_desc_hin,
-           'long_desc_en' => $request->long_desc_en,
-           'long_desc_hin' => $request->long_desc_hin,
+           'long_desc_en' => $long_desc_en,
+           'long_desc_hin' => $long_desc_hin,
            'hot_deals' => $request->hot_deals,
            'featured' => $request->featured,
            'special_offer' => $request->special_offer,

@@ -11,7 +11,7 @@ My Online Shop
           
           <!-- ================================== TOP NAVIGATION ================================== -->
           <div class="side-menu animate-dropdown outer-bottom-xs">
-            <div class="head"><i class="icon fa fa-align-justify fa-fw"></i> Categories</div>
+            <div class="head"><i class="icon fa fa-align-justify fa-fw"></i> @if (session()->get('language') == 'hindi') श्रेणियाँ @else Categories @endif</div>
             <nav class="yamm megamenu-horizontal">
               <ul class="nav">
                 @foreach($categories as $category)
@@ -73,7 +73,7 @@ My Online Shop
           
           <!-- ============================================== HOT DEALS ============================================== -->
           <div class="sidebar-widget hot-deals wow fadeInUp outer-bottom-xs">
-            <h3 class="section-title">hot deals</h3>
+            <h3 class="section-title">@if (session()->get('language') == 'hindi') जबरदस्त सौदे @else hot deals @endif</h3>
             <div class="owl-carousel sidebar-carousel custom-carousel owl-theme outer-top-ss">
 
               @foreach($hot_deals as $product)
@@ -146,7 +146,7 @@ My Online Shop
           <!-- ============================================== SPECIAL OFFER ============================================== -->
           
           <div class="sidebar-widget outer-bottom-small wow fadeInUp">
-            <h3 class="section-title">Special Offer</h3>
+            <h3 class="section-title">@if (session()->get('language') == 'hindi') विशेष पेशकश @else Special Offer @endif</h3>
             <div class="sidebar-widget-body outer-top-xs">
               <div class="owl-carousel sidebar-carousel special-offer custom-carousel owl-theme outer-top-xs">
                 
@@ -206,7 +206,7 @@ My Online Shop
           <!-- ============================================== SPECIAL OFFER : END ============================================== --> 
           <!-- ============================================== PRODUCT TAGS ============================================== -->
           <div class="sidebar-widget product-tag wow fadeInUp">
-            <h3 class="section-title">Product tags</h3>
+            <h3 class="section-title">@if (session()->get('language') == 'hindi') उत्पाद टैग @else Product tags @endif</h3>
             <div class="sidebar-widget-body outer-top-xs">
               <div class="tag-list"> <a class="item" title="Phone" href="category.html">Phone</a> <a class="item active" title="Vest" href="category.html">Vest</a> <a class="item" title="Smartphone" href="category.html">Smartphone</a> <a class="item" title="Furniture" href="category.html">Furniture</a> <a class="item" title="T-shirt" href="category.html">T-shirt</a> <a class="item" title="Sweatpants" href="category.html">Sweatpants</a> <a class="item" title="Sneaker" href="category.html">Sneaker</a> <a class="item" title="Toys" href="category.html">Toys</a> <a class="item" title="Rose" href="category.html">Rose</a> </div>
               <!-- /.tag-list --> 
@@ -218,7 +218,7 @@ My Online Shop
           <!-- ============================================== SPECIAL DEALS ============================================== -->
           
           <div class="sidebar-widget outer-bottom-small wow fadeInUp">
-            <h3 class="section-title">Special Deals</h3>
+            <h3 class="section-title">@if (session()->get('language') == 'hindi') विशेष सौदे @else Special Deals @endif</h3>
             <div class="sidebar-widget-body outer-top-xs">
               <div class="owl-carousel sidebar-carousel special-offer custom-carousel owl-theme outer-top-xs">
                 <div class="item">
@@ -278,7 +278,7 @@ My Online Shop
           <!-- ============================================== SPECIAL DEALS : END ============================================== --> 
           <!-- ============================================== NEWSLETTER ============================================== -->
           <div class="sidebar-widget newsletter wow fadeInUp outer-bottom-small">
-            <h3 class="section-title">Newsletters</h3>
+            <h3 class="section-title">@if (session()->get('language') == 'hindi') समाचार @else Newsletters @endif</h3>
             <div class="sidebar-widget-body outer-top-xs">
               <p>Sign Up for Our Newsletter!</p>
               <form>
@@ -409,7 +409,7 @@ My Online Shop
           <!-- ============================================== SCROLL TABS ============================================== -->
           <div id="product-tabs-slider" class="scroll-tabs outer-top-vs wow fadeInUp">
             <div class="more-info-tab clearfix ">
-              <h3 class="new-product-title pull-left">New Products</h3>
+              <h3 class="new-product-title pull-left">@if (session()->get('language') == 'hindi') नये उत्पाद @else New Products @endif</h3>
               <ul class="nav nav-tabs nav-tab-line pull-right" id="new-products-1">
                 <li class="active"><a data-transition-type="backSlide" href="#all" data-toggle="tab">All</a></li>
                @foreach($categories as $category)
@@ -612,7 +612,7 @@ My Online Shop
           <!-- ============================================== WIDE PRODUCTS : END ============================================== --> 
           <!-- ============================================== FEATURED PRODUCTS ============================================== -->
           <section class="section featured-product wow fadeInUp">
-            <h3 class="section-title">Featured products</h3>
+            <h3 class="section-title">@if (session()->get('language') == 'hindi') विशेष रुप से प्रदर्शित प्रोडक्टस @else Featured products @endif</h3>
             <div class="owl-carousel home-owl-carousel custom-carousel owl-theme outer-top-xs">
               
               @foreach($featured as $product)
@@ -758,6 +758,80 @@ My Online Shop
           </section>
           <!-- /.section --> 
           <!-- ============================================== SKIP 0 : END ============================================== --> 
+          <!-- ============================================== SKIP PRODUCT 4 ============================================== -->
+          <section class="section featured-product wow fadeInUp">
+            <h3 class="section-title">@if (session()->get('language') == 'hindi') {{ $skip_category_4->category_name_hin }} @else {{ $skip_category_4->category_name_en }} @endif</h3>
+            <div class="owl-carousel home-owl-carousel custom-carousel owl-theme outer-top-xs">
+              
+              @foreach($skip_product_4 as $product)
+              <div class="item item-carousel">
+                <div class="products">
+                  <div class="product">
+                    <div class="product-image">
+                      <div class="image"> <a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en) }}"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> </div>
+                      <!-- /.image -->
+                      
+
+                      @php
+                        $amount = $product->selling_price - $product->discount_price;
+                        $discount = ($amount/$product->selling_price) * 100;
+                      @endphp
+
+                      <div>
+                        @if ($product->discount_price == NULL) 
+                        <div class="tag new"><span>new</span></div>
+                        @else
+                        <div class="tag hot"><span>{{ round($discount) }}%</span></div>
+                        @endif
+                      </div>
+                      
+                    </div>
+                    <!-- /.product-image -->
+                    
+                    <div class="product-info text-left">
+                      <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en) }}">@if (session()->get('language') == 'hindi') {{ $product->product_name_hin }} @else {{ $product->product_name_en }} @endif</a></h3>
+                      <div class="rating rateit-small"></div>
+                      <div class="description"></div>
+                      @if ($product->discount_price == NULL) 
+                      <div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span></div>
+                      <!-- /.product-price --> 
+
+                      @else
+                      <div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">${{ $product->selling_price }}</span> </div>
+                      <!-- /.product-price --> 
+
+                      @endif
+                       
+                    </div>
+                    <!-- /.product-info -->
+                    <div class="cart clearfix animate-effect">
+                      <div class="action">
+                        <ul class="list-unstyled">
+                          <li class="add-cart-button btn-group">
+                            <button data-toggle="tooltip" class="btn btn-primary icon" type="button" title="Add Cart"> <i class="fa fa-shopping-cart"></i> </button>
+                            <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
+                          </li>
+                          <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
+                          <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
+                        </ul>
+                      </div>
+                      <!-- /.action --> 
+                    </div>
+                    <!-- /.cart --> 
+                  </div>
+                  <!-- /.product --> 
+                  
+                </div>
+                <!-- /.products --> 
+              </div>
+              <!-- /.item -->
+              @endforeach
+
+            </div>
+            <!-- /.home-owl-carousel --> 
+          </section>
+          <!-- /.section --> 
+          <!-- ============================================== SKIP PRODUCT 4 : END ============================================== --> 
 
           <!-- ============================================== WIDE PRODUCTS ============================================== -->
           <div class="wide-banners wow fadeInUp outer-bottom-xs">
@@ -785,10 +859,85 @@ My Online Shop
           </div>
           <!-- /.wide-banners --> 
           <!-- ============================================== WIDE PRODUCTS : END ============================================== --> 
+          <!-- ============================================== SKIP BRAND 1 ============================================== -->
+          <section class="section featured-product wow fadeInUp">
+            <h3 class="section-title">@if (session()->get('language') == 'hindi') {{ $skip_brand_1->brand_name_hin }} @else {{ $skip_brand_1->brand_name_en }} @endif</h3>
+            <div class="owl-carousel home-owl-carousel custom-carousel owl-theme outer-top-xs">
+              
+              @foreach($skip_brand_product_1 as $product)
+              <div class="item item-carousel">
+                <div class="products">
+                  <div class="product">
+                    <div class="product-image">
+                      <div class="image"> <a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en) }}"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> </div>
+                      <!-- /.image -->
+                      
+
+                      @php
+                        $amount = $product->selling_price - $product->discount_price;
+                        $discount = ($amount/$product->selling_price) * 100;
+                      @endphp
+
+                      <div>
+                        @if ($product->discount_price == NULL) 
+                        <div class="tag new"><span>new</span></div>
+                        @else
+                        <div class="tag hot"><span>{{ round($discount) }}%</span></div>
+                        @endif
+                      </div>
+                      
+                    </div>
+                    <!-- /.product-image -->
+                    
+                    <div class="product-info text-left">
+                      <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en) }}">@if (session()->get('language') == 'hindi') {{ $product->product_name_hin }} @else {{ $product->product_name_en }} @endif</a></h3>
+                      <div class="rating rateit-small"></div>
+                      <div class="description"></div>
+                      @if ($product->discount_price == NULL) 
+                      <div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span></div>
+                      <!-- /.product-price --> 
+
+                      @else
+                      <div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">${{ $product->selling_price }}</span> </div>
+                      <!-- /.product-price --> 
+
+                      @endif
+                       
+                    </div>
+                    <!-- /.product-info -->
+                    <div class="cart clearfix animate-effect">
+                      <div class="action">
+                        <ul class="list-unstyled">
+                          <li class="add-cart-button btn-group">
+                            <button data-toggle="tooltip" class="btn btn-primary icon" type="button" title="Add Cart"> <i class="fa fa-shopping-cart"></i> </button>
+                            <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
+                          </li>
+                          <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
+                          <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
+                        </ul>
+                      </div>
+                      <!-- /.action --> 
+                    </div>
+                    <!-- /.cart --> 
+                  </div>
+                  <!-- /.product --> 
+                  
+                </div>
+                <!-- /.products --> 
+              </div>
+              <!-- /.item -->
+              @endforeach
+
+            </div>
+            <!-- /.home-owl-carousel --> 
+          </section>
+          <!-- /.section --> 
+          <!-- ============================================== SKIP BRAND 1 : END ============================================== --> 
+ 
           <!-- ============================================== BEST SELLER ============================================== -->
           
           <div class="best-deal wow fadeInUp outer-bottom-xs">
-            <h3 class="section-title">Best seller</h3>
+            <h3 class="section-title">@if (session()->get('language') == 'hindi') सर्वश्रेष्ठ विक्रेता @else Best Seller @endif</h3>
             <div class="sidebar-widget-body outer-top-xs">
               <div class="owl-carousel best-seller custom-carousel owl-theme outer-top-xs">
                 <div class="item">
@@ -1040,7 +1189,7 @@ My Online Shop
           
           <!-- ============================================== BLOG SLIDER ============================================== -->
           <section class="section latest-blog outer-bottom-vs wow fadeInUp">
-            <h3 class="section-title">latest form blog</h3>
+            <h3 class="section-title">>@if (session()->get('language') == 'hindi') नवीनतम फॉर्म ब्लॉग @else latest form blog @endif</h3>
             <div class="blog-slider-container outer-top-xs">
               <div class="owl-carousel blog-slider custom-carousel">
                 <div class="item">
@@ -1150,7 +1299,7 @@ My Online Shop
           
           <!-- ============================================== FEATURED PRODUCTS ============================================== -->
           <section class="section wow fadeInUp new-arriavls">
-            <h3 class="section-title">New Arrivals</h3>
+            <h3 class="section-title">@if (session()->get('language') == 'hindi') नवागन्तुक @else New Arrivals @endif</h3>
             <div class="owl-carousel home-owl-carousel custom-carousel owl-theme outer-top-xs">
               <div class="item item-carousel">
                 <div class="products">
