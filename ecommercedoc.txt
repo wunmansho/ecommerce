@@ -6267,7 +6267,50 @@ but we were able to borrow items.  I had to mend some css as well to make the ne
                
 (194) Special Deals Product Show
             
+    public function index(){
+        $products = Product::where('status',1)->orderBy('id','DESC')->limit(6)->get();
+        $sliders = Slider::where('status',1)->orderBy('id','DESC')->limit(3)->get();
+        $categories = Category::orderBy('category_name_en','ASC')->get();
+        $featured = Product::where('featured',1)->orderBy('id','DESC')->limit(6)->get();
+        $hot_deals = Product::where('hot_deals',1)->orderBy('id','DESC')->limit(3)->get();
+        $special_offer = Product::where('special_offer',1)->orderBy('id','DESC')->limit(6)->get();
+        $special_deals = Product::where('special_deals',1)->orderBy('id','DESC')->limit(3)->get();
 
+        return view('frontend.index',compact('categories','sliders','products','featured','hot_deals','special_offer','special_deals'));
+    }
+                   @foreach($special_deals as $product)
+                    <div class="product">
+                      <div class="product-micro">
+                        <div class="row product-micro-row">
+                          <div class="col col-xs-5">
+                            <div class="product-image">
+                              <div class="image"> <a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en) }}"> <img src="{{ asset($product->product_thumbnail) }}"  alt=""> </a> </div>
+                              <!-- /.image --> 
+                              
+                            </div>
+                            <!-- /.product-image --> 
+                          </div>
+                          <!-- /.col -->
+                          <div class="col col-xs-7">
+                            <div class="product-info">
+                              <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en) }}">@if (session()->get('language') == 'hindi') {{ $product->product_name_hin }} @else {{ $product->product_name_en }} @endif</a></h3>
+                              <div class="rating rateit-small"></div>
+                              <div class="product-price"> <span class="price">${{ $product->selling_price }}</span> </div>
+                              <!-- /.product-price --> 
+                              
+                            </div>
+                          </div>
+                          <!-- /.col --> 
+                        </div>
+                        <!-- /.product-micro-row --> 
+                      </div>
+                      <!-- /.product-micro --> 
+                      
+                    </div>
+                    @endforeach
+
+
+(195) Product Show With Skip Category & Brand Part 1
 
 
 
