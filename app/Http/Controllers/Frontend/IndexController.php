@@ -21,8 +21,8 @@ class IndexController extends Controller
         $categories = Category::orderBy('category_name_en','ASC')->get();
         $featured = Product::where('featured',1)->orderBy('id','DESC')->limit(6)->get();
         $hot_deals = Product::where('hot_deals',1)->where('discount_price','!=',NULL)->orderBy('id','DESC')->limit(3)->get();
-        $special_offer = Product::where('special_offer',1)->orderBy('id','DESC')->limit(9)->get();
-        $special_deals = Product::where('special_deals',1)->orderBy('id','DESC')->limit(9)->get();
+        $special_offer = Product::where('special_offer',1)->orderBy('id','DESC')->limit(30)->get();
+        $special_deals = Product::where('special_deals',1)->orderBy('id','DESC')->limit(30)->get();
         $skip_category_0 = Category::skip(3)->first();
         $skip_product_0 = Product::where('status',1)->where('category_id',$skip_category_0->id)->orderBy('id','DESC')->get();
         $skip_category_4 = Category::skip(4)->first();
