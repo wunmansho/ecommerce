@@ -6488,6 +6488,42 @@ from products.
 
 
 (199) Tag Wise Product Show Part 1
+I added url links to the tags
+           @if (session()->get('language') == 'hindi')  
+            @foreach($tags_hin as $tags)
+            <a class="item" title="{{ str_replace(',',' ',$tags->product_tags_hin) }}" href="{{ url('product/tag/'.$tags->product_tags_hin) }}">{{ str_replace(',',' ',$tags->product_tags_hin) }}</a>
+            @endforeach
+            @else 
+            @foreach($tags_en as $tags) 
+            <a class="item" title="{{ str_replace(',',' ',$tags->product_tags_en) }}" href="{{ url('product/tag/'.$tags->product_tags_en) }}">{{ str_replace(',',' ',$tags->product_tags_en) }}</a>
+            @endforeach
+            @endif
+
+
+web.php
+//// Frontend Product Tags Page ////
+Route::get('/product/tag/{id}', [IndexController::class, 'TagWiseProduct']);
+
+IndexController
+    public function TagWiseProduct($tag) {
+        $products = Product::where('status',1)->where('product_tags_en',$tag)->where('product_tags_hin',$tag)->orderBy('id','DESC')->get();
+        return view('frontend.tags.tags_view',compact('products'));
+    }
+
+I created frontend.tags.tags_view
+
+I copied category.html into tags_view
+
+Since top navigation is the same top navigation in index
+I placed top navigation in common and included it both places
+          <!-- ================================== TOP NAVIGATION ================================== --> 
+        @include('frontend.common.vertical_menu');  
+          <!-- ================================== TOP NAVIGATION : END ================================== --> 
+
+
+
+(200) Tag Wise Product Show Part 2
+
 
 
 

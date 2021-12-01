@@ -11,11 +11,11 @@
         <div class="tag-list">
             @if (session()->get('language') == 'hindi')  
             @foreach($tags_hin as $tags)
-            <a class="item" title="{{ str_replace(',',' ',$tags->product_tags_hin) }}" href="category.html">{{ str_replace(',',' ',$tags->product_tags_hin) }}</a>
+            <a class="item" title="{{ str_replace(',',' ',$tags->product_tags_hin) }}" href="{{ url('product/tag/'.$tags->product_tags_hin) }}">{{ str_replace(',',' ',$tags->product_tags_hin) }}</a>
             @endforeach
             @else 
             @foreach($tags_en as $tags) 
-            <a class="item" title="{{ str_replace(',',' ',$tags->product_tags_en) }}" href="category.html">{{ str_replace(',',' ',$tags->product_tags_en) }}</a>
+            <a class="item" title="{{ str_replace(',',' ',$tags->product_tags_en) }}" href="{{ url('product/tag/'.$tags->product_tags_en) }}">{{ str_replace(',',' ',$tags->product_tags_en) }}</a>
             @endforeach
             @endif
 
