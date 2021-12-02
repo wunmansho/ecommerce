@@ -27,7 +27,7 @@ $subsubcategories = App\Models\SubSubCategory::where('subcategory_id',$subcatego
 @endphp
                   @foreach($subsubcategories as $subsubcategory)
                   <ul class="links list-unstyled">
-                    <li><a href="#">@if (session()->get('language') == 'hindi') {{ $subsubcategory->subsubcategory_name_hin }} @else {{ $subsubcategory->subsubcategory_name_en }} @endif </a></li>
+                    <li><a href="{{ url('subsubcategory/product/'.$subsubcategory->id.'/'.$subsubcategory->subsubcategory_slug_en) }}">@if (session()->get('language') == 'hindi') {{ $subsubcategory->subsubcategory_name_hin }} @else {{ $subsubcategory->subsubcategory_name_en }} @endif </a></li>
                    </ul>
                    @endforeach
                 </div>
