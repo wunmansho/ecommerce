@@ -1,0 +1,6 @@
+src="assets
+src="{{ asset('frontend/assets
+
+
+.jpg"
+.jpg') }}"

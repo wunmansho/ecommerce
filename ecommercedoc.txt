@@ -64,7 +64,7 @@ We can turn some Auth features on and off in config fortify.php
 and config jetstream.php
 in jetstream.php I uncomment profile photos like so to enable the display of profile photos
 Features::profilePhotos(),
-we also have to change APP_URL in .env to display photos like so
+I also have to change APP_URL in .env to display photos like so
 APP_URL=http://localhost:8000
 
 Next I must run 
@@ -142,8 +142,8 @@ Ctl p allows me to search fields
 
 So first I search for and open AuthenticatedSessionController
 Next I search for and open FortifyServiceProvider.php the one under App Providers
-we change the register function like so  
-we copied the AttemptToAuthenticate and RedirectIfTwoFactorAuthenticatable from AuthenticatedSessionController
+I changed the register function like so  
+I copied the AttemptToAuthenticate and RedirectIfTwoFactorAuthenticatable from AuthenticatedSessionController
    public function register()
     {
         $this->app->when([AdminController::class, 
@@ -327,7 +327,7 @@ class LogoutResponse implements LogoutResponseContract
 
 From Ecommerce_Excersise_Files\Project Themes\Admin Theme\main-dark I want
 to copy css, js, and scss to public and create folder backend and paste 
-we also want to copy Admin Theme\images over to backend
+I also want to copy Admin Theme\images over to backend
 Now I want to copy Admin Theme\assets to public
 
 So next I want to create the resources views admin folder
@@ -378,7 +378,7 @@ at the top of index.blade.php I will inserted
 Under that I will add the admin section id like so
 @section('admin')
 
-we also have to place the @endsection at the bottom
+I also have to place the @endsection at the bottom
 
 
 So now I want to load this new page in web.php like so
@@ -483,7 +483,7 @@ Next I add the method to Controller
 
 Next I create the returned view in the admin folder 
 admin_profile_view.blade.php
-we paste in index 
+I paste in index 
 then cut it down to this
 @extends('admin.admin_master')
 @section('admin')
@@ -501,8 +501,8 @@ then cut it down to this
 @endsection
 
 Next I copy box box-widget widget-user from profile.html
-We cut out the backgound style
-we drop in the Admin name and email and photos and profile edit button
+I cut out the backgound style
+I drop in the Admin name and email and photos and profile edit button
 <h3 class="widget-user-username">Admin Name: {{ $adminData->name }}</h3>
 <h6 class="widget-user-desc">Admin Email: {{ $adminData->email }}</h6>
 <img class="rounded-circle" src="{{ (!empty($adminData->profile_photo_path))?
@@ -530,7 +530,7 @@ AdminProfileController
 
 
 resources views admin create admin_profile_edit from admin_profile_view
-we remove the section class content and replace it with main content from forms_validation.html
+I remove the section class content and replace it with main content from forms_validation.html
 
 If I log into admin and select profile then the edit button I should see the new page
 
@@ -705,7 +705,7 @@ next I copy assets folder to public frontend
 Now I update the links in main_master to point at the assets folder in public frontend
 
 Now I cut header out of main_master and paste it into body header.blade.php
-we also create two more new files footer.blade.php and brand.blade.php
+I also create two more new files footer.blade.php and brand.blade.php
 
 Next I include back into main_master 
 @include('frontend.body.header')
@@ -962,7 +962,7 @@ MAIL_FROM_NAME="${APP_NAME}"
 Now I want to back up reset-password blade clear it and copy in forgot-password.blade
 We change the heading text copy in the form tag and token field from the backup 
 then I clone email to 3 fields
-we change the field names ids field types and button text like so
+I change the field names ids field types and button text like so
 @extends('frontend.main_master')
 @section('content')
     <div class="breadcrumb">
@@ -1204,7 +1204,7 @@ dashboard.blade
 
 (129) Toastr Alert Add Toastr Alert
 
-we had to copy the toastr stuff from admin_master.blade to main_master.blade
+I had to copy the toastr stuff from admin_master.blade to main_master.blade
 
 
 (130) User Profile Password Change Part 1
@@ -1431,7 +1431,7 @@ class BrandController extends Controller
 
 Next I need to create the backend folder under views and brand folder under backend 
 and then create brand_view.blade.php
-we copy in the bare bone basics like so and test to see that I hit a page when I click the new link from Admin Dashboard
+I copy in the bare bone basics like so and test to see that I hit a page when I click the new link from Admin Dashboard
 @extends('admin.admin_master')
 @section('admin')
 
@@ -1588,7 +1588,7 @@ Now I must add the brand.store route from the add form to web.php
    Route::get('/store', [BrandController::class, 'BrandStore'])->name('brand.store'); 
 
 Next I create the BrandStore method in BrandController
-we will add functionality to it in the next section
+I will add functionality to it in the next section
 
 (136)  Add Active Sidebar menu
 
@@ -2619,7 +2619,7 @@ We massage SubCategoryEdit method like so
 
 (147) Subcategory Crud Part 3
 
-we create the subcategory_edit cloning the subcategory_view and massage it like so
+I create the subcategory_edit cloning the subcategory_view and massage it like so
 @extends('admin.admin_master')
 @section('admin')
     <div class="container-full">
@@ -2811,7 +2811,7 @@ use App\Models\SubSubCategory;
 
 Now I create the view subsubcategory_view.blade.php I clone subcategory_view and massage like so.  
 Notice
-we include Jquery and write some javascript at the bottom of the page to retrieve the subcategory
+I include Jquery and write some javascript at the bottom of the page to retrieve the subcategory
 select info based on the option chosen in category select.
 
 @extends('admin.admin_master')
@@ -4322,7 +4322,7 @@ ProductController
 (166) Manage Product Update Single & Multiple Image Part 1
 
 We added a section to the bottom of product_edit dedicated to image editing
-we used a box from card_color.html and then added a card from
+I used a box from card_color.html and then added a card from
 https://getbootstrap.com/docs/5.0/components/card/#example
         <!-- /////////////// Start Multiple Image Update Area ////////////// -->
 
@@ -5258,7 +5258,7 @@ use Image;
     }
 
 
-we create backend.slider.slider_view
+I create backend.slider.slider_view
 MT 
 
 (173) Upload Slider and Show All Slider List Part 2
@@ -5757,7 +5757,7 @@ Here I finish out the header menus with the multilingual logic
 (181) Frontend Show Category Subcategory and Subsubcategory Part 3
 
 Here I begin work on index.blade.php
-we start by modifying IndexController to pass category data.  
+I start by modifying IndexController to pass category data.  
 We then pick up the categories in index.blade  and add translation logic.
 
 (182) Frontend Show Category Subcategory and Subsubcategory Part 4
@@ -5793,7 +5793,7 @@ Next I add a foreach loop to display the sliders
 
 (184) Frontend Dynamic Bootstrap Tabs Part 1
 
-we added Product to IndexController and pulled products into NewProducts Area
+I added Product to IndexController and pulled products into NewProducts Area
 
 (185) Frontend Dynamic Bootstrap Tabs Part 2
 
@@ -6118,7 +6118,7 @@ cycles over the featured retrieval from IndexController
 
 (192) Hot Deals Product Show
 Here I add the hot_deals lookup to IndexController then on the hot deals card
-we integrate the fields and discount logic from the featured as product foreach loop.  We couldn't really clone the card
+I integrate the fields and discount logic from the featured as product foreach loop.  We couldn't really clone the card
 but I were able to borrow items.  I had to mend some css as well to make the new product position properly
 
     public function index(){
@@ -6335,7 +6335,7 @@ but I were able to borrow items.  I had to mend some css as well to make the new
 
 We did a data extract in the IndexController using the skip keyword and
 also extracted the contents of products for that category then display them in index.blade.
-we basically cloned FEATURED PRODUCTS
+I basically cloned FEATURED PRODUCTS
         $skip_category_0 = Category::skip(3)->first();
         $skip_product_0 = Product::where('status',1)->where('category_id',$skip_category_0->id)->orderBy('id','DESC')->get();
          <section class="section featured-product wow fadeInUp">
@@ -6573,7 +6573,90 @@ I moved the testimonials to common.testimonials and included them back in to tag
 
 (201) Tag Wise Product Show Part 3
 
+Here we made our Product GRID VIEW dynamic reusing code from index 
+          {{-- //////////////////////// Product Grid View Start //////////////////// --}}
 
+              <div class="tab-pane active " id="grid-container">
+                <div class="category-product">
+                  <div class="row">
+
+
+                    @foreach($products as $product) 
+                    <div class="col-sm-6 col-md-4 wow fadeInUp">
+                      <div class="products">
+                        <div class="product">
+                          <div class="product-image">
+                            <div class="image"> <a href="detail.html"><img  src="{{ asset($product->product_thumbnail) }}" alt=""></a> </div>
+                            <!-- /.image -->
+                            @php
+                              $amount = $product->selling_price - $product->discount_price;
+                              $discount = ($amount/$product->selling_price) * 100;
+                            @endphp
+
+                            <div>
+                              @if ($product->discount_price == NULL) 
+                              <div class="tag new"><span>new</span></div>
+                              @else
+                              <div class="tag hot"><span>{{ round($discount) }}%</span></div>
+                              @endif
+                            </div>                            
+                            
+                          </div>
+                          <!-- /.product-image -->
+                          
+                          <div class="product-info text-left">
+                            <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug_en) }}">@if (session()->get('language') == 'hindi') {{ $product->product_name_hin }} @else {{ $product->product_name_en }} @endif</a></h3>
+                            <div class="rating rateit-small"></div>
+                            <div class="description"></div>
+                            @if ($product->discount_price == NULL) 
+                            <div class="product-price"> <span class="price"> ${{ $product->selling_price }} </span></div>
+                            <!-- /.product-price --> 
+
+                            @else
+                            <div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">${{ $product->selling_price }}</span> </div>
+                            <!-- /.product-price --> 
+
+                            @endif
+
+                             
+                          </div>
+                          <!-- /.product-info -->
+                          <div class="cart clearfix animate-effect">
+                            <div class="action">
+                              <ul class="list-unstyled">
+                                <li class="add-cart-button btn-group">
+                                  <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
+                                  <button class="btn btn-primary cart-btn" type="button">@if (session()->get('language') == 'hindi') कार्ट में जोड़ें @else Add to cart @endif</button>
+                                </li>
+                                <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
+                                <li class="lnk"> <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal"></i> </a> </li>
+                              </ul>
+                            </div>
+                            <!-- /.action --> 
+                          </div>
+                          <!-- /.cart --> 
+                        </div>
+                        <!-- /.product --> 
+                        
+                      </div>
+                      <!-- /.products --> 
+                    </div>
+                    <!-- /.item -->
+                    @endforeach
+
+
+                  </div>
+                  <!-- /.row --> 
+                </div>
+                <!-- /.category-product --> 
+                
+              </div>
+              <!-- /.tab-pane -->
+              {{-- //////////////////////// Product Grid View End //////////////////// --}}
+
+
+
+(202) Tag Wise Product Show Part 4
 
 
 
