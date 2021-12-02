@@ -6804,7 +6804,52 @@ I copied in subcategory_view and changed the title
 
 (206) Display Product Size and Color Select Option
 
+To allow dropdown selection of size and color from product_details
+I copied a dropdown from Frontend templates shopping-cart.html
+and created these
+	<div class="col-sm-6">
+		<div class="form-group">
+			<label class="info-title control-label">@if (session()->get('language') == 'hindi') रंग पसंद करो @else Choose Color @endif <span></span></label>
+			<select class="form-control unicase-form-control selectpicker">
+				<option selected="" disabled="">--@if (session()->get('language') == 'hindi') रंग पसंद करो @else Choose Color @endif--</option>
 
+				@if (session()->get('language') == 'hindi') 
+				@foreach ($product_color_hin as $color )
+				<option value="{{ $color }}">{{ $color }}</option>	
+				@endforeach
+				@else 
+				@foreach ($product_color_en as $color )
+				<option value="{{ $color }}">{{ $color }}</option>	
+				@endforeach
+				@endif
+				
+			</select>
+		</div>
+	</div>
+
+<div class="col-sm-6">
+	<div class="form-group">
+		<label class="info-title control-label">@if (session()->get('language') == 'hindi') नाप चुनें @else Choose Size @endif <span></span></label>
+		<select class="form-control unicase-form-control selectpicker">
+			<option selected="" disabled="">--@if (session()->get('language') == 'hindi') नाप चुनें @else Choose Size @endif--</option>
+			@if (session()->get('language') == 'hindi') 
+			@foreach ($product_size_hin as $size )
+			<option value="{{ $size }}">{{ $size }}</option>	
+			@endforeach
+			@else 
+			@foreach ($product_size_en as $size )
+			<option value="{{ $size }}">{{ $size }}</option>	
+			@endforeach
+			@endif
+		</select>
+	</div>
+</div>
+
+
+
+
+
+(207) Related Product Show
 
 
 

@@ -423,49 +423,108 @@
 										</div>
 									</div>
 
-									<div class="col-sm-6">
-										<div class="favorite-button m-t-10">
-											<a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Wishlist" href="#">
-											    <i class="fa fa-heart"></i>
-											</a>
-											<a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Add to Compare" href="#">
-											   <i class="fa fa-signal"></i>
-											</a>
-											<a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="E-mail" href="#">
-											    <i class="fa fa-envelope"></i>
-											</a>
-										</div>
-									</div>
+<div class="col-sm-6">
+	<div class="favorite-button m-t-10">
+		<a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Wishlist" href="#">
+			<i class="fa fa-heart"></i>
+		</a>
+		<a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Add to Compare" href="#">
+			<i class="fa fa-signal"></i>
+		</a>
+		<a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="E-mail" href="#">
+			<i class="fa fa-envelope"></i>
+		</a>
+	</div>
+</div>
 
 								</div><!-- /.row -->
 							</div><!-- /.price-container -->
 
-							<div class="quantity-container info-container">
-								<div class="row">
-									
-									<div class="col-sm-2">
-										<span class="label">Qty :</span>
-									</div>
-									
-									<div class="col-sm-2">
-										<div class="cart-quantity">
-											<div class="quant-input">
-								                <div class="arrows">
-								                  <div class="arrow plus gradient"><span class="ir"><i class="icon fa fa-sort-asc"></i></span></div>
-								                  <div class="arrow minus gradient"><span class="ir"><i class="icon fa fa-sort-desc"></i></span></div>
-								                </div>
-								                <input type="text" value="1">
-							              </div>
-							            </div>
-									</div>
 
-									<div class="col-sm-7">
-										<a href="#" class="btn btn-primary"><i class="fa fa-shopping-cart inner-right-vs"></i> ADD TO CART</a>
-									</div>
+{{-- //// Add Product Color And Product Size //// --}}
 
-									
-								</div><!-- /.row -->
-							</div><!-- /.quantity-container -->
+<div class="row">
+										  
+
+	<div class="col-sm-6">
+		<div class="form-group">
+			<label class="info-title control-label">@if (session()->get('language') == 'hindi') रंग पसंद करो @else Choose Color @endif <span></span></label>
+			<select class="form-control unicase-form-control selectpicker">
+				<option selected="" disabled="">--@if (session()->get('language') == 'hindi') रंग पसंद करो @else Choose Color @endif--</option>
+
+				@if (session()->get('language') == 'hindi') 
+				@foreach ($product_color_hin as $color )
+				<option value="{{ $color }}">{{ $color }}</option>	
+				@endforeach
+				@else 
+				@foreach ($product_color_en as $color )
+				<option value="{{ $color }}">{{ $color }}</option>	
+				@endforeach
+				@endif
+				
+			</select>
+		</div>
+	</div>
+
+<div class="col-sm-6">
+	<div class="form-group">
+		<label class="info-title control-label">@if (session()->get('language') == 'hindi') नाप चुनें @else Choose Size @endif <span></span></label>
+		<select class="form-control unicase-form-control selectpicker">
+			<option selected="" disabled="">--@if (session()->get('language') == 'hindi') नाप चुनें @else Choose Size @endif--</option>
+			@if (session()->get('language') == 'hindi') 
+			@foreach ($product_size_hin as $size )
+			<option value="{{ $size }}">{{ $size }}</option>	
+			@endforeach
+			@else 
+			@foreach ($product_size_en as $size )
+			<option value="{{ $size }}">{{ $size }}</option>	
+			@endforeach
+			@endif
+		</select>
+	</div>
+</div>
+
+</div><!-- /.row -->
+
+{{-- //// END Add Product Color And Product Size //// --}}
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="quantity-container info-container">
+	<div class="row">
+		
+		<div class="col-sm-2">
+			<span class="label">Qty :</span>
+		</div>
+		
+		<div class="col-sm-2">
+			<div class="cart-quantity">
+				<div class="quant-input">
+					<div class="arrows">
+						<div class="arrow plus gradient"><span class="ir"><i class="icon fa fa-sort-asc"></i></span></div>
+						<div class="arrow minus gradient"><span class="ir"><i class="icon fa fa-sort-desc"></i></span></div>
+					</div>
+					<input type="text" value="1">
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-7">
+			<a href="#" class="btn btn-primary"><i class="fa fa-shopping-cart inner-right-vs"></i> ADD TO CART</a>
+		</div>
+
+		
+	</div><!-- /.row -->
+</div><!-- /.quantity-container -->
 
 							
 
