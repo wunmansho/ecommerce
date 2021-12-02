@@ -74,17 +74,17 @@ Now I can add profile photos
 
 (98)  Setup admin table and seed database
 
-php artisan r:l gives us our Route List
+php artisan r:l gives me the Route List
 
 Now I want to create the Admin authentication
 
 So first I create an admin controller
 php artisan make:controller AdminController
 
-Next our model and migration
+Next the model and migration
 php artisan make:model Admin -m
 
-Next I copy our fields from user migration into the admin migration
+Next I copy the fields from user migration into the admin migration
 after that I copy the entire user model into the admin model then rename the class to Admin
 after that I run the migration
 php artisan migrate
@@ -114,7 +114,7 @@ Next I open database seeder DatabaseSeeder.php and make it like so
 Now I want migrate and seed like so
 php artisan migrate --seed
 
-now our one record was inserted into the table.
+now the one record was inserted into the table.
 
 (99)  Creating Guards for Admin
 
@@ -138,7 +138,7 @@ In the password section
         ],
 
 
-Ctl p allows us to search fields
+Ctl p allows me to search fields
 
 So first I search for and open AuthenticatedSessionController
 Next I search for and open FortifyServiceProvider.php the one under App Providers
@@ -163,7 +163,7 @@ use App\Http\Controllers\AdminController;
 
 now under app folder I create a new folder Guards and in this folder I create
 AdminStatefulGuard.php
-next I copy StatefulGuard.php into our new file and rename the interface to AdminStatefulGuard
+next I copy StatefulGuard.php into the new file and rename the interface to AdminStatefulGuard
 
 (100)  Laravel 8 Mutli Auth Part 1
 
@@ -184,12 +184,12 @@ Route::middleware(['auth:sanctum,admin', 'verified'])->get('/admin/dashboard', f
     return view('dashboard');
 })->name('dashboard');
 
-Now I create our loginForm method in AdminController like so specifying that I will use the admin guard
+Now I create the loginForm method in AdminController like so specifying that I will use the admin guard
     public function loginForm(){
         return view('auth.login', ['guard' => 'admin']);
     }
 
-Next I open resources views auth login.blade.php and add some logic to our form action like so
+Next I open resources views auth login.blade.php and add some logic to the form action like so
     <form method="POST" action="{{ isset($guard) ? url($guard.'/login') : route('login') }}">
 so if I specify a guard the link will be one thing else default
 
@@ -201,7 +201,7 @@ namespace App\Actions\Fortify;
 (101)  Laravel 8 Mutli Auth Part 2
 
 
-We now have to create our middleware
+We now have to create the middleware
 
 So in app providers RouteServiceProvider I create a function like so
    public static function redirectTo($guard){
@@ -233,11 +233,11 @@ Next, I want to register AdminRedirectIfAuthenticated.php with app Http kernal.p
 adding to the bottom in the protected Middleware array
 'admin' => \App\Http\Middleware\AdminRedirectIfAuthenticated::class,
 
-Next in our AdminController I make a call into vendor laravel fortify src http responses LoginResponse.php
+Next in the AdminController I make a call into vendor laravel fortify src http responses LoginResponse.php
 
 So I will create a new folder app http Responses and clone LoginReponse into it.
 
-Next I fix our namespace
+Next I fix the namespace
 and change the return redirect to go to admin/dashboard like so
     public function toResponse($request)
     {
@@ -262,7 +262,7 @@ Now I logout and resolve to solve everything.
 
 (102)  Laravel 8 Mutli Auth Part 3
 
-so our admin user can login from login but our std user cant login
+so the admin user can login from login but the std user cant login
 if I try /admin/login I get a class error admin.admin does not exist
 so I go to web.php and change this 
 Route::group(['prefix'=> 'admin', 'middleware'=>['admin.admin']], function(){
@@ -270,11 +270,11 @@ to this
 Route::group(['prefix'=> 'admin', 'middleware'=>['admin:admin']], function(){
 and I go back and fix instructions
 
-So now our admin profile may login using admin/login but no redirect occurs yet to the dashboard
+So now the admin profile may login using admin/login but no redirect occurs yet to the dashboard
 
 
-To get this to work I want to change our use in AdminController for LoginResponse
-to point to our new LoginResponse that I created like so
+To get this to work I want to change the use in AdminController for LoginResponse
+to point to the new LoginResponse that I created like so
 use App\Http\Responses\LoginResponse;
 
 So now admin can login from admin/login and redirect to dashboard.
@@ -283,7 +283,7 @@ So now admin can login from admin/login and redirect to dashboard.
 
 (103)  Laravel 8 Mutli Auth Part 4
 
-So now I need to correct App Providers FortifyServiceProvider.php to use some of our modified code like so
+So now I need to correct App Providers FortifyServiceProvider.php to use some of the modified code like so
 use App\Actions\Fortify\AttemptToAuthenticate;
 use App\Actions\Fortify\RedirectIfTwoFactorAuthenticatable;
 
@@ -294,11 +294,11 @@ redirect to user dashboard.
 
 (104)  Page Redirect after logout
 
-So in our AdminController I are referencing the LogoutResponse class like so
+So in the AdminController I are referencing the LogoutResponse class like so
 return app(LogoutResponse::class);
 
 This is in vendor laravel fortify src http Responses LogoutResponse.php so I open it up and 
-change our redirect to admin/login  like so
+change the redirect to admin/login  like so
 class LogoutResponse implements LogoutResponseContract
 {
     /**
@@ -340,7 +340,7 @@ and within body I want to create header.blade.php, footer.blade.php, and sidebar
 Now I want to load Project Themes\Admin THemes\main-dark\index.html
 and copy it into admin_master.blade.php
 
-We change our title and update our css js paths
+We change the title and update the css js paths
 <titleEasy Ecommerce Admin - Dashboard</title>
     <link rel="icon" href="{{ asset('backend/images/favicon.ico') }}">
 
@@ -375,19 +375,19 @@ now where I made the cut I will change the empty div to
 at the top of index.blade.php I will inserted
 @extends('admin.admin_master')
 
-Under that I will add our admin section id like so
+Under that I will add the admin section id like so
 @section('admin')
 
-we also have to place our @endsection at the bottom
+we also have to place the @endsection at the bottom
 
 
 So now I want to load this new page in web.php like so
-making our returned view admin.index
+making the returned view admin.index
 Route::middleware(['auth:sanctum,admin', 'verified'])->get('/admin/dashboard', function () {
     return view('admin.index');
 })->name('dashboard');
 
-So now if I login as admin I get our new dashboard page
+So now if I login as admin I get the new dashboard page
 
 (110) Dashboard Page Segmentation
 
@@ -425,26 +425,26 @@ destroy method already exists in AdminController
 So I open from the main-dark theme directory auth_login.html and copy it to
 resources views auth admin_login.blade.php  
 
-We update our js and css links
+We update the js and css links
 
-Next I want to change our return view from loginForm AdminController like so
+Next I want to change the return view from loginForm AdminController like so
 public function loginForm(){
         return view('auth.admin_login', ['guard' => 'admin']);
     }
 
-so if I test admin/login I will see our new page
+so if I test admin/login I will see the new page
 
 to get it working I copy the form tag and @csrf from login.blade.php over the 
 static form tag in admin_login.blade.php
 
-next I want our field id's etc from login to get copied over.
+next I want the field id's etc from login to get copied over.
 along with the forgotten password route
 
 (113) Refresh Admin Template
 
-So I cut alot out of Index.blade.php and updated our image links
+So I cut alot out of Index.blade.php and updated the image links
 
-And I updated our footer like so
+And I updated the footer like so
 <footer class="main-footer">
             <div class="pull-right d-none d-sm-inline-block">
                 <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">
@@ -463,25 +463,25 @@ And I updated our footer like so
 
 Profile name email address etc
 
-First I add our link to admin profile in header.blade
+First I add the link to admin profile in header.blade
 <a class="dropdown-item" href="{{ route('admin.profile')  }}"><i class="ti-user text-muted mr-2"></i> Profile</a>
 
 Next I create a new Controller
 php artisan make:controller Backend/AdminProfileController
 
 
-Next I add our route in web.php
+Next I add the route in web.php
 use App\Http\Controllers\Backend\AdminProfileController;
 Route::get('/admin/profile', [AdminProfileController::class, 'AdminProfile'])->name('admin.profile'); 
 
-Next I add our method to Controller
+Next I add the method to Controller
     public function AdminProfile(){
         $adminData = Admin::find(1);
         return view('admin.admin_profile_view', compact('adminData'));
 
     }
 
-Next I create our returned view in the admin folder 
+Next I create the returned view in the admin folder 
 admin_profile_view.blade.php
 we paste in index 
 then cut it down to this
@@ -502,7 +502,7 @@ then cut it down to this
 
 Next I copy box box-widget widget-user from profile.html
 We cut out the backgound style
-we drop in our Admin name and email and photos and profile edit button
+we drop in the Admin name and email and photos and profile edit button
 <h3 class="widget-user-username">Admin Name: {{ $adminData->name }}</h3>
 <h6 class="widget-user-desc">Admin Email: {{ $adminData->email }}</h6>
 <img class="rounded-circle" src="{{ (!empty($adminData->profile_photo_path))?
@@ -532,13 +532,13 @@ AdminProfileController
 resources views admin create admin_profile_edit from admin_profile_view
 we remove the section class content and replace it with main content from forms_validation.html
 
-If I log into admin and select profile then the edit button I should see our new page
+If I log into admin and select profile then the edit button I should see the new page
 
 Now I need to pare it down to two fields email, file upload and an update button
 
 (116)  Admin and Profile & Image Update Part 3
 
-Now I add a script to manipulate an image so I start with giving both of our images
+Now I add a script to manipulate an image so I start with giving both of the images
 in admin_profile_edit id's.  Next I write the script like so and add the jQuery cdn
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -582,7 +582,7 @@ AdminProfileController
 
 Now if I update image the new image is displayed
 
-To display the image in header I update our image source to be like admin_profile_view and add some
+To display the image in header I update the image source to be like admin_profile_view and add some
 php inline in the header like so
                         @php 
                         $adminData = DB::table('admins')->first();
@@ -699,10 +699,10 @@ main_master.blade.php
 index.blade.php
 then I create a folder
 body
-next from our frontend template I copy home.html src into main_master
+next from the frontend template I copy home.html src into main_master
 next I copy assets folder to public frontend
 
-Now I update our links in main_master to point at the assets folder in public frontend
+Now I update the links in main_master to point at the assets folder in public frontend
 
 Now I cut header out of main_master and paste it into body header.blade.php
 we also create two more new files footer.blade.php and brand.blade.php
@@ -734,7 +734,7 @@ and add the use to web.php
 use App\Http\Controllers\Frontend\IndexController;
 and remove the welcome route at the top
 
-Now I create our index function in IndexController
+Now I create the index function in IndexController
     public function index(){
         return view('frontend.index');
     }
@@ -744,7 +744,7 @@ Now are page should load
 Now I go back through and update all of the image links that I ignored
 earlier check for console log errors on missing stuff and update the links
 
-Now I cut our brands carousel out of the bottom of index and paste it into brands
+Now I cut the brands carousel out of the bottom of index and paste it into brands
 then I include it back in
        @include('frontend.body.brands')
 
@@ -760,14 +760,14 @@ First I open Auth login.blade.php and bak it up then clear it.  Next I fill it i
 
 
 We copy frontend Theme sign-in.html starting after header end
-to just before footer begins into our new section in login
+to just before footer begins into the new section in login
 
-now our new login will display
+now the new login will display
 
 Next I cut out brands and copy include from index
       @include('frontend.body.brands')
 
-Now I copy the form tag from our origional and paste it in replacing the form tag
+Now I copy the form tag from the origional and paste it in replacing the form tag
        <form method="POST" action="{{ isset($guard) ? url($guard.'/login') : route('login') }}">
             @csrf
 
@@ -798,11 +798,11 @@ Now I should be able to login to dashboard page with user
 
 (124) Frontend Template Register Page Setup
 
-Now to make the dual form in login.blade.php work I have to copy our form tag from register.blade.php
-and paste it over our second form tag in login
+Now to make the dual form in login.blade.php work I have to copy the form tag from register.blade.php
+and paste it over the second form tag in login
        <form method="POST" action="{{ route('register') }}">
             @csrf
-Now I change our field names types and id's to match the old register form like so
+Now I change the field names types and id's to match the old register form like so
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
                             <div class="form-group">
@@ -876,9 +876,9 @@ Now I can register and login
 
 Next copy login.blade.php to register.blade.php
 
-Now in frontend body header.blade.php I update our Login item like so
+Now in frontend body header.blade.php I update the Login item like so
 <li><a href="{{ route('login') }}"><i class="icon fa fa-lock"></i>Login/Register</a></li>
-and I want to update our logo like so
+and I want to update the logo like so
 <div class="logo"> <a href="{{ url('/') }}"> <img src="{{ asset('frontend/assets/images/logo.png') }}" alt="logo"> </a> </div>
 
 Now when I click on logo I are redirected home
@@ -894,9 +894,9 @@ in header like so and it is half axxed
 
 (125) Frontend Template Forgot Password Page Setup
 
-So I back up our forgot-password.blade clear it copy in login delete Registration
-and pare login down to email then paste in the form tag from our back up
-and change our button text
+So I back up the forgot-password.blade clear it copy in login delete Registration
+and pare login down to email then paste in the form tag from the back up
+and change the button text
 @extends('frontend.main_master')
 @section('content')
     <div class="breadcrumb">
@@ -960,7 +960,7 @@ MAIL_FROM_ADDRESS=myronrogers.rogers@gmail.com
 MAIL_FROM_NAME="${APP_NAME}"
 
 Now I want to back up reset-password blade clear it and copy in forgot-password.blade
-We change our heading text copy in the form tag and token field from our backup 
+We change the heading text copy in the form tag and token field from the backup 
 then I clone email to 3 fields
 we change the field names ids field types and button text like so
 @extends('frontend.main_master')
@@ -1026,7 +1026,7 @@ So now I can test password reset full circle
 
 (126) User Profile Design Part 1
 
-To change our dashboard I clear dashboard.blade.php and extend it then code it by hand like so 
+To change the dashboard I clear dashboard.blade.php and extend it then code it by hand like so 
 @extends('frontend.main_master')
 @section('content')
 <div class="body-content">
@@ -1223,14 +1223,14 @@ Next I add a route to change password like so
 Next in web.php I add the following route
 Route::get('/user/change/password', [IndexController::class, 'UserChangePassword'])->name('change.password'); 
 
-Next, in IndexController I add the UserChangePassord method and return our view and pass along the user data
+Next, in IndexController I add the UserChangePassord method and return the view and pass along the user data
      public function UserChangePassword(){
         $id = Auth::user()->id;
         $user = User::find($id);
         return view('frontend.profile.change_password',compact('user'));
     }
 
-Next I create our view under frontend/profile change_password.blade.php
+Next I create the view under frontend/profile change_password.blade.php
 and copy user_profile.blade.php into it.
 
 Next I make the nameing conventions for the password fields the same as update-password-form.php
@@ -1299,14 +1299,14 @@ Next I make the nameing conventions for the password fields the same as update-p
 
 
 
-First I will change our form tag in change_password like so
+First I will change the form tag in change_password like so
 <form method="POST" action="{{ route('user.password.update') }}">
 
 
-Next I create our user.password.update route in web.php using a post 
+Next I create the user.password.update route in web.php using a post 
 Route::post('/user/password/update', [IndexController::class, 'UserPasswordUpdate'])->name('user.password.update'); 
 
-Next I create our UserPasswordUpdate in IndexController so I copy AdminUpdateChangePassword from AdminController and change it like so
+Next I create the UserPasswordUpdate in IndexController so I copy AdminUpdateChangePassword from AdminController and change it like so
 use Illuminate\Support\Facades\Hash;
    public function UserPasswordUpdate(Request $request){
         $validateData = $request->validate([
@@ -1358,13 +1358,13 @@ NOTE the git add command must be git add . with the period
 
 We start by adding the Admin Backend
 
-First I create our Controller
+First I create the Controller
 php artisan make:controller Backend/BrandController
 
-Next I create our model and migration table
+Next I create the model and migration table
 php artisan make:model Brand -m
 
-Now I go to our brand migration and add fields like so
+Now I go to the brand migration and add fields like so
     public function up()
     {
         Schema::create('brands', function (Blueprint $table) {
@@ -1378,7 +1378,7 @@ Now I go to our brand migration and add fields like so
         });
     }
 
-Next I go and modify our Model
+Next I go and modify the Model
 class Brand extends Model
 {
     use HasFactory;
@@ -1392,10 +1392,10 @@ class Brand extends Model
 
 }
 
-Next to create our table I will run the migration
+Next to create the table I will run the migration
 php artisan migrate
 
-from admin body sidebar.blade.php I start by converting the application menu from our template into the Brand menu
+from admin body sidebar.blade.php I start by converting the application menu from the template into the Brand menu
                    <li class="treeview">
                         <a href="#">
                             <i data-feather="message-circle"></i>
@@ -1410,7 +1410,7 @@ from admin body sidebar.blade.php I start by converting the application menu fro
                     </li>
 
 Next I add the all.brand route to web.php
-Note since I used the prefix option the route will be /brand/view rather than view. So I add our new Controller and create the route
+Note since I used the prefix option the route will be /brand/view rather than view. So I add the new Controller and create the route
 use App\Http\Controllers\Backend\BrandController;
 
 Route::prefix('brand')->group(function(){
@@ -1418,7 +1418,7 @@ Route::prefix('brand')->group(function(){
 });
 
 
-Next in BrandController I want to add our model and the BrandView function.
+Next in BrandController I want to add the model and the BrandView function.
 use App\Models\Brand;
 class BrandController extends Controller
 {
@@ -1429,7 +1429,7 @@ class BrandController extends Controller
 }
 
 
-Next I need to create our backend folder under views and brand folder under backend 
+Next I need to create the backend folder under views and brand folder under backend 
 and then create brand_view.blade.php
 we copy in the bare bone basics like so and test to see that I hit a page when I click the new link from Admin Dashboard
 @extends('admin.admin_master')
@@ -1441,7 +1441,7 @@ we copy in the bare bone basics like so and test to see that I hit a page when I
 
 (134)  Brand Page Design Part 2
 
-So now I want place use a template for our new page ao I go to
+So now I want place use a template for the new page ao I go to
 C:\servers\wamp64\www\laravel8\Ecommerce_Excersise_Files\Project Themes\Admin Theme\main-dark
 and select tables_data.html
 We copy the content wrapper from this page and paste into brand_view
@@ -1449,12 +1449,12 @@ We copy the content wrapper from this page and paste into brand_view
 Now I remove the content wrapper begin and end tags becuase I already have that wrapper
 and pare this down to The Data Table with full features example.
 
-Now to support our tables I need to copy a couple of js files from our template and
+Now to support the tables I need to copy a couple of js files from the template and
 paste them into admin_master and modify the source attributes to use laravel API's.
   <script src=""{{ asset('../assets/vendor_components/datatable/datatables.min.js') }}"></script>
 	  <script src=""{{ asset('backend/js/pages/data-table.js') }}"></script>
 
-Now if I refresh our page to test I should be able to see the pagination and search options work.
+Now if I refresh the page to test I should be able to see the pagination and search options work.
 
 Now I want to make the data Dynamic so I cut out static data from the table.
 So I remove everything except the th and one tr.  We also delete the tfoot.
@@ -1463,9 +1463,9 @@ So I remove everything except the th and one tr.  We also delete the tfoot.
 (135)  Brand Page Design Part 3
 
 
-Now I want to add another card that will allow us to insert a new brand.
+Now I want to add another card that will allow me to insert a new brand.
 
-Once I have completed this and added a route for the form update our page is like so
+Once I have completed this and added a route for the form update the page is like so
 @extends('admin.admin_master')
 @section('admin')
     <div class="container-full">
@@ -1592,7 +1592,7 @@ we will add functionality to it in the next section
 
 (136)  Add Active Sidebar menu
 
-In sidebar.blade.php I want to dynamically make our active options show as active.
+In sidebar.blade.php I want to dynamically make the active options show as active.
 Step one in the process was to retrieve a couple of simple variables.  One is the
 prefix I established for the brand routes and the other is the route name.
 @php
@@ -1643,12 +1643,12 @@ Add the facade of this package to the $aliases array.
 'Image' => Intervention\Image\Facades\Image::class
 Now the Image Class will be auto-loaded by Laravel.
 
-Next I save and publish our configuration
+Next I save and publish the configuration
 php artisan vendor:publish --provider="Intervention\Image\ImageServiceProviderLaravelRecent"
 
 (138) Brand Crud Part 1
 
-Next I alter our brand.store route making it a post request
+Next I alter the brand.store route making it a post request
 Route::post('/store', [BrandController::class, 'BrandStore'])->name('brand.store'); 
 
 Now I finish out the BrandStore method like so
@@ -1819,13 +1819,13 @@ and pass along the id with it like so
 Now I add the route to web.php
 Route::get('/edit/{id}', [BrandController::class, 'BrandEdit'])->name('brand.edit');
 
-Next I add our BrandEdit method to BrandController
+Next I add the BrandEdit method to BrandController
     public function BrandEdit($id) {
         $brand = Brand::findOrFail($id);
         return view('backend.brand.brand_edit',compact('brand'));
     }
 
-Now I will add our new view as backend\brand\brand_edit.blade.php
+Now I will add the new view as backend\brand\brand_edit.blade.php
 Then I will copy brand_view in and make changes.
 @extends('admin.admin_master')
 @section('admin')
@@ -1909,11 +1909,11 @@ Then I will copy brand_view in and make changes.
 
 @endsection
 
-Now I create our brand.update route in web.php
+Now I create the brand.update route in web.php
 Route::post('/update', [BrandController::class, 'BrandUpdate'])->name('brand.update'); 
 
 
-Now I create our BrandUpdate method in BrandController
+Now I create the BrandUpdate method in BrandController
    public function BrandUpdate(Request $request) {
         $brand_id = $request->id;
         $old_image = $request->old_image;
@@ -2003,10 +2003,10 @@ Swal.fire({
 To make it work In brand_view.blade.php I add name and id
 <a href="{{ route('brand.delete', $item->id) }}" class="btn btn-info" name="delete" id="delete">Delete</a>
 
-Now I want to Create our Route in web.php
+Now I want to Create the Route in web.php
 Route::get('/delete/{id}', [BrandController::class, 'BrandDelete'])->name('brand.delete'); 
 
-Next I create our BrandDelete method in BrandController
+Next I create the BrandDelete method in BrandController
 
 
 
@@ -2017,7 +2017,7 @@ Finally I change the brand_view buttons to use icons
 
 (141) Category Crud Part 1
 
-The first thing that I do is create our menu item in sidebar.blade.php so I use the same sort of approach that I did 
+The first thing that I do is create the menu item in sidebar.blade.php so I use the same sort of approach that I did 
 with Brand so I convert the Mailbox menu item like so
 <li class="treeview {{ ($prefix == '/category')? 'active':'' }}">
     <a href="#">
@@ -2031,10 +2031,10 @@ with Brand so I convert the Mailbox menu item like so
         </ul>
 </li>
 
-Next I create our CategoryController
+Next I create the CategoryController
 php artisan make:controller Backend/CategoryController
 
-Next I create our Model and migration
+Next I create the Model and migration
 php artisan make:model Category -m
 
 We modify out migration like so
@@ -2054,7 +2054,7 @@ We modify out migration like so
 Next I run the migration
 php artisan migrate
 
-Next in our model
+Next in the model
     protected $fillable = [
         'category_name_en',
         'category_name_hin',
@@ -2067,7 +2067,7 @@ Next in our model
 
 In web.php
 use App\Http\Controllers\Backend\CategoryController;
-We clone and change our BrandRoutes Like So
+We clone and change the BrandRoutes Like So
 // Admin Category All Routes
 
 Route::prefix('category')->group(function(){
@@ -2078,14 +2078,14 @@ Route::prefix('category')->group(function(){
     Route::get('/delete/{id}', [CategoryController::class, 'CategoryDelete'])->name('category.delete'); 
 });
 
-Next in CategoryController I use our model and clone the BrandView method from BrandController
+Next in CategoryController I use the model and clone the BrandView method from BrandController
     public function CategoryView(){
         $category = Category::latest()->get();
         return view('backend.category.category_view',compact('category'));
     }
 
 
-Next I create our category subfolder and category_view
+Next I create the category subfolder and category_view
 @extends('admin.admin_master')
 @section('admin')
     <div class="container-full">
@@ -2209,7 +2209,7 @@ Next I create our category subfolder and category_view
 
 (142) Category Crud Part 2
 
-Now I uncomment our CategoryStore in web.php
+Now I uncomment the CategoryStore in web.php
 
 
 Now I clone BrandStore to CategoryStore and change it like so
@@ -2377,7 +2377,7 @@ Route::post('/update', [CategoryController::class, 'CategoryUpdate'])->name('cat
 First I want to add a subcategory menu item to sidebar.blade.php
 <li class="{{ ($route == 'all.subcategory')? 'active':'' }}"><a href="{{ route('all.subcategory') }}"><i class="ti-more"></i>All SubCategory</a></li>
 
-Next I clone our Routes from Category and change them like so
+Next I clone the Routes from Category and change them like so
 
 // Admin Sub Category All Routes
 
@@ -2420,25 +2420,25 @@ For the model
 php artisan migrate
 
 Now in the real world I have already cloned and altered everything minus the handling
-of our category_id foriegn key in the SubCategoryController.  So in our controller I start with
+of the category_id foriegn key in the SubCategoryController.  So in the controller I start with
     public function SubCategoryView(){
         $subcategory = SubCategory::latest()->get();
         return view('backend.category.subcategory_view',compact('subcategory'));
     }
 
-Make our subcategory_view
+Make the subcategory_view
 
 We clone category view to subcategory_view and make changes then I open forms_validation from our
 templates and clone the Basic Select dropdown
 Ecommerce_Excersise_Files\Project Themes\Admin Theme\main-dark\
 
-We will use this to select our Foriegn Key item
+We will use this to select the Foriegn Key item
 
 
 (146) Subcategory Crud Part 2
 
 Now I have to begin making the hooks to pull the Category Info into the SubCategoryController
-so that I can handle our foriegn key.
+so that I can handle the foriegn key.
 use App\Models\Category;
 
    public function SubCategoryView(){
@@ -2574,7 +2574,7 @@ We go over the subcategory_view and smooth it out like so
 
 @endsection
 
-We massage our SubCategoryStore method like so
+We massage the SubCategoryStore method like so
     public function SubCategoryStore(Request $request) {
         $request->validate([
             'category_id' => 'required',
@@ -2604,7 +2604,7 @@ We massage our SubCategoryStore method like so
 
 We add subcategory data
 
-Now I do our work for edit
+Now I do the work for edit
 
 Our link and route is already done
 
@@ -2619,7 +2619,7 @@ We massage SubCategoryEdit method like so
 
 (147) Subcategory Crud Part 3
 
-we create our subcategory_edit cloning the subcategory_view and massage it like so
+we create the subcategory_edit cloning the subcategory_view and massage it like so
 @extends('admin.admin_master')
 @section('admin')
     <div class="container-full">
@@ -2733,13 +2733,13 @@ We massage SubCategoryUpdate like so
 
 Now I want to display the category_name rather than the id in subcategory_view
 
-to do this first I add a method to our SubCategory model that established the relationship to 
+to do this first I add a method to the SubCategory model that established the relationship to 
 Category
     public function category(){
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
-Next I change our category_id in subcategory view to reference our new method and the field name category_name_en
+Next I change the category_id in subcategory view to reference the new method and the field name category_name_en
 <td>{{ $item['category']['category_name_en'] }}</td>
 
 Our delete is already working here is the code.
@@ -2793,10 +2793,10 @@ php artisan make:model SubSubCategory -m
 
 php artisan migrate
 
-Next I create our route - Im pretending that I haven't already done them all
+Next I create the route - Im pretending that I haven't already done them all
 Route::get('/sub/sub/view', [SubCategoryController::class, 'SubSubCategoryView'])->name('all.subsubcategory'); 
 
-Now I add our method to SubCategoryController
+Now I add the method to SubCategoryController
 use App\Models\SubSubCategory;
 
     public function SubSubCategoryView(){
@@ -2809,9 +2809,9 @@ use App\Models\SubSubCategory;
 
 (149) Sub Subcategory Crud Part 2
 
-Now I create our view subsubcategory_view.blade.php I clone subcategory_view and massage like so.  
+Now I create the view subsubcategory_view.blade.php I clone subcategory_view and massage like so.  
 Notice
-we include Jquery and write some javascript at the bottom of the page to retrieve our subcategory
+we include Jquery and write some javascript at the bottom of the page to retrieve the subcategory
 select info based on the option chosen in category select.
 
 @extends('admin.admin_master')
@@ -2989,7 +2989,7 @@ Now I must create the subcategory/ajax route to accomodate the javascript data r
 Route::get('/subcategory/ajax/{category_id}', [SubCategoryController::class, 'GetSubCategory']); 
 
 
-Next I add our method to SubCategoryController and return the json data expected by
+Next I add the method to SubCategoryController and return the json data expected by
 our javascript
     public function GetSubCategory($category_id) {
         $subcat = SubCategory::where('category_id', $category_id)->orderBy('
@@ -3041,14 +3041,14 @@ Route::post('/sub/sub/store', [SubCategoryController::class, 'SubSubCategoryStor
 
    (151) Sub SubCategory Crud Part 4
 
-   To create our subsubcategory edit I start with the link from sub_subcategory_view
+   To create the subsubcategory edit I start with the link from sub_subcategory_view
     <a href="{{ route('subsubcategory.edit',$item->id) }}" class="btn btn-info" title="Edit Data"><i class="fa fa-pencil"></i> </a>
 
-Next I establish our route in web.php
+Next I establish the route in web.php
 Route::get('/sub/sub/edit/{id}', [SubCategoryController::class, 'SubSubCategoryEdit'])->name('subsubcategory.edit'); 
 
 
-Next our method SubSubCategoryEdit
+Next the method SubSubCategoryEdit
 public function SubSubCategoryEdit($id) {
         $categories = Category::orderBy('category_name_en', 'ASC')->get();
         $subcategories = SubCategory::orderBy('subcategory_name_en', 'ASC')->get();
@@ -3056,7 +3056,7 @@ public function SubSubCategoryEdit($id) {
         return view('backend.category.sub_subcategory_edit',compact('categories','subcategories','subsubcategories'));
     }
 
-Next our view backend.category.sub_subcategory_edit
+Next the view backend.category.sub_subcategory_edit
 @extends('admin.admin_master')
 @section('admin')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -3179,10 +3179,10 @@ Next our view backend.category.sub_subcategory_edit
 @endsection
 
 
-Next our Route in web.php
+Next the Route in web.php
 Route::post('/sub/sub/update', [SubCategoryController::class, 'SubSubCategoryUpdate'])->name('subsubcategory.update');
 
-Now our SubSubCategoryUpdate method
+Now the SubSubCategoryUpdate method
     public function SubSubCategoryUpdate(Request $request) {
         $subsubcategory_id = $request->id;
  
@@ -3208,11 +3208,11 @@ prior to the Lesson the delete is really already done.
 
    (152) Sub SubCategory Crud Part 5   
 
- In our sub_subcategory_view I create our delete link
+ In the sub_subcategory_view I create the delete link
  <a href="{{ route('subsubcategory.delete',$item->id) }}" class="btn btn-danger" title="Delete Data" id="delete">
 
 
- Next our web route
+ Next the web route
  Route::get('/sub/sub/delete/{id}', [SubCategoryController::class, 'SubSubCategoryDelete'])->name('subsubcategory.delete'); 
 
 Next the SubSubCategoryDelete method
@@ -3243,7 +3243,7 @@ so I convert the Pages menu to this
                         </ul>
                     </li>
 
-Next I add our routing prefix by cloning and changing the Brand routes in web.php
+Next I add the routing prefix by cloning and changing the Brand routes in web.php
 
 use App\Http\Controllers\Backend\ProductController;
 
@@ -3253,13 +3253,13 @@ Route::prefix('product')->group(function(){
 
 
 
-Next I create our controller
+Next I create the controller
 php artisan make:controller Backend/ProductController
 
-Now I create our model and migration
+Now I create the model and migration
 php artisan make:model Product -m
 
-Now I chan ge our migration like so
+Now I chan ge the migration like so
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
@@ -3295,7 +3295,7 @@ Now I chan ge our migration like so
             $table->timestamps();
         });
 
-For our model I do a workaround to aviod creating all of the protected fillables that I normally create
+For the model I do a workaround to aviod creating all of the protected fillables that I normally create
 class Product extends Model
 {
     use HasFactory;
@@ -3305,7 +3305,7 @@ class Product extends Model
 Next I create an additional model so that I may attach multiple pictures to a product
 php artisan make:model MultiImg -m
 
-We alter our migration
+We alter the migration
     public function up()
     {
         Schema::create('multi_imgs', function (Blueprint $table) {
@@ -3316,7 +3316,7 @@ We alter our migration
         });
     }
 
-We alter our Model
+We alter the Model
 class MultiImg extends Model
 {
     use HasFactory;
@@ -3329,7 +3329,7 @@ php artisan migrate
 
 (154) Add Product Database and Page Design Part 2
 
-For ProductController I add our use statements and the AddProduct method
+For ProductController I add the use statements and the AddProduct method
 use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\SubSubCategory;
@@ -3344,7 +3344,7 @@ use App\Models\Product;
     }
 
 
-We create our backend.product.product_add view
+We create the backend.product.product_add view
 and copy in the std template
 @extends('admin.admin_master')
 @section('admin')
@@ -3352,9 +3352,9 @@ and copy in the std template
 
 @endsection
 
-Now I test our Add Product link to make sure everything holds up
+Now I test the Add Product link to make sure everything holds up
 
-So from our templates dark themes I extract the content wrapper from forms_validation.html
+So from the templates dark themes I extract the content wrapper from forms_validation.html
 and then remove the begin and end content wrapper tags.  We then trim it down and massage it like so
 adding the category select three times.
 
@@ -3420,11 +3420,11 @@ Next I write javascript to retrieve Categories etc
         });
     </script>
 
-To make our javascript work when I Retrieve SubSubcategory for the SubSubCategory dropdown I need
+To make the javascript work when I Retrieve SubSubcategory for the SubSubCategory dropdown I need
 to create a new route in web.php
 Route::get('/sub-subcategory/ajax/{subcategory_id}', [SubCategoryController::class, 'GetSubSubCategory']);
 
-Next I create our GetSubSubCategory method in SubCategoryController
+Next I create the GetSubSubCategory method in SubCategoryController
     public function GetSubSubCategory($subcategory_id){
 
         $subsubcat = SubSubCategory::where('subcategory_id',$subcategory_id)->orderBy('subsubcategory_name_en','ASC')->get();
@@ -3521,15 +3521,15 @@ We add Javascript and Change Input fields to display images
 
 (160)  Product Upload Part 2
 
-So I set up our form tag in product_add
+So I set up the form tag in product_add
 <form method="post" action="{{ route('product-store') }}" enctype="multipart/formdata">
 @csrf
 
 
-Create our web.php route
+Create the web.php route
 Route::post('/store', [ProductController::class, 'StoreProduct'])->name('store-product'); 
 
-Now I create our method in ProductController
+Now I create the method in ProductController
 use App\Models\MultiImg;
 use Carbon\Carbon;
 use Image;
@@ -3602,10 +3602,10 @@ use Image;
 		 return redirect()->back()->with($notification); 
     }
 
-We create the folder /public/upload/products/thumbnail for our product images
-We create the folder /public/upload/products/multi-image for our product images
+We create the folder /public/upload/products/thumbnail for the product images
+We create the folder /public/upload/products/multi-image for the product images
 
-We go back to product_add and mark most of our fields up to long desc as required=""
+We go back to product_add and mark most of the fields up to long desc as required=""
 
 (161)  Product Upload Part 3
 
@@ -5698,7 +5698,7 @@ translations for header
 
 (179) Frontend Show Category Subcategory and Subsubcategory Part 1
 
-At this point I made our header menus more dynamic
+At this point I made the header menus more dynamic
  <!-- // Get Category Table Data -->
 @php
   $categories = App\Models\Category::orderBy('category_name_en','ASC')->get();
@@ -5748,7 +5748,7 @@ At this point I made our header menus more dynamic
 
 (180) Frontend Show Category Subcategory and Subsubcategory Part 2
 
-Here I finish out our header menus with the multilingual logic
+Here I finish out the header menus with the multilingual logic
 @if (session()->get('language') == 'hindi') {{ $category->category_name_hin }} @else {{ $category->category_name_en }} @endif
 @if (session()->get('language') == 'hindi') {{ $subcategory->subcategory_name_hin }} @else {{ $subcategory->subcategory_name_en }} @endif
 @if (session()->get('language') == 'hindi') {{ $subsubcategory->subsubcategory_name_hin }} @else {{ $subsubcategory->subsubcategory_name_en }} @endif
@@ -5758,7 +5758,7 @@ Here I finish out our header menus with the multilingual logic
 
 Here I begin work on index.blade.php
 we start by modifying IndexController to pass category data.  
-We then pick up our categories in index.blade  and add translation logic.
+We then pick up the categories in index.blade  and add translation logic.
 
 (182) Frontend Show Category Subcategory and Subsubcategory Part 4
 
@@ -5775,7 +5775,7 @@ here I added sliders to IndexController Index method
         return view('frontend.index',compact('categories','sliders'));
     }
 
-Next I add a foreach loop to display our sliders
+Next I add a foreach loop to display the sliders
               @foreach($sliders as $slider)
               <div class="item" style="background-image: url({{ asset($slider->slider_img) }});">
                 <div class="container-fluid">
@@ -5986,7 +5986,7 @@ new or discounted and logic to display the discount price
 
 (187) Frontend Product Discount ,Product Price Show With Multiple Language Part 2
 
-Here I copied our changes from All products down to the individual products tab
+Here I copied the changes from All products down to the individual products tab
 or catwise Area
                     <div class="item item-carousel">
                       <div class="products">
@@ -6068,16 +6068,16 @@ IndexController
         return view('frontend.product.product_details',compact('product'));
     }
 
-And I create our page using details.html from our frontend templates
+And I create the page using details.html from the frontend templates
 
 
 
 (189) Product Details Show Part 2
-Here I added our pricing and descriptions
+Here I added the pricing and descriptions
 
 
 (190) Product Details Show Part 3
-Here I created a join to MultiImg from products and made our product details 
+Here I created a join to MultiImg from products and made the product details 
 a bit more interactive.
 
 MultiImg Model
@@ -6103,10 +6103,10 @@ Look for diffs in index.blade and product_details.blade
 
 (191) Featured Product Show
 
-Here I cloned our changes from IndexController for NEW PRODUCTS into
-a retrieval of featured PRODUCTS and then cloned our display card for NEW PRODUCTS replacing
-our display card for FEATURED products with the differance being that our foreach loop
-cycles over our featured retrieval from IndexController
+Here I cloned the changes from IndexController for NEW PRODUCTS into
+a retrieval of featured PRODUCTS and then cloned the display card for NEW PRODUCTS replacing
+our display card for FEATURED products with the differance being that the foreach loop
+cycles over the featured retrieval from IndexController
    public function index(){
         $products = Product::where('status',1)->orderBy('id','DESC')->limit(6)->get();
         $sliders = Slider::where('status',1)->orderBy('id','DESC')->limit(3)->get();
@@ -6117,7 +6117,7 @@ cycles over our featured retrieval from IndexController
     }
 
 (192) Hot Deals Product Show
-Here I add our hot_deals lookup to IndexController then on our hot deals card
+Here I add the hot_deals lookup to IndexController then on the hot deals card
 we integrate the fields and discount logic from the featured as product foreach loop.  We couldn't really clone the card
 but I were able to borrow items.  I had to mend some css as well to make the new product position properly
 
@@ -6455,7 +6455,7 @@ I made some fixes to enhance paging on special deals and special offers
                @endif
 
 
-I created a common folder for shared includes on the fronend and place the product tags
+I created a common folder for shared includes on the frontend and place the product tags
 code from index to frontend.common.product_tags and added code to pull unique tags
 from products.
 @php
@@ -6514,8 +6514,8 @@ I created frontend.tags.tags_view
 
 I copied category.html into tags_view
 
-Since top navigation is the same top navigation in index
-I placed top navigation in common and included it both places
+Since "Categories" top navigation is the same "Categories" top navigation in index
+I placed "Categories" in common as vertical_menu and included it both places
           <!-- ================================== TOP NAVIGATION ================================== --> 
         @include('frontend.common.vertical_menu');  
           <!-- ================================== TOP NAVIGATION : END ================================== --> 
@@ -6523,6 +6523,57 @@ I placed top navigation in common and included it both places
 
 
 (200) Tag Wise Product Show Part 2
+In tags_view 
+
+I added Shop By categories to the TagWiseProduct method
+    public function TagWiseProduct($tag) {
+        $products = Product::where('status',1)->where('product_tags_en',$tag)->where('product_tags_hin',$tag)->orderBy('id','DESC')->get();
+        $categories = Category::orderBy('category_name_en','ASC')->get();
+        return view('frontend.tags.tags_view',compact('products','categories'));
+    }
+
+I made the categories dynamic
+                <div class="widget-header">
+                  <h4 class="widget-title">Category</h4>
+                </div>
+                <div class="sidebar-widget-body">
+                  <div class="accordion">
+                    @foreach($categories as $category)   
+                    <div class="accordion-group">
+                      <div class="accordion-heading"> <a href="#collapse{{ $category->id }}" data-toggle="collapse" class="accordion-toggle collapsed">@if (session()->get('language') == 'hindi') {{ $category->category_name_hin }} @else {{ $category->category_name_en }} @endif</a> </div>
+                      <!-- /.accordion-heading -->
+                      <div class="accordion-body collapse" id="collapse{{ $category->id }}" style="height: 0px;">
+                        <div class="accordion-inner">
+                            @php
+                            $subcategories = App\Models\SubCategory::where('category_id',$category->id)->orderBy('subcategory_name_en','ASC')->get();
+                            @endphp 
+                        @foreach($subcategories as $subcategory)                            
+                          <ul>
+                            <li><a href="#">@if (session()->get('language') == 'hindi') {{ $subcategory->subcategory_name_hin }} @else {{ $subcategory->subcategory_name_en }} @endif</a></li>
+                          </ul>
+                        @endforeach
+                        
+                        </div>
+                        <!-- /.accordion-inner --> 
+                      </div>
+                      <!-- /.accordion-body --> 
+                    </div>
+                    <!-- /.accordion-group -->
+                    @endforeach                    
+                  </div>
+                  <!-- /.accordion --> 
+
+I made the product tags dynamic
+@include('frontend.common.product_tags');
+
+I moved the testimonials to common.testimonials and included them back in to tags_view and index
+            <!----------- Testimonials------------->
+            
+            @include('frontend.common.testimonials');  
+
+(201) Tag Wise Product Show Part 3
+
+
 
 
 
