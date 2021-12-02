@@ -6739,10 +6739,19 @@ Here I am making the LIST VIEW dynamic in tags_view
 
 (203) Product Tags Paginate
 
+IndexController TagWiseProduct method
+$products = Product::where('status',1)->where('product_tags_en',$tag)->where('product_tags_hin',$tag)->orderBy('id','DESC')->paginate(3);
+And using links we get previous and next calls back to IndexController
+                <div class="pagination-container">
+                <ul class="list-inline list-unstyled">
+                {{ $products->links() }} 
+                </ul>
+                  <!-- /.list-inline --> 
+                </div>
+                <!-- /.pagination-container --> </div>
 
 
-
-
+(204) SubCategory Wise Product Show
 
 
 
