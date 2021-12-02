@@ -28,7 +28,7 @@
                                                 <div class="form-group">
                                                     <h5>Brand Select <span class="text-danger">*</span></h5>
                                                     <div class="controls">
-                                                        <select name="brand_id" id="brand_id" class="form-control" required="">
+                                                        <select name="brand_id" id="brand_id" class="form-control" required="" oninvalid="this.setCustomValidity('Please select the brand')" oninput="setCustomValidity('')">
                                                             <option value="" selected="" disabled="">Select Brand</option>
                                                             @foreach ($brands as $brand)
                                                                 <option value="{{ $brand->id }}">
@@ -46,7 +46,7 @@
                                                 <div class="form-group">
                                                     <h5>Category Select <span class="text-danger">*</span></h5>
                                                     <div class="controls">
-                                                        <select name="category_id" id="category_id" class="form-control" required="">
+                                                        <select name="category_id" id="category_id" class="form-control" required="" oninvalid="this.setCustomValidity('Please select the category')" oninput="setCustomValidity('')">
                                                             <option value="" selected="" disabled="">Select Category
                                                             </option>
                                                             @foreach ($categories as $category)
@@ -66,7 +66,7 @@
                                                     <h5>SubCategory Select <span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <select name="subcategory_id" id="subcategory_id"
-                                                            class="form-control" required="">
+                                                            class="form-control" required="" oninvalid="this.setCustomValidity('Please select the subcategory')" oninput="setCustomValidity('')">
                                                             <option value="" selected="" disabled="">Select SubCategory
                                                             </option>
 
@@ -89,7 +89,7 @@
                                                     <h5>SubSubCategory Select <span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <select name="subsubcategory_id" id="subsubcategory_id"
-                                                            class="form-control" required="">
+                                                            class="form-control" required="" oninvalid="this.setCustomValidity('Please select the subsubcategory')" oninput="setCustomValidity('')">
                                                             <option value="" selected="" disabled="">Select SubSubCategory
                                                             </option>
 

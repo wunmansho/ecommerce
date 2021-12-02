@@ -30,6 +30,17 @@ class ProductController extends Controller
     	$save_url = 'upload/products/thumbnail/'.$name_gen;
         $long_desc_en = strip_tags($request->long_desc_en);
         $long_desc_hin = strip_tags($request->long_desc_hin);
+        $request->validate([
+            'brand_id' => 'required',
+            'category_id' => 'required',
+            'subcategory_id' => 'required',  
+            'subsubcategory_id' => 'required',  
+        ],[
+            'brand_id.required' => 'Select Brand Name',
+            'category_id.required' => 'Select Category Name',
+            'subcategory_id.required' => 'Select SubCategory Name',
+            'subsubcategory_id.required' => 'Select SubSubCategory Name',
+        ]);
         $product_id = Product::insertGetId([           
             'brand_id' => $request->brand_id, 
            'category_id' => $request->category_id,
@@ -118,7 +129,17 @@ class ProductController extends Controller
         $product_id = $request->id;
         $long_desc_en = strip_tags($request->long_desc_en);
         $long_desc_hin = strip_tags($request->long_desc_hin);
-
+        $request->validate([
+            'brand_id' => 'required',
+            'category_id' => 'required',
+            'subcategory_id' => 'required',  
+            'subsubcategory_id' => 'required',  
+        ],[
+            'brand_id.required' => 'Select Brand Name',
+            'category_id.required' => 'Select Category Name',
+            'subcategory_id.required' => 'Select SubCategory Name',
+            'subsubcategory_id.required' => 'Select SubSubCategory Name',
+        ]);
         Product::findOrFail($product_id)->update([           
             'brand_id' => $request->brand_id, 
            'category_id' => $request->category_id,

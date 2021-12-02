@@ -6753,6 +6753,35 @@ And using links we get previous and next calls back to IndexController
 
 (204) SubCategory Wise Product Show
 
+I made fixes to product_add and product_edit to add custom messages for the dropdown selects
+
+
+vertical_menu
+<a href="{{ url('subcategory/product/'.$subcategory->id.'/'.$subcategory->subcategory_slug_en) }}">
+
+
+web.php
+//Frontend SubCategory Wise Data
+Route::get('/subcategory/product/{subcat_id}/{slug}', [IndexController::class, 'SubCatWiseProduct']); 
+
+
+IndexController
+   public function SubCatWiseProduct($subcat_id, $slug){
+        $products = Product::where('status',1)->where('subcategory_id',$subcat_id)->orderBy('id','DESC')->paginate(3);
+        $categories = Category::orderBy('category_name_en','ASC')->get();
+        return view('frontend.product.subcategory_view',compact('products','categories'));
+
+    }
+
+
+  frontend.product.subcategory_view 
+    I copied in tags_view
+
+vertical_menu, header, and subcategory_view gets this under subcategory
+<a href="{{ url('subcategory/product/'.$subcategory->id.'/'.$subcategory->subcategory_slug_en) }}">
+
+
+(205) SubsubCategory Wise Product Show
 
 
 
