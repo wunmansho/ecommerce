@@ -6963,8 +6963,11 @@ product_details
 
 (208) Include Hot Deal
 
+I put the HOT DEALS section in commin and included it in index and product_details
 
 
+
+(209) Product Modal Design Part 1
 
 
 
