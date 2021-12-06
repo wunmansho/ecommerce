@@ -95,35 +95,32 @@ break;
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Product Name</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
 <div class="row">
-  <div class=col-md-4>
+  <div class="col-md-4">
     <div class="card" style="width: 18rem;">
-      <img class="card-img-top" src="..." alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
+
+      <img src="" class="card-img-top" alt="..." style"height: 200px; width: 200px;">
+
     </div>
   </div>
-  <div class=col-md-4>
+  <div class="col-md-4">
     <ul class="list-group">
-      <li class="list-group-item">Cras justo odio</li>
-      <li class="list-group-item">Dapibus ac facilisis in</li>
-      <li class="list-group-item">Morbi leo risus</li>
-      <li class="list-group-item">Porta ac consectetur ac</li>
-      <li class="list-group-item">Vestibulum at eros</li>
+      <li class="list-group-item">Product Price: </li>
+      <li class="list-group-item">Product Code:</li>
+      <li class="list-group-item">Category: </li>
+      <li class="list-group-item">Brand: </li>
+      <li class="list-group-item">Stock</li>
     </ul>
   </div>
-  <div class=col-md-4>
+  <div class="col-md-4">
     <div class="form-group">
-      <label for="exampleFormControlSelect1">Example select</label>
+      <label for="exampleFormControlSelect1">Choose Color</label>
       <select class="form-control" id="exampleFormControlSelect1">
         <option>1</option>
         <option>2</option>
@@ -132,21 +129,26 @@ break;
         <option>5</option>
       </select>
     </div>
+    <div class="form-group">
+      <label for="exampleFormControlSelect1">Choose Size</label>
+      <select class="form-control" id="exampleFormControlSelect1">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlSelect1">Quantity</label>
+      <input type="number" class="form-control" name="x" id="x" value="1" min="1">
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Add to Cart</button>
   </div>
 
 </div> 
-
-
-
-
-
-
-       
+      
       </div>    {{-- //// End Modal Body ///// --}}
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
     </div>
   </div>
 </div>
