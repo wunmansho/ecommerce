@@ -7342,7 +7342,31 @@ main_master
 
     (214) Product View Modal With Ajax Part 4
 
-    
+       if (data.product.discount_price == null) {
+      $('#pprice').text('');
+      $('#oldprice').text('');
+       $('#pprice').text(data.product.selling_price);
+       
+    }else{
+      $('#pprice').text('');
+      $('#oldprice').text('');
+      $('#pprice').text(data.product.discount_price);  
+      $('#oldprice').text(data.product.selling_price);
+
+    }
+
+    if (data.product.product_qty > 0 ){
+      $('#available').text('');
+      $('#stockout').text('');
+      $('#available').text('available');
+    }else{
+      $('#available').text('');
+      $('#stockout').text('');
+      $('#stockout').text('stockout');
+    }
+
+
+    (215) Increase Modal Width
     
 
 
