@@ -106,7 +106,7 @@ break;
   <div class="col-md-4">
     <div class="card" style="width: 18rem;">
 
-      <img src="" class="card-img-top" alt="..." style="height: 200px; width: 180px;" id="pimage">
+      <img src="" class="card-img-top" alt="..." style="height: 200px; width: 200px;" id="pimage">
 
     </div>
   </div>

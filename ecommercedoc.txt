@@ -7367,6 +7367,12 @@ main_master
 
 
     (215) Increase Modal Width
+     bootstrap.min.css
+     model-content width: 800px; right: 100px;
+
+
+
+    (216) Product Add To Cart With Ajax Part 1
     
 
 
