@@ -7396,7 +7396,7 @@ function addToCart(){
     data:{
       color:color, size:size, quantity:quantity, product_name:product_name
     },
-    url: "/cart/data/store/" id,
+    url: "/cart/data/store/"+id,
     success:function(data){
       console.log(data)
     }
@@ -7407,6 +7407,77 @@ function addToCart(){
 // End Add to Cart
 
 (217) Product Add To Cart With Ajax Part 2
+
+web.php
+// Add To Cart Store Data
+Route::get('/cart/data/store/{id}', [CartController::class, 'AddToCart']); 
+
+
+CartController
+use Gloudemans\Shoppingcart\Facades\Cart;
+  public function AddToCart(Request $request, $id){
+        $product = Product::findOrFail($id);
+        if ($product->discount_price == NULL) {
+            Cart::add([
+                'id' => $id, 
+                'name' => $request->product_name, 
+                'qty' => $request->quantity, 
+                'price' => $product->selling_price, 
+                'weight' => 1, 
+                'options' => [
+                    'image' => $product->product_thumbnail,
+                    'color' => $request->color,
+                    'size' => $request->size,
+                ],
+                ]);
+                return response()->json(['success' => 'Successfully Added to Your Cart']);
+        }else{
+            Cart::add([
+                'id' => $id, 
+                'name' => $request->product_name, 
+                'qty' => $request->quantity, 
+                'price' => $product->discount_price, 
+                'weight' => 1, 
+                'options' => [
+                    'image' => $product->product_thumbnail,
+                    'color' => $request->color,
+                    'size' => $request->size,
+                ],
+                ]);
+                return response()->json(['success' => 'Successfully Added to Your Cart']);
+
+        }
+
+    }
+
+main_master
+// Start Add to Cart
+function addToCart(){
+  var product_name = $('#pname').text();
+  var id = $('#product_id').val();
+  var color = $('#color option:selected').text();
+  var size = $('#size option:selected').text();
+  var quantity = $('#qty').val();
+  $.ajax({
+    type: "POST",
+    dataType: 'json',
+    data:{
+      color:color, size:size, quantity:quantity, product_name:product_name
+    },
+    url: "/cart/data/store/"+id,
+    success:function(data){
+     $('#closeModal').click();
+      console.log(data)
+    }
+  })
+}
+
+
+// End Add to Cart
+
+
+
+(218) Add to Cart Sweetalert Message Setup
 
 
 

@@ -97,7 +97,7 @@ break;
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel"><strong><span id="pname"></span></strong></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -244,8 +244,9 @@ function addToCart(){
     data:{
       color:color, size:size, quantity:quantity, product_name:product_name
     },
-    url: "/cart/data/store/" id,
+    url: "/cart/data/store/"+id,
     success:function(data){
+     $('#closeModal').click();
       console.log(data)
     }
   })
