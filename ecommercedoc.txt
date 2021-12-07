@@ -7373,9 +7373,40 @@ main_master
 
 
     (216) Product Add To Cart With Ajax Part 1
-    
+
+composer require bumbummen99/shoppingcart
+php artisan vendor:publish --provider="Gloudemans\Shoppingcart\ShoppingcartServiceProvider" --tag="config"
+
+php artisan make:controller Frontend/CartController
+
+web.php
+use App\Http\Controllers\Frontend\CartController;
+
+Main_master
+// Start Add to Cart
+function addToCart(){
+  var product_name = $('#pname').text();
+  var id = $('#product_id').val();
+  var color = $('#color option:selected').text();
+  var size = $('#size option:selected').text();
+  var quantity = $('#qty').val();
+  $.ajax({
+    type: "POST",
+    dataType: 'json',
+    data:{
+      color:color, size:size, quantity:quantity, product_name:product_name
+    },
+    url: "/cart/data/store/" id,
+    success:function(data){
+      console.log(data)
+    }
+  })
+}
 
 
+// End Add to Cart
+
+(217) Product Add To Cart With Ajax Part 2
 
 
 
