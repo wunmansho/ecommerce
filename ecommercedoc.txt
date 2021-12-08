@@ -7562,7 +7562,55 @@ http://127.0.0.1:8000/product/mini/cart
 
 (221) Mini Cart Read Cart Product With Ajax Part 2
 
+main_master the real lesson here is in using the grave accent or backtick to enclose a template definition `  as opposed to '.  Always use ` for a template define.
+function miniCart(){
+   $.ajax({
+    type: 'GET',
+    url: '/product/mini/cart',
+    dataType: 'json',
+    success:function(response){
+      var miniCart = ""
+           $.each(response.carts, function(key,value){
+            miniCart += `<div class="cart-item product-summary">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="image"> <a href="detail.html"><img
+                                                        src="{{ asset('frontend/assets/images/cart.jpg') }}"
+                                                        alt=""></a> </div>
+                                        </div>
+                                        <div class="col-xs-7">
+                                            <h3 class="name"><a
+                                                    href="index.php?page-detail">@if (session()->get('language') == 'hindi') सरल उत्पाद @else Simple Product @endif
+                                                </a></h3>
+                                            <div class="price">$600.00</div>
+                                        </div>
+                                        <div class="col-xs-1 action"> <a href="#"><i class="fa fa-trash"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.cart-item -->
+                                <div class="clearfix"></div>
+                                <hr>`
 
+           });
+           $('#miniCart').html(miniCart);
+    }
+
+  })
+}
+miniCart();
+// End MiniCart
+</script>
+
+header
+        <!--   // Mini Cart Start with Ajax -->
+     <div id="miniCart">
+
+     </div>
+
+ <!--   // End Mini Cart Start with Ajax -->
+
+(222) Mini Cart Count All Quantity And Subtotal With Ajax
 
 
 

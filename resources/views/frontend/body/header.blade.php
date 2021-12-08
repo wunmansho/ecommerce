@@ -125,26 +125,12 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <div class="cart-item product-summary">
-                                    <div class="row">
-                                        <div class="col-xs-4">
-                                            <div class="image"> <a href="detail.html"><img
-                                                        src="{{ asset('frontend/assets/images/cart.jpg') }}"
-                                                        alt=""></a> </div>
-                                        </div>
-                                        <div class="col-xs-7">
-                                            <h3 class="name"><a
-                                                    href="index.php?page-detail">@if (session()->get('language') == 'hindi') सरल उत्पाद @else Simple Product @endif
-                                                </a></h3>
-                                            <div class="price">$600.00</div>
-                                        </div>
-                                        <div class="col-xs-1 action"> <a href="#"><i class="fa fa-trash"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /.cart-item -->
-                                <div class="clearfix"></div>
-                                <hr>
+         <!--   // Mini Cart Start with Ajax -->
+     <div id="miniCart">
+
+     </div>
+
+ <!--   // End Mini Cart Start with Ajax -->
                                 <div class="clearfix cart-total">
                                     <div class="pull-right"> <span class="text">@if (session()->get('language') == 'hindi') उप कुल : @else Sub Total : @endif
                                         </span><span class='price'>$600.00</span> </div>
