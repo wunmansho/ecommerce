@@ -279,5 +279,21 @@ function addToCart(){
 // End Add to Cart
 </script>
 
+<script type="text/javascript">
+// Start MiniCart
+function miniCart(){
+   $.ajax({
+    type: 'GET',
+    url: '/product/mini/cart',
+    dataType: 'json',
+    success:function(response){
+           console.log(response)
+    }
+
+  })
+}
+// End MiniCart
+</script>
+
 </body>
 </html>
