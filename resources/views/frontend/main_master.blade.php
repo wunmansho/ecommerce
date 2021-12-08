@@ -134,7 +134,7 @@ break;
     </div>
     <div class="form-group">
       <label for="qty">Quantity</label>
-      <input type="number" class="form-control" name="qty" id="qty" value="1" min="1">
+      <input type="number" class="form-control" name="qty" id="qty" value="1" min="1"  step="1">
     </div>
     <input type="hidden" id="product_id">
     <button type="submit" class="btn btn-primary mb-2" onclick="addToCart()">Add to Cart</button>

@@ -205,7 +205,7 @@
                         </div><!-- /.gallery-holder -->
                         <div class='col-sm-6 col-md-7 product-info-block'>
                             <div class="product-info">
-                                <h1 class="name">@if (session()->get('language') == 'hindi') {{ $product->product_name_hin }} @else {{ $product->product_name_en }} @endif</h1>
+                                <h1 class="name" id="pname">@if (session()->get('language') == 'hindi') {{ $product->product_name_hin }} @else {{ $product->product_name_en }} @endif</h1>
 
                                 <div class="rating-reviews m-t-20">
                                     <div class="row">
@@ -283,49 +283,57 @@
                                 <div class="row">
 
 
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label class="info-title control-label">@if (session()->get('language') == 'hindi') रंग पसंद करो @else Choose Color @endif
-                                                <span></span></label>
-                                            <select class="form-control unicase-form-control selectpicker">
-                                                <option selected="" disabled="">--@if (session()->get('language') == 'hindi') रंग पसंद करो @else Choose Color @endif--</option>
+<div class="col-sm-6">
+    <div class="form-group">
+        @if ($product->product_color_en == null)
+                                                
+        @else
+        <label class="info-title control-label">@if (session()->get('language') == 'hindi') रंग पसंद करो @else Choose Color @endif
+            <span></span></label>
+        <select class="form-control unicase-form-control selectpicker" id="color">
+            <option selected="" disabled="" >--@if (session()->get('language') == 'hindi') रंग पसंद करो @else Choose Color @endif--</option>
 
-                                                @if (session()->get('language') == 'hindi')
-                                                    @foreach ($product_color_hin as $color)
-                                                        <option value="{{ $color }}">{{ $color }}
-                                                        </option>
-                                                    @endforeach
-                                                @else
-                                                    @foreach ($product_color_en as $color)
-                                                        <option value="{{ $color }}">{{ ucwords($color) }}
-                                                        </option>
-                                                    @endforeach
-                                                @endif
+            @if (session()->get('language') == 'hindi')
+                @foreach ($product_color_hin as $color)
+                    <option value="{{ $color }}">{{ $color }}
+                    </option>
+                @endforeach
+            @else
+                @foreach ($product_color_en as $color)
+                    <option value="{{ $color }}">{{ ucwords($color) }}
+                    </option>
+                @endforeach
+            @endif
 
-                                            </select>
-                                        </div>
-                                    </div>
+        </select>
+        @endif
+    </div>
+</div>
 
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label class="info-title control-label">@if (session()->get('language') == 'hindi') नाप चुनें @else Choose Size @endif
-                                                <span></span></label>
-                                            <select class="form-control unicase-form-control selectpicker">
-                                                <option selected="" disabled="">--@if (session()->get('language') == 'hindi') नाप चुनें @else Choose Size @endif--</option>
-                                                @if (session()->get('language') == 'hindi')
-                                                    @foreach ($product_size_hin as $size)
-                                                        <option value="{{ $size }}">{{ $size }}
-                                                        </option>
-                                                    @endforeach
-                                                @else
-                                                    @foreach ($product_size_en as $size)
-                                                        <option value="{{ $size }}">{{ ucwords($size) }}
-                                                        </option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                        </div>
-                                    </div>
+<div class="col-sm-6">
+    <div class="form-group">
+        @if ($product->product_size_en == null)
+                                                
+        @else
+        <label class="info-title control-label">@if (session()->get('language') == 'hindi') नाप चुनें @else Choose Size @endif
+            <span></span></label>
+        <select class="form-control unicase-form-control selectpicker" id="size">
+            <option selected="" disabled="">--@if (session()->get('language') == 'hindi') नाप चुनें @else Choose Size @endif--</option>
+            @if (session()->get('language') == 'hindi')
+                @foreach ($product_size_hin as $size)
+                    <option value="{{ $size }}">{{ $size }}
+                    </option>
+                @endforeach
+            @else
+                @foreach ($product_size_en as $size)
+                    <option value="{{ $size }}">{{ ucwords($size) }}
+                    </option>
+                @endforeach
+            @endif
+        </select>
+        @endif
+    </div>
+</div>
 
                                 </div><!-- /.row -->
 
@@ -351,14 +359,14 @@
                                                                 class="ir"><i
                                                                     class="icon fa fa-sort-desc"></i></span></div>
                                                     </div>
-                                                    <input type="text" value="1">
+                                                    <input type="number" name="qty" id="qty" value="1" min="1"  step="1">
                                                 </div>
                                             </div>
                                         </div>
-
+                                        <input type="hidden" id="product_id" value="{{ $product->id }}">
                                         <div class="col-sm-7">
-                                            <a href="#" class="btn btn-primary"><i
-                                                    class="fa fa-shopping-cart inner-right-vs"></i>@if (session()->get('language') == 'hindi') कार्ट में जोड़ें @else ADD TO CART @endif</a>
+                                            <button type="submit" onclick="addToCart()" class="btn btn-primary"><i
+                                                    class="fa fa-shopping-cart inner-right-vs"></i>@if (session()->get('language') == 'hindi') कार्ट में जोड़ें @else ADD TO CART @endif</button>
                                         </div>
 
 

@@ -7507,6 +7507,13 @@ main_master
 (219) Update Add to Cart In Product Details Page
 
 
+I hooked up one of the carts on details page and have it talking to bumbum carts
+
+
+
+
+
+(220) Mini Cart Read Cart Product With Ajax Part 1
 
 
 

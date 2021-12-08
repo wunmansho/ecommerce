@@ -10,6 +10,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 class CartController extends Controller
 {
     public function AddToCart(Request $request, $id){
+        
         $product = Product::findOrFail($id);
         if ($product->discount_price == NULL) {
             Cart::add([
