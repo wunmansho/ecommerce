@@ -7612,6 +7612,10 @@ header
 
 (222) Mini Cart Count All Quantity And Subtotal With Ajax
 
+See code diffs
+
+(223) Mini Cart Product Remove With Ajax
+
 
 
 

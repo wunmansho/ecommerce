@@ -260,7 +260,7 @@ My Online Shop
           </div>
           <!-- /.info-boxes --> 
           <!-- ============================================== INFO BOXES : END ============================================== --> 
-          <!-- ============================================== SCROLL TABS ============================================== -->
+          <!-- ============================================== NEW PRODUCTS SCROLL TABS ============================================== -->
           <div id="product-tabs-slider" class="scroll-tabs outer-top-vs wow fadeInUp">
             <div class="more-info-tab clearfix ">
               <h3 class="new-product-title pull-left">@if (session()->get('language') == 'hindi') नये उत्पाद @else New Products @endif</h3>
@@ -324,7 +324,7 @@ My Online Shop
           <ul class="list-unstyled">
             <li class="add-cart-button btn-group">
 
-              <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal"  id="{{ $product->id }}" onclick="productView(this.id)"> <i class="fa fa-shopping-cart"></i> </button>
+              <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal"  name="01" id="{{ $product->id }}" onclick="productView(this.id)"> <i class="fa fa-shopping-cart"></i> </button>
               <button class="btn btn-primary cart-btn" type="button">@if (session()->get('language') == 'hindi') कार्ट में जोड़ें @else ADD TO CART @endif</button>
             </li>
             <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
@@ -406,7 +406,7 @@ My Online Shop
                             <div class="action">
                               <ul class="list-unstyled">
                                 <li class="add-cart-button btn-group">
-                                  <button data-toggle="tooltip" class="btn btn-primary icon" type="button" title="Add Cart"> <i class="fa fa-shopping-cart"></i> </button>
+                                  <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal"  name="02" id="{{ $product->id }}" onclick="productView(this.id)"> <i class="fa fa-shopping-cart"></i> </button>
                                   <button class="btn btn-primary cart-btn" type="button">@if (session()->get('language') == 'hindi') कार्ट में जोड़ें @else ADD TO CART @endif</button>
                                 </li>
                                 <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
@@ -441,7 +441,7 @@ My Online Shop
             <!-- /.tab-content --> 
           </div>
           <!-- /.scroll-tabs --> 
-          <!-- ============================================== SCROLL TABS : END ============================================== --> 
+          <!-- ============================================== NEW PRODUCTS SCROLL TABS : END ============================================== --> 
           <!-- ============================================== WIDE PRODUCTS ============================================== -->
           <div class="wide-banners wow fadeInUp outer-bottom-xs">
             <div class="row">
@@ -515,7 +515,7 @@ My Online Shop
                       <div class="action">
                         <ul class="list-unstyled">
                           <li class="add-cart-button btn-group">
-                            <button data-toggle="tooltip" class="btn btn-primary icon" type="button" title="Add Cart"> <i class="fa fa-shopping-cart"></i> </button>
+                            <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal"  name="03" id="{{ $product->id }}" onclick="productView(this.id)"> <i class="fa fa-shopping-cart"></i> </button>
                             <button class="btn btn-primary cart-btn" type="button">@if (session()->get('language') == 'hindi') कार्ट में जोड़ें @else ADD TO CART @endif</button>
                           </li>
                           <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
@@ -589,7 +589,7 @@ My Online Shop
                       <div class="action">
                         <ul class="list-unstyled">
                           <li class="add-cart-button btn-group">
-                            <button data-toggle="tooltip" class="btn btn-primary icon" type="button" title="Add Cart"> <i class="fa fa-shopping-cart"></i> </button>
+                            <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal"  name="04" id="{{ $product->id }}" onclick="productView(this.id)"> <i class="fa fa-shopping-cart"></i> </button>
                             <button class="btn btn-primary cart-btn" type="button">@if (session()->get('language') == 'hindi') कार्ट में जोड़ें @else ADD TO CART @endif</button>
                           </li>
                           <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
@@ -663,7 +663,7 @@ My Online Shop
                       <div class="action">
                         <ul class="list-unstyled">
                           <li class="add-cart-button btn-group">
-                            <button data-toggle="tooltip" class="btn btn-primary icon" type="button" title="Add Cart"> <i class="fa fa-shopping-cart"></i> </button>
+                            <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal"  name="05" id="{{ $product->id }}" onclick="productView(this.id)"> <i class="fa fa-shopping-cart"></i> </button>
                             <button class="btn btn-primary cart-btn" type="button">@if (session()->get('language') == 'hindi') कार्ट में जोड़ें @else ADD TO CART @endif</button>
                           </li>
                           <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
@@ -764,7 +764,7 @@ My Online Shop
                       <div class="action">
                         <ul class="list-unstyled">
                           <li class="add-cart-button btn-group">
-                            <button data-toggle="tooltip" class="btn btn-primary icon" type="button" title="Add Cart"> <i class="fa fa-shopping-cart"></i> </button>
+                            <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal"  name="06" id="{{ $product->id }}" onclick="productView(this.id)"> <i class="fa fa-shopping-cart"></i> </button>
                             <button class="btn btn-primary cart-btn" type="button">@if (session()->get('language') == 'hindi') कार्ट में जोड़ें @else ADD TO CART @endif</button>
                           </li>
                           <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
@@ -1180,7 +1180,7 @@ My Online Shop
                       <div class="action">
                         <ul class="list-unstyled">
                           <li class="add-cart-button btn-group">
-                            <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
+                            <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal"  name="07" id="{{ $product->id }}" onclick="productView(this.id)"> <i class="fa fa-shopping-cart"></i> </button>
                             <button class="btn btn-primary cart-btn" type="button">@if (session()->get('language') == 'hindi') कार्ट में जोड़ें @else ADD TO CART @endif</button>
                           </li>
                           <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
@@ -1222,7 +1222,7 @@ My Online Shop
                       <div class="action">
                         <ul class="list-unstyled">
                           <li class="add-cart-button btn-group">
-                            <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
+                            <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal"  name="08" id="{{ $product->id }}" onclick="productView(this.id)"> <i class="fa fa-shopping-cart"></i> </button>
                             <button class="btn btn-primary cart-btn" type="button">@if (session()->get('language') == 'hindi') कार्ट में जोड़ें @else ADD TO CART @endif</button>
                           </li>
                           <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
@@ -1264,7 +1264,7 @@ My Online Shop
                       <div class="action">
                         <ul class="list-unstyled">
                           <li class="add-cart-button btn-group">
-                            <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
+                            <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal"  name="09" id="{{ $product->id }}" onclick="productView(this.id)"> <i class="fa fa-shopping-cart"></i> </button>
                             <button class="btn btn-primary cart-btn" type="button">@if (session()->get('language') == 'hindi') कार्ट में जोड़ें @else ADD TO CART @endif</button>
                           </li>
                           <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
@@ -1306,7 +1306,7 @@ My Online Shop
                       <div class="action">
                         <ul class="list-unstyled">
                           <li class="add-cart-button btn-group">
-                            <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
+                            <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal"  name="10" id="{{ $product->id }}" onclick="productView(this.id)"> <i class="fa fa-shopping-cart"></i> </button>
                             <button class="btn btn-primary cart-btn" type="button">@if (session()->get('language') == 'hindi') कार्ट में जोड़ें @else ADD TO CART @endif</button>
                           </li>
                           <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
@@ -1348,7 +1348,7 @@ My Online Shop
                       <div class="action">
                         <ul class="list-unstyled">
                           <li class="add-cart-button btn-group">
-                            <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
+                            <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal"  name="11" id="{{ $product->id }}" onclick="productView(this.id)"> <i class="fa fa-shopping-cart"></i> </button>
                             <button class="btn btn-primary cart-btn" type="button">@if (session()->get('language') == 'hindi') कार्ट में जोड़ें @else ADD TO CART @endif</button>
                           </li>
                           <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
@@ -1390,7 +1390,7 @@ My Online Shop
                       <div class="action">
                         <ul class="list-unstyled">
                           <li class="add-cart-button btn-group">
-                            <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
+                            <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal"  name="12" id="{{ $product->id }}" onclick="productView(this.id)"> <i class="fa fa-shopping-cart"></i> </button>
                             <button class="btn btn-primary cart-btn" type="button">@if (session()->get('language') == 'hindi') कार्ट में जोड़ें @else ADD TO CART @endif</button>
                           </li>
                           <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>

@@ -117,10 +117,14 @@
                             data-toggle="dropdown">
                             <div class="items-cart-inner">
                                 <div class="basket"> <i class="glyphicon glyphicon-shopping-cart"></i> </div>
-                                <div class="basket-item-count"><span class="count">2</span></div>
-                                <div class="total-price-basket"> <span class="lbl">@if (session()->get('language') == 'hindi') गाड़ी - @else cart - @endif
-                                    </span> <span class="total-price"> <span class="sign">$</span><span
-                                            class="value">600.00</span> </span> </div>
+                                <div class="basket-item-count"><span class="count" id="cartQty"></span></div>
+                                <div class="total-price-basket"> 
+                                <span class="lbl">@if (session()->get('language') == 'hindi') गाड़ी - @else cart - @endif</span> 
+                                <span class="total-price"> 
+                                <span class="sign">$</span>
+                                <span class="value" id="cartSubTotal"></span> 
+                            </span> 
+                        </div>
                             </div>
                         </a>
                         <ul class="dropdown-menu">
@@ -133,7 +137,7 @@
  <!--   // End Mini Cart Start with Ajax -->
                                 <div class="clearfix cart-total">
                                     <div class="pull-right"> <span class="text">@if (session()->get('language') == 'hindi') उप कुल : @else Sub Total : @endif
-                                        </span><span class='price'>$600.00</span> </div>
+                                        </span><span class='price' id="cartSubTotal"></span> </div>
                                     <div class="clearfix"></div>
                                     <a href="checkout.html"
                                         class="btn btn-upper btn-primary btn-block m-t-20">@if (session()->get('language') == 'hindi') चेक आउट @else Checkout @endif
