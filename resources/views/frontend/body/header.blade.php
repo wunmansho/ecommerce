@@ -8,7 +8,7 @@
                 <div class="cnt-account">
                     <ul class="list-unstyled">
                         <li><a href="#"><i class="icon fa fa-user"></i>@if (session()->get('language') == 'hindi') मेरी प्रोफाइल @else My Account @endif</a></li>
-                        <li><a href="#"><i class="icon fa fa-heart"></i>@if (session()->get('language') == 'hindi') इच्छा-सूची @else Wishlist @endif
+                        <li><a href="{{ route('wishlist') }}"><i class="icon fa fa-heart"></i>@if (session()->get('language') == 'hindi') इच्छा-सूची @else Wishlist @endif
                             </a></li>
                         <li><a href="#"><i class="icon fa fa-shopping-cart"></i>@if (session()->get('language') == 'hindi') मेरी गाड़ी @else My Cart @endif
                             </a></li>
@@ -178,8 +178,8 @@
                     <div class="navbar-collapse collapse" id="mc-horizontal-menu-collapse">
                         <div class="nav-outer">
                             <ul class="nav navbar-nav">
-                                <li class="active dropdown yamm-fw"> <a href="{{ url('/') }}" data-hover="dropdown"
-                                        class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'hindi') घर @else Home @endif
+                                <li class="active dropdown yamm-fw"> <a href="{{ url('/') }}" 
+                                        >@if (session()->get('language') == 'hindi') घर @else Home @endif
                                     </a> </li>
   <!-- // Get Category Table Data -->
 @php
