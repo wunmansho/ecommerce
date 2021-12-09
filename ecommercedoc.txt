@@ -7677,7 +7677,45 @@ CartController
 
 (224) Wishlist Product Add To Wishlist Part 1
 
+php artisan make:controller User/WishlistController
+php artisan make:model Wishlist -m
 
+in the migration
+    public function up()
+    {
+        Schema::create('wishlists', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('product_id');
+            $table->timestamps();
+        });
+    }
+
+in the model
+class Wishlist extends Model
+{
+    use HasFactory;
+    protected $guarded = [];
+}
+
+php artisan migrate
+
+index
+<button class="btn btn-primary icon" type="button" title="Wishlist" 
+id="{{ $product->id }}" onclick="addToWishlist(this.id)"> <i class="icon fa fa-heart"></i> </button> 
+
+main_master
+
+
+
+web.php
+
+// Add To Wishlist
+Route::post('/add-to-wishlist/{product_id}', [CartController::class, 'AddToWishlist']); 
+
+CartController
+
+(225) Wishlist Product Add To Wishlist Part 2
 
 
 

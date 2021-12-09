@@ -364,5 +364,24 @@ function miniCartRemove(rowId){
 //// Mini Cart Remove End
 </script>
 
+{{-- //// Add Wishlist Page //// --}}
+<script type="text/javascript">
+  function addToWishlist(product_id){
+    $.ajax({
+      type: "POST",
+      dataType: 'json',
+      url: "/add-to-wishlist/"+product_id,
+
+      success:function(data){
+        
+      }
+    })
+
+  }
+
+</script>
+
+
+{{-- //// End Add Wishlist Page //// --}}
 </body>
 </html>
