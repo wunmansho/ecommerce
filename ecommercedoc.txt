@@ -7717,7 +7717,75 @@ CartController
 
 (225) Wishlist Product Add To Wishlist Part 2
 
+main_master
+{{-- //// Add Wishlist Page //// --}}
+<script type="text/javascript">
+  function addToWishlist(product_id){
+    $.ajax({
+      type: "POST",
+      dataType: 'json',
+      url: "/add-to-wishlist/"+product_id,
 
+      success:function(data){
+                     // Start Message 
+                     const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+ 
+                      showConfirmButton: false,
+                      timer: 3000
+                    })
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        icon: 'success',
+                        title: data.success
+                    })
+
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        icon: 'error',
+                        title: data.error
+                    })
+
+                }
+
+                // End Message 
+
+      }
+    })
+
+  }
+
+</script>
+
+
+{{-- //// End Add Wishlist Page //// --}}
+
+CartController
+   public function AddToWishlist(Request $request, $product_id){
+        if (Auth::check()) {
+            $exists = Wishlist::where('user_id',Auth::id())->where('product_id',$product_id)->first();
+            
+            Wishlist::insert([
+                'user_id' => Auth::id(),
+                'product_id' => $product_id,
+                'created_at' => Carbon::now(),
+
+            ]);
+        
+            return response()->json(['success' => 'Item Successfully Added to Your Wishlist']);
+
+        } else {
+            return response()->json(['error' => 'Please Login to Your Account First']);
+        }
+        
+
+    }
+
+
+(226) Wishlist Product Add To Wishlist Part 3
 
 
 
