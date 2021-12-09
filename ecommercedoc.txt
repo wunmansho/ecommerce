@@ -7935,8 +7935,79 @@ the breadcrumb and body-content down to the brands carousel section are cloned f
 
 (228) Wishlist Read Product With Ajax
 
+main_master
+{{-- //// Load Wishlist Data //// --}}
+<script type="text/javascript">
+  function wishList(){
+     $.ajax({
+         type: 'GET',
+         url: '/get-wishlist-product',
+         dataType:'json',
+         success:function(response){
+
+              var rows = ""
+
+             $.each(response, function(key,value){
+                 rows += `<tr>
+                                    <td class="col-md-2"><img src="/${value.product.product_thumbnail}" alt="imga"></td>
+                                    <td class="col-md-7">
+                                        <div class="product-name"><a href="#">${value.product.product_name_en}</a></div>
+                                        <div class="price">
+                                          ${value.product.discunt_price == null
+                                          ? `${value.product.selling_price}`
+                                          : 
+                                          `${value.product.discount_price} 
+                                          <span>${value.product.selling_price}</span>`
+                                         }
+                                        </div>
+                                    </td>
+                                    <td class="col-md-2">
+                                      <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal"   id="${value.product_id}" onclick="productView(this.id)">Add to Cart</button>
+                                    </td>
+                                    <td class="col-md-1 close-btn">
+                                        <a href="#" class=""><i class="fa fa-times"></i></a>
+                                    </td>
+                                </tr>`
+     });
+             
+             $('#wishList').html(rows);
+         }
+     })
+
+  }
+wishList();
+</script>
+{{-- //// End Load Wishlist Data //// --}}
+<button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal"   id="${value.product_id}" onclick="productView(this.id)">Add to Cart</button>
+
+web.php
+Route::get('/get-wishlist-product', [WishlistController::class, 'GetWishlistProduct']); 
 
 
+WishlistController
+public function GetWishlistProduct(){
+        $wishlist = Wishlist::with('product')->where('user_id',Auth::id())->latest()->get();
+        return response()->json($wishlist);
+
+    }
+
+WishList model
+class Wishlist extends Model
+{
+    use HasFactory;
+    protected $guarded = [];
+
+    public function product(){
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+}
+
+view_wishlist
+                           <tbody id="wishList">
+
+                            </tbody>
+
+(229) Wishlist Product Remove With Ajax
 
 
 
