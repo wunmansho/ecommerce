@@ -8009,6 +8009,65 @@ view_wishlist
 
 (229) Wishlist Product Remove With Ajax
 
+main_master
+//// Wishlist Remove Start ////
+
+function wishlistRemove(id){  
+        $.ajax({
+            type: 'GET',
+            url: '/wishlist-remove/'+id,
+            dataType:'json',
+            success:function(data){
+            wishList();
+
+             // Start Message 
+                const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                       showConfirmButton: false,
+                      timer: 3000
+                    })
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        icon: 'success',
+                        title: data.success
+                    })
+
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        icon: 'error',
+                        title: data.error
+                    })
+
+                }
+
+                // End Message 
+
+            }
+        });
+
+    }
+//// Wishlist Remove End ////
+
+web.php
+Route::get('/wishlist-remove/{id}', [WishlistController::class, 'RemoveWishlistProduct']); 
+
+WishlistController
+   public function RemoveWishlistProduct($id){
+
+        Wishlist::where('user_id',Auth::id())->where('id',$id)->delete();
+        return response()->json(['success' => 'Product Successfully Removed from Wishlist']);
+
+    }
+
+
+
+
+
+
+(230) Protect Wishlist Page with Middleware
 
 
 
