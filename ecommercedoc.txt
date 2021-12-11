@@ -8165,7 +8165,100 @@ use Gloudemans\Shoppingcart\Facades\Cart;
     }
 
 
-(232) Cartpage Read All Cart Product With Ajax Part 1
+(232) Cartpage Read All Cart Product With Ajax Part 2
+
+main_master
+{{-- //// Load MyCart Data //// --}}
+<script type="text/javascript">
+  function cart(){
+     $.ajax({
+         type: 'GET',
+         url: '/user/get-cart-product',
+         dataType:'json',
+         success:function(response){
+
+    var rows = ""
+
+    $.each(response.carts, function(key,value){
+        rows += `<tr>
+<td class="col-md-2"><img src="/${value.options.image}" alt="imga" style="width: 60px; height: 60px;"></td>
+<td class="col-md-2">
+    <div class="product-name"><a href="#">${value.name}</a></div>
+    <div class="price">
+      ${value.price}
+
+              </div>
+          </td>
+
+
+<td class="col-md-2">
+  ${value.options.color == null 
+    ? `<span> .... </span>`
+    :
+  `<strong>${value.options.color}</strong>`
+    }
+
+</td>
+<td class="col-md-2">
+  ${value.options.size == null 
+    ? `<span> .... </span>`
+    :
+  `<strong>${value.options.size}</strong>`
+}
+
+</td>
+
+<td class="col-md-2">
+
+  <button type="submit" class="btn btn-success" btn-sm">+</button>                                 
+<input type="text" value="${value.qty}" min="1" max="100" disabled="" style="width: 25px;">
+<button type="submit" class="btn btn-danger" btn-sm">-</button>
+    
+</td>
+
+<td class="col-md-2">
+
+  <strong>$${value.subtotal}</strong>
+    
+
+</td>
+
+
+
+
+          <td class="col-md-1 close-btn">
+              <button type="submit" class="" id="${value.id}" onclick="mycartRemove(this.id)"><i class="fa fa-times"></i></button>
+          </td>
+      </tr>`
+     });
+             
+             $('#cartPage').html(rows);
+         }
+     })
+
+  }
+cart();
+//// End Load MyCart Data //// 
+
+
+
+I copied and altered this table header from the shopping-cart.html template to view_mycart
+           <div class="row ">
+                <div class="shopping-cart">
+                    <div class="shopping-cart-table ">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="cart-romove item">Image</th>
+                        <th class="cart-description item">Name</th>
+                        <th class="cart-product-name item">Color</th>
+                        <th class="cart-edit item">Size</th>
+                        <th class="cart-qty item">Quantity</th>
+                        <th class="cart-sub-total item">Subtotal</th>
+                        <th class="cart-total last-item">Remove</th>
+                    </tr>
+                </thead><!-- /thead -->
 
 
 
@@ -8175,10 +8268,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 
 
 
-
-
-
-
+(233) Cart Page Cart Product Remove With Ajax
 
 
 
