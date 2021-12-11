@@ -8227,7 +8227,7 @@ main_master
 
 
           <td class="col-md-1 close-btn">
-              <button type="submit" class="" id="${value.id}" onclick="mycartRemove(this.id)"><i class="fa fa-times"></i></button>
+               <button type="submit" class="" id="${value.rowId}" onclick="cartRemove(this.id)"><i class="fa fa-times"></i></button>
           </td>
       </tr>`
      });
@@ -8272,11 +8272,61 @@ I copied and altered this table header from the shopping-cart.html template to v
 
 
 
+main_master
+//// MyCart Remove Start ////
+
+function cartRemove(id){  
+        $.ajax({
+            type: 'GET',
+            url: '/user/cart-remove/'+id,
+            dataType:'json',
+            success:function(data){
+            cart();
+            miniCart();
+
+             // Start Message 
+                const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                       showConfirmButton: false,
+                      timer: 3000
+                    })
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        icon: 'success',
+                        title: data.success
+                    })
+
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        icon: 'error',
+                        title: data.error
+                    })
+
+                }
+
+                // End Message 
+
+            }
+        });
+
+    }
+//// MyCart Remove End ////
+
+web.php
+Route::get('/cart-remove/{rowId}', [CartPageController::class, 'RemoveCartProduct']); 
+
+CartPageController
+   public function RemoveCartProduct($rowId){
+        Cart::remove($rowId);
+        return response()->json(['success' => 'Product Successfully Removed from Cart']);
+
+    }
 
 
-
-
-
+(234) Update Product Cart Url
 
 
 
