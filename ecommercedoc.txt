@@ -8068,13 +8068,104 @@ WishlistController
 
 
 (230) Protect Wishlist Page with Middleware
+web.php
+Route::group(['prefix'=>'user','middleware'=>['user','auth'],'namespace'=>'User'],
+function(){
+// Wishlist Page
+Route::get('/wishlist', [WishlistController::class, 'ViewWishlist'])->name('wishlist'); 
+
+Route::get('/get-wishlist-product', [WishlistController::class, 'GetWishlistProduct']); 
+
+
+Route::get('/wishlist-remove/{id}', [WishlistController::class, 'RemoveWishlistProduct']); 
+});
+
+
+UserRedirectIfAuthenticated.php
+<?php
+
+namespace App\Http\Middleware;
+
+use App\Providers\RouteServiceProvider;
+use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class UserRedirectIfAuthenticated
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string|null  ...$guards
+     * @return mixed
+     */
+    public function handle(Request $request, Closure $next, ...$guards)
+    {
+       
+         if (Auth::check() && Auth::user()) {
+             return $next($request);
+         } else {
+             return redirect()->route('login'); 
+         }
+         
+       
+
+        return $next($request);
+
+
+    }
+}
+
+kernal.php
+       'user' => \App\Http\Middleware\UserRedirectIfAuthenticated::class,
+ 
+main_master routes to wishlist related are changed to use the user prefix
+      url: "/user/add-to-wishlist/"+product_id,
 
 
 
+(231) Cartpage Read All Cart Product With Ajax Part 1
+
+header
+<li><a href="{{ route('mycart') }}"><i class="icon fa fa-shopping-cart"></i>@if (session()->get('language') == 'hindi') मेरी गाड़ी @else My Cart @endif
+</a></li>
+
+web.php within the secured user Route Group
+Route::get('/mycart', [CartPageController::class, 'MyCart'])->name('mycart'); 
+
+CartPageController
+    public function MyCart(){
+        return view('frontend.wishlist.view_mycart');
+    }
 
 
+main_master
+I have cloned wishlist and remove wishlist but these are works in progress.
 
 
+web.php within the secured user Route Group
+Route::get('/get-cart-product', [CartPageController::class, 'GetCartProduct']); 
+
+CartPageController I copied and modified code from AddMiniCart in CartController
+use Gloudemans\Shoppingcart\Facades\Cart;
+   public function GetCartProduct(){
+        $carts = Cart::content();
+        $cartQty = Cart::count();
+        $cartTotal = Cart::total();
+       
+        return response()->json(array(
+            'carts' => $carts,
+            'cartQty' => $cartQty,
+            'cartTotal' => round($cartTotal),
+        
+        
+        ));
+    }
+
+
+(232) Cartpage Read All Cart Product With Ajax Part 1
 
 
 

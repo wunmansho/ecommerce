@@ -370,7 +370,7 @@ function miniCartRemove(rowId){
     $.ajax({
       type: "POST",
       dataType: 'json',
-      url: "/add-to-wishlist/"+product_id,
+      url: "/user/add-to-wishlist/"+product_id,
 
       success:function(data){
                      // Start Message 
@@ -415,7 +415,7 @@ function miniCartRemove(rowId){
   function wishList(){
      $.ajax({
          type: 'GET',
-         url: '/get-wishlist-product',
+         url: '/user/get-wishlist-product',
          dataType:'json',
          success:function(response){
 
@@ -458,7 +458,7 @@ wishList();
 function wishlistRemove(id){  
         $.ajax({
             type: 'GET',
-            url: '/wishlist-remove/'+id,
+            url: '/user/wishlist-remove/'+id,
             dataType:'json',
             success:function(data){
             wishList();
@@ -493,6 +493,86 @@ function wishlistRemove(id){
 
     }
 //// Wishlist Remove End ////
+
+</script>
+
+
+{{-- //// Load MyCart Data //// --}}
+<script type="text/javascript">
+  function cart(){
+     $.ajax({
+         type: 'GET',
+         url: '/user/get-cart-product',
+         dataType:'json',
+         success:function(response){
+
+    var rows = ""
+
+    $.each(response.carts, function(key,value){
+        rows += `<tr>
+<td class="col-md-2"><img src="/${value.options.image}" alt="imga"></td>
+<td class="col-md-7">
+    <div class="product-name"><a href="#">${value.name}</a></div>
+    <div class="price">
+      ${value.price}
+
+              </div>
+          </td>
+          <td class="col-md-1 close-btn">
+              <button type="submit" class="" id="${value.id}" onclick="mycartRemove(this.id)"><i class="fa fa-times"></i></button>
+          </td>
+      </tr>`
+     });
+             
+             $('#cartPage').html(rows);
+         }
+     })
+
+  }
+cart();
+//// End Load MyCart Data //// 
+
+
+//// MyCart Remove Start ////
+
+function mycartRemove(id){  
+        $.ajax({
+            type: 'GET',
+            url: '/user/mycart-remove/'+id,
+            dataType:'json',
+            success:function(data){
+            myCart();
+
+             // Start Message 
+                const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                       showConfirmButton: false,
+                      timer: 3000
+                    })
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        icon: 'success',
+                        title: data.success
+                    })
+
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        icon: 'error',
+                        title: data.error
+                    })
+
+                }
+
+                // End Message 
+
+            }
+        });
+
+    }
+//// MyCart Remove End ////
 
 </script>
 

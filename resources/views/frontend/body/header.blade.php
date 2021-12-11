@@ -10,7 +10,7 @@
                         <li><a href="#"><i class="icon fa fa-user"></i>@if (session()->get('language') == 'hindi') मेरी प्रोफाइल @else My Account @endif</a></li>
                         <li><a href="{{ route('wishlist') }}"><i class="icon fa fa-heart"></i>@if (session()->get('language') == 'hindi') इच्छा-सूची @else Wishlist @endif
                             </a></li>
-                        <li><a href="#"><i class="icon fa fa-shopping-cart"></i>@if (session()->get('language') == 'hindi') मेरी गाड़ी @else My Cart @endif
+                        <li><a href="{{ route('mycart') }}"><i class="icon fa fa-shopping-cart"></i>@if (session()->get('language') == 'hindi') मेरी गाड़ी @else My Cart @endif
                             </a></li>
                         <li><a href="#"><i class="icon fa fa-check"></i>@if (session()->get('language') == 'hindi') चेक आउट @else Checkout @endif
                             </a></li>
