@@ -539,21 +539,15 @@ function wishlistRemove(id){
 
 <td class="col-md-2">
 
-  <button type="submit" class="btn btn-success" btn-sm">+</button>                                 
+  <button type="submit" class="btn btn-danger" btn-sm" id="${value.rowId}" onclick="cartDecrement(this.id)">-</button>                                 
 <input type="text" value="${value.qty}" min="1" max="100" disabled="" style="width: 25px;">
-<button type="submit" class="btn btn-danger" btn-sm">-</button>
+<button type="submit" class="btn btn-success" btn-sm" id="${value.rowId}" onclick="cartIncrement(this.id)">+</button>
     
 </td>
 
 <td class="col-md-2">
-
-  <strong>$${value.subtotal}</strong>
-    
-
+  <strong>$${value.subtotal}</strong>  
 </td>
-
-
-
 
           <td class="col-md-1 close-btn">
               <button type="submit" class="" id="${value.rowId}" onclick="cartRemove(this.id)"><i class="fa fa-times"></i></button>
@@ -612,6 +606,36 @@ function cartRemove(id){
     }
 //// MyCart Remove End ////
 
+//------------ Cart Increment ------------//
+function cartIncrement(rowId){  
+        $.ajax({
+            type: 'GET',
+            url: '/cart-increment/'+rowId,
+            dataType:'json',
+            success:function(data){
+            cart();
+            miniCart();
+            }
+        });
+
+    }
+//------------ End Cart Increment ---------//
+
+
+//------------ Cart Decrement ------------//
+function cartDecrement(rowId){  
+        $.ajax({
+            type: 'GET',
+            url: '/cart-decrement/'+rowId,
+            dataType:'json',
+            success:function(data){
+            cart();
+            miniCart();
+            }
+        });
+
+    }
+//------------ End Cart Decrement ---------//
 </script>
 
 </body>

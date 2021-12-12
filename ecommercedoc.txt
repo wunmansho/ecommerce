@@ -8327,6 +8327,7 @@ CartPageController
 
 
 (234) Update Product Cart Url
+
 web.php the cart functions are moved out of the user routing group so that a user who is not logged in can add to cart and view cart.  The url is updated to add user
 it could have just as well been taken away other places.  Wishlist remains secured by middleware.
 //// My Cart Page All Routes
@@ -8337,5 +8338,60 @@ Route::get('/user/get-cart-product', [CartPageController::class, 'GetCartProduct
 Route::get('/user/cart-remove/{rowId}', [CartPageController::class, 'RemoveCartProduct']); 
 
 
-(235) Cart Page Cart Quantity Increment With Ajax
+(235) (236) Cart Page Cart Quantity Increment/Decrement With Ajax
+
+main_master
+  <button type="submit" class="btn btn-danger" btn-sm" id="${value.rowId}" onclick="cartDecrement(this.id)">-</button>                                 
+<input type="text" value="${value.qty}" min="1" max="100" disabled="" style="width: 25px;">
+<button type="submit" class="btn btn-success" btn-sm" id="${value.rowId}" onclick="cartIncrement(this.id)">+</button>
+//------------ Cart Increment ------------//
+function cartIncrement(rowId){  
+        $.ajax({
+            type: 'GET',
+            url: '/cart-increment/'+rowId,
+            dataType:'json',
+            success:function(data){
+            cart();
+            miniCart();
+            }
+        });
+
+    }
+//------------ End Cart Increment ---------//
+
+
+//------------ Cart Decrement ------------//
+function cartDecrement(rowId){  
+        $.ajax({
+            type: 'GET',
+            url: '/cart-decrement/'+rowId,
+            dataType:'json',
+            success:function(data){
+            cart();
+            miniCart();
+            }
+        });
+
+    }
+//------------ End Cart Decrement ---------//
+
+web.php
+Route::get('/cart-increment/{rowId}', [CartPageController::class, 'CartIncrement']); 
+
+Route::get('/cart-decrement/{rowId}', [CartPageController::class, 'CartDecrement']);
+
+CartPageController
+ public function CartIncrement($rowId){
+        $row = Cart::get($rowId);
+        Cart::update($rowId, $row->qty +1);
+        return response()->json('increment');
+    }
+
+    public function CartDecrement($rowId){
+        $row = Cart::get($rowId);
+        Cart::update($rowId, $row->qty -1);
+        return response()->json('decrement');
+    }
+
+(237) Admin Panel Create Coupon System Part 1
 
