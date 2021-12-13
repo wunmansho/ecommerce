@@ -15,7 +15,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\User\WishlistController;
 use App\Http\Controllers\User\CartPageController;
-
+use App\Http\Controllers\Backend\CouponController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -224,3 +224,11 @@ Route::get('/user/cart-remove/{rowId}', [CartPageController::class, 'RemoveCartP
 Route::get('/cart-increment/{rowId}', [CartPageController::class, 'CartIncrement']); 
 
 Route::get('/cart-decrement/{rowId}', [CartPageController::class, 'CartDecrement']); 
+
+
+// Admin Coupon All Routes
+
+Route::prefix('coupons')->group(function(){
+    Route::get('/view', [CouponController::class, 'CouponView'])->name('manage-coupon')->middleware('auth:admin'); 
+ 
+});

@@ -8393,5 +8393,198 @@ CartPageController
         return response()->json('decrement');
     }
 
+
 (237) Admin Panel Create Coupon System Part 1
+
+sidebar
+<li class="treeview {{ ($prefix == '/coupons')? 'active':'' }}">
+    <a href="#">
+        <i data-feather="file"></i>
+        <span>Coupons</span>
+        <span class="pull-right-container">
+            <i class="fa fa-angle-right pull-right"></i>
+        </span>
+    </a>
+    <ul class="treeview-menu">
+    <li class="{{ ($route == 'manage-coupon')? 'active':'' }}"><a href="{{ route('manage-coupon') }}"><i class="ti-more"></i>Manage Coupons</a></li>
+    </ul>
+</li>
+
+
+php artisan make:controller Backend/CouponController
+php artisan make:model Coupon -m
+
+coupon table
+   public function up()
+    {
+        Schema::create('coupons', function (Blueprint $table) {
+            $table->id();
+            $table->string('coupon_name');
+            $table->integer('coupon_discount');
+            $table->string('coupon_validity');
+            $table->integer('status')->default(1);
+            $table->timestamps();
+        });
+    }
+
+Coupon Model
+class Coupon extends Model
+{
+    use HasFactory;
+    protected $guarded = [];
+}
+
+
+php artisan migrate
+
+web.php
+use App\Http\Controllers\Backend\CouponController;
+// Admin Coupon All Routes
+
+Route::prefix('coupons')->group(function(){
+    Route::get('/view', [CouponController::class, 'CouponView'])->name('manage-coupon')->middleware('auth:admin'); 
+ 
+});
+
+CouponController
+use App\Models\Coupon;
+use Carbon\Carbon;
+    public function CouponView(){
+        $coupons = Coupon::orderBy('id','DESC')->get();
+        return view('backend.coupon.view_coupon',compact('coupons'));
+
+    }
+
+    view_coupon
+@extends('admin.admin_master')
+@section('admin')
+    <div class="container-full">
+        <!-- Content Header (Page header) -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+
+                <div class="col-8">
+
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Coupon List</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+<div class="table-responsive">
+    <table id="example1" class="table table-bordered table-striped">
+        <thead>
+
+            <tr>
+                <th>Coupon Name</th>
+                <th>Coupon Discount</th>
+                <th>Validity</th> 
+                <th>Status</th>                                          
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($coupons as $item)
+                <tr>
+                    <td>{{ $item->coupon_name }}</td>
+                    <td>{{ $item->coupon_discount }}%</td>
+                    <td>{{ $item->coupon_validity }}</td>
+                    <td>
+                        @if($item->status == 1)
+                        <span class="badge badge-pill badge-success">Active</span>
+                        @else
+                        <span class="badge badge-pill badge-danger">InActive</span>
+                        @endif
+                    </td>
+                
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+
+
+                </div>
+                <!-- /.col -->
+                <!-- -------------- Add Category Page ---------------- -->
+                <div class="col-4">
+
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Add Coupon</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="table-responsive">
+<form method="post" action="{{ route('category.store') }}">
+    @csrf
+                <div class="form-group">
+                    <h5>Coupon Name <span class="text-danger">*</span></h5>
+                    <div class="controls">
+                        <input type="text" id="coupon_name" name="coupon_name"
+                            class="form-control">
+                            @error('coupon_name')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h5>Coupon Discount <span class="text-danger">*</span></h5>
+                    <div class="controls">
+                        <input type="text" id="coupon_discount" name="coupon_discount"
+                            class="form-control">
+                            @error('coupon_discount')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h5>Coupon Validity Date<span class="text-danger">*</span></h5>
+                    <div class="controls">
+                        <input type="date" id="coupon_validity" name="coupon_validity"
+                            class="form-control">
+                            @error('coupon_validity')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+
+                    </div>
+                </div>
+
+
+    <div class="text-xs-right">
+        <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Add">
+    </div>
+</form>
+
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+
+
+                </div>
+
+            </div>
+            <!-- /.row -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+
+@endsection
+
+
+
+
+(238) Admin Panel Create Coupon System Part 2
 
