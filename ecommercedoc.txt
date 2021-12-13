@@ -8522,7 +8522,7 @@ use Carbon\Carbon;
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="table-responsive">
-<form method="post" action="{{ route('category.store') }}">
+<form method="post" action="{{ route('coupon.store') }}">
     @csrf
                 <div class="form-group">
                     <h5>Coupon Name <span class="text-danger">*</span></h5>
@@ -8587,4 +8587,42 @@ use Carbon\Carbon;
 
 
 (238) Admin Panel Create Coupon System Part 2
+
+web.php
+Route::post('/store', [CouponController::class, 'CouponStore'])->name('coupon.store')->middleware('auth:admin'); 
+
+CouponController
+  public function CouponStore(Request $request){
+        $request->validate([
+            'coupon_name' => 'required',
+            'coupon_discount' => 'required',
+            'coupon_validity' => 'required',    
+        ],[
+            'coupon_name.required' => 'Input Coupon Name',
+            'coupon_discount.required' => 'Input Coupon Discount',
+            'coupon_validity.required' => 'Input Coupon Validity Date',
+
+        ]);
+
+        Coupon::insert([
+            'coupon_name'  => strtoupper($request->coupon_name),
+            'coupon_discount'  => $request->coupon_discount,
+            'coupon_validity'  => $request->coupon_validity,
+            'created_at' => Carbon::now(), 
+        ]);
+        $notification = array(
+            'message' => 'Coupon Inserted Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
+
+    view_coupon
+    Once complete the changes to view_coupon will be reflected in  (237)
+
+
+(239) Admin Panel Create Coupon System Part 3
+
+
+
 

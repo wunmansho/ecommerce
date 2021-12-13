@@ -15,4 +15,29 @@ class CouponController extends Controller
         return view('backend.coupon.view_coupon',compact('coupons'));
 
     }
+
+    public function CouponStore(Request $request){
+        $request->validate([
+            'coupon_name' => 'required',
+            'coupon_discount' => 'required',
+            'coupon_validity' => 'required',    
+        ],[
+            'coupon_name.required' => 'Input Coupon Name',
+            'coupon_discount.required' => 'Input Coupon Discount',
+            'coupon_validity.required' => 'Input Coupon Validity Date',
+
+        ]);
+
+        Coupon::insert([
+            'coupon_name'  => strtoupper($request->coupon_name),
+            'coupon_discount'  => $request->coupon_discount,
+            'coupon_validity'  => $request->coupon_validity,
+            'created_at' => Carbon::now(), 
+        ]);
+        $notification = array(
+            'message' => 'Coupon Inserted Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
 }
