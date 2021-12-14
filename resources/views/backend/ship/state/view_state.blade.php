@@ -38,9 +38,9 @@
                                                     <a href="{{ route('state.edit', $item->id) }}"
                                                         class="btn btn-info" title"Edit Data"><i
                                                             class="fa fa-pencil"></i></a>
-                                                    {{-- <a href="{{ route('state.delete', $item->id) }}"
+                                                    <a href="{{ route('state.delete', $item->id) }}"
                                                         class="btn btn-info" id="delete" title"Delete Data"><i
-                                                            class="fa fa-trash"></i></a> --}}
+                                                            class="fa fa-trash"></i></a>
                                                 </td>
 
                                             </tr>

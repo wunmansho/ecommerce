@@ -20,8 +20,8 @@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="table-responsive">
-                                <form method="post" action="">
-                                    {{-- <form method="post" action="{{ route('state.update') }}"> --}}
+                               
+                                    <form method="post" action="{{ route('state.update',$state->id) }}"> 
                                     @csrf
 
                                     <div class="form-group">

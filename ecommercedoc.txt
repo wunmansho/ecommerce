@@ -9549,4 +9549,44 @@ ShippingAreaController
 
 (246) Admin Panel Shipping Area ¦ State Create Part 3
 
+edit_state                                    
+<form method="post" action="{{ route('state.update',$state->id) }}"> 
+
+web.php
+    Route::post('/state/update/{id}', [ShippingAreaController::class, 'StateUpdate'])->name('state.update')->middleware('auth:admin');
+
+    Route::get('/state/delete/{id}', [ShippingAreaController::class, 'StateDelete'])->name('state.delete')->middleware('auth:admin');
+
+view_state
+<a href="{{ route('state.delete', $item->id) }}"
+    class="btn btn-info" id="delete" title"Delete Data"><i
+        class="fa fa-trash"></i></a>
+
+ShippingAreaController
+   public function StateUpdate(Request $request,$id){
+        ShipState::findOrFail($id)->update([
+            'division_id'  => $request->division_id,
+            'district_id'  => $request->district_id,
+            'state_name'  => $request->state_name,
+            'updated_at' => Carbon::now(), 
+        ]);
+        $notification = array(
+            'message' => 'State Updated Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('manage-state')->with($notification);
+    }
+
+    public function StateDelete($id){
+        
+        ShipState::findOrFail($id)->delete();
+        $notification = array(
+            'message' => 'State Deleted Successfully',
+            'alert-type' => 'info',
+        );
+        return redirect()->back()->with($notification);
+    }
+
+
+(247) Coupon Apply With Ajax Part 
 
