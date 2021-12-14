@@ -32,7 +32,7 @@
                 <tr>
                     <td>{{ $item->coupon_name }}</td>
                     <td>{{ $item->coupon_discount }}%</td>
-                    <td width="25%">{{ Carbon\Carbon::parse($item->coupon_validity)->format('D, d-F-Y') }}</td>
+                    <td width="27%">{{ Carbon\Carbon::parse($item->coupon_validity)->format('D, d-F-Y') }}</td>
                     <td>
                         @if($item->coupon_validity >= Carbon\Carbon::now()->format('Y-m-d'))
                         <span class="badge badge-pill badge-success">Valid</span>
@@ -40,8 +40,8 @@
                         <span class="badge badge-pill badge-danger">Invalid</span>
                         @endif
                     </td>
-                    <td width="20%">  <a href="{{ route('category.edit', $item->id) }}" class="btn btn-info" title"Edit Data"><i class="fa fa-pencil"></i></a>
-                        <a href="{{ route('category.delete', $item->id) }}" class="btn btn-info" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a>
+                    <td width="20%">  <a href="{{ route('coupon.edit', $item->id) }}" class="btn btn-info" title"Edit Data"><i class="fa fa-pencil"></i></a>
+                        <a href="{{ route('coupon.delete', $item->id) }}" class="btn btn-info" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a>
                     </td>
 
                 </tr>
@@ -57,7 +57,7 @@
 
                 </div>
                 <!-- /.col -->
-                <!-- -------------- Add Category Page ---------------- -->
+                <!-- -------------- Add Coupon Page ---------------- -->
                 <div class="col-4">
 
                     <div class="box">

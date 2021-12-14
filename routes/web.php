@@ -233,4 +233,11 @@ Route::prefix('coupons')->group(function(){
  
     Route::post('/store', [CouponController::class, 'CouponStore'])->name('coupon.store')->middleware('auth:admin'); 
 
+    Route::get('/edit/{id}', [CouponController::class, 'CouponEdit'])->name('coupon.edit')->middleware('auth:admin'); 
+
+    Route::post('/update/{id}', [CouponController::class, 'CouponUpdate'])->name('coupon.update')->middleware('auth:admin'); 
+
+    Route::get('/delete/{id}', [CouponController::class, 'CouponDelete'])->name('coupon.delete')->middleware('auth:admin'); 
+
+
 });
