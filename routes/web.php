@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\User\WishlistController;
 use App\Http\Controllers\User\CartPageController;
 use App\Http\Controllers\Backend\CouponController;
+use App\Http\Controllers\Backend\ShippingAreaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -238,6 +239,22 @@ Route::prefix('coupons')->group(function(){
     Route::post('/update/{id}', [CouponController::class, 'CouponUpdate'])->name('coupon.update')->middleware('auth:admin'); 
 
     Route::get('/delete/{id}', [CouponController::class, 'CouponDelete'])->name('coupon.delete')->middleware('auth:admin'); 
+
+
+});
+
+// Admin Shipping All Routes
+
+Route::prefix('shipping')->group(function(){
+    Route::get('/division/view', [ShippingAreaController::class, 'DivisionView'])->name('manage-division')->middleware('auth:admin'); 
+ 
+   Route::post('/store', [ShippingAreaController::class, 'DivisionStore'])->name('division.store')->middleware('auth:admin'); 
+
+   // Route::get('/edit/{id}', [ShippingAreaController::class, 'DivisionEdit'])->name('division.edit')->middleware('auth:admin'); 
+
+   // Route::post('/update/{id}', [ShippingAreaController::class, 'DivisionUpdate'])->name('division.update')->middleware('auth:admin'); 
+
+   // Route::get('/delete/{id}', [ShippingAreaController::class, 'DivisionDelete'])->name('division.delete')->middleware('auth:admin'); 
 
 
 });
