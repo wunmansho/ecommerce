@@ -28,10 +28,10 @@
         <tbody>
             @foreach ($district as $item)
                 <tr>
-                    <td>{{ $item->division_id }}</td>
+                    <td>{{ $item->division->division_name }}</td>
                     <td>{{ $item->district_name }}</td>
-                    {{-- <td width="20%">  <a href="{{ route('district.edit', $item->id) }}" class="btn btn-info" title"Edit Data"><i class="fa fa-pencil"></i></a>
-                        <a href="{{ route('district.delete', $item->id) }}" class="btn btn-info" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a> --}}
+                     <td width="20%">  <a href="{{ route('district.edit', $item->id) }}" class="btn btn-info" title"Edit Data"><i class="fa fa-pencil"></i></a>
+                        <a href="{{ route('district.delete', $item->id) }}" class="btn btn-info" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a>  
                     </td>
 
                 </tr>
@@ -57,8 +57,8 @@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="table-responsive">
-<form method="post" action="">
-    {{-- <form method="post" action="{{ route('district.store') }}"> --}}
+
+    <form method="post" action="{{ route('district.store') }}">
     @csrf
 
     <div class="form-group">

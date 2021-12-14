@@ -263,13 +263,13 @@ Route::prefix('shipping')->group(function(){
        // Districts
        Route::get('/district/view', [ShippingAreaController::class, 'DistrictView'])->name('manage-district')->middleware('auth:admin'); 
  
-    //   Route::post('/store', [ShippingAreaController::class, 'DistrictStore'])->name('district.store')->middleware('auth:admin'); 
+       Route::post('/district/store', [ShippingAreaController::class, 'DistrictStore'])->name('district.store')->middleware('auth:admin'); 
     
-    //   Route::get('/edit/{id}', [ShippingAreaController::class, 'DistrictEdit'])->name('district.edit')->middleware('auth:admin'); 
+       Route::get('/district/edit/{id}', [ShippingAreaController::class, 'DistrictEdit'])->name('district.edit')->middleware('auth:admin'); 
     
-    //   Route::post('/update/{id}', [ShippingAreaController::class, 'DistrictUpdate'])->name('district.update')->middleware('auth:admin'); 
+       Route::post('/district/update/{id}', [ShippingAreaController::class, 'DistrictUpdate'])->name('district.update')->middleware('auth:admin'); 
     
-    //   Route::get('/delete/{id}', [ShippingAreaController::class, 'DistrictDelete'])->name('district.delete')->middleware('auth:admin'); 
+       Route::get('/district/delete/{id}', [ShippingAreaController::class, 'DistrictDelete'])->name('district.delete')->middleware('auth:admin'); 
     
 
 

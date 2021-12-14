@@ -9077,3 +9077,57 @@ ShippingAreaController
 
     (243) Admin Panel Shipping Area District Edit,Update & Delete
 
+view_district
+   <form method="post" action="{{ route('district.store') }}">
+
+web.php
+Route::post('/district/store', [ShippingAreaController::class, 'DistrictStore'])->name('district.store')->middleware('auth:admin'); 
+
+ShippingAreaController
+    public function DistrictStore(Request $request){
+        $request->validate([
+            'division_id' => 'required',
+            'district_name' => 'required',
+         ],[
+            'division_id.required' => 'Division Required',
+            'district_name.required' => 'District Required',
+
+        ]);
+
+        ShipDistrict::insert([
+            'division_id'  => $request->division_id,
+            'district_name'  => $request->district_name,
+             'created_at' => Carbon::now(), 
+        ]);
+        $notification = array(
+            'message' => 'District Inserted Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
+
+ShipDistrict model I add the relationship to ShipDivision, 
+this should have been done to start with unless I'm missing something
+class ShipDistrict extends Model
+{
+    use HasFactory;
+    protected $guarded = [];
+
+    public function division(){
+        return $this->belongsTo(ShipDivision::class, 'division_id', 'id');
+    }
+
+I add with division to district select in DistrictView from 
+ShippingAreaController
+$district = ShipDistrict::with('division')->orderBy('id','DESC')->get();
+
+now to display division name in view_district I change 
+this
+<td>{{ $item->division_id }}</td>
+to this
+<td>{{ $item->division->division_name }}</td>
+
+Thats really all the important stuff the rest is git history
+
+
+(244) Admin Panel Shipping Area ¦ State Create Part 1
