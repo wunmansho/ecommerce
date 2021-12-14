@@ -50,6 +50,7 @@ return array(
     'App\\Models\\Coupon' => $baseDir . '/app/Models/Coupon.php',
     'App\\Models\\MultiImg' => $baseDir . '/app/Models/MultiImg.php',
     'App\\Models\\Product' => $baseDir . '/app/Models/Product.php',
+    'App\\Models\\ShipDistrict' => $baseDir . '/app/Models/ShipDistrict.php',
     'App\\Models\\ShipDivision' => $baseDir . '/app/Models/ShipDivision.php',
     'App\\Models\\Slider' => $baseDir . '/app/Models/Slider.php',
     'App\\Models\\SubCategory' => $baseDir . '/app/Models/SubCategory.php',

@@ -9028,3 +9028,52 @@ ShippingAreaController
 
 (242) Admin Panel Shipping Area Create District
 
+sidebar
+    <li class="{{ ($route == 'manage-district')? 'active':'' }}"><a href="{{ route('manage-district') }}"><i class="ti-more"></i>Ship District</a></li>
+
+
+php artisan make:model ShipDistrict -m
+   public function up()
+    {
+        Schema::create('ship_districts', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('division_id');
+            $table->string('district_name');
+            $table->timestamps();
+        });
+    }
+
+ShipDistrict model
+class ShipDistrict extends Model
+{
+    use HasFactory;
+    protected $guarded = [];
+}
+
+php artisan migrate
+
+web.php
+      // Districts
+       Route::get('/district/view', [ShippingAreaController::class, 'DistrictView'])->name('manage-district')->middleware('auth:admin'); 
+
+
+ShippingAreaController
+   // Start ShipDistrict
+
+   public function DistrictView(){
+        $division = ShipDivision::orderBy('division_name','ASC')->get();
+        $district = ShipDistrict::orderBy('id','DESC')->get();
+        return view('backend.district.view_district',compact('division','district'));
+
+    }
+
+
+
+    See view_district
+
+
+
+
+
+    (243) Admin Panel Shipping Area District Edit,Update & Delete
+

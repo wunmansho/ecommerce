@@ -621,6 +621,7 @@ class ComposerStaticInit4df71c3bc05d56f0cf913be42108b6a2
         'App\\Models\\Coupon' => __DIR__ . '/../..' . '/app/Models/Coupon.php',
         'App\\Models\\MultiImg' => __DIR__ . '/../..' . '/app/Models/MultiImg.php',
         'App\\Models\\Product' => __DIR__ . '/../..' . '/app/Models/Product.php',
+        'App\\Models\\ShipDistrict' => __DIR__ . '/../..' . '/app/Models/ShipDistrict.php',
         'App\\Models\\ShipDivision' => __DIR__ . '/../..' . '/app/Models/ShipDivision.php',
         'App\\Models\\Slider' => __DIR__ . '/../..' . '/app/Models/Slider.php',
         'App\\Models\\SubCategory' => __DIR__ . '/../..' . '/app/Models/SubCategory.php',
