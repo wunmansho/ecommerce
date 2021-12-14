@@ -623,6 +623,7 @@ class ComposerStaticInit4df71c3bc05d56f0cf913be42108b6a2
         'App\\Models\\Product' => __DIR__ . '/../..' . '/app/Models/Product.php',
         'App\\Models\\ShipDistrict' => __DIR__ . '/../..' . '/app/Models/ShipDistrict.php',
         'App\\Models\\ShipDivision' => __DIR__ . '/../..' . '/app/Models/ShipDivision.php',
+        'App\\Models\\ShipState' => __DIR__ . '/../..' . '/app/Models/ShipState.php',
         'App\\Models\\Slider' => __DIR__ . '/../..' . '/app/Models/Slider.php',
         'App\\Models\\SubCategory' => __DIR__ . '/../..' . '/app/Models/SubCategory.php',
         'App\\Models\\SubSubCategory' => __DIR__ . '/../..' . '/app/Models/SubSubCategory.php',

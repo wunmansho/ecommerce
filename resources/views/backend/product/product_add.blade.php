@@ -28,7 +28,10 @@
                                                 <div class="form-group">
                                                     <h5>Brand Select <span class="text-danger">*</span></h5>
                                                     <div class="controls">
-                                                        <select name="brand_id" id="brand_id" class="form-control" required="" oninvalid="this.setCustomValidity('Please select the brand')" oninput="setCustomValidity('')">
+                                                        <select name="brand_id" id="brand_id" class="form-control"
+                                                            required=""
+                                                            oninvalid="this.setCustomValidity('Please select the brand')"
+                                                            oninput="setCustomValidity('')">
                                                             <option value="" selected="" disabled="">Select Brand</option>
                                                             @foreach ($brands as $brand)
                                                                 <option value="{{ $brand->id }}">
@@ -46,7 +49,10 @@
                                                 <div class="form-group">
                                                     <h5>Category Select <span class="text-danger">*</span></h5>
                                                     <div class="controls">
-                                                        <select name="category_id" id="category_id" class="form-control" required="" oninvalid="this.setCustomValidity('Please select the category')" oninput="setCustomValidity('')">
+                                                        <select name="category_id" id="category_id" class="form-control"
+                                                            required=""
+                                                            oninvalid="this.setCustomValidity('Please select the category')"
+                                                            oninput="setCustomValidity('')">
                                                             <option value="" selected="" disabled="">Select Category
                                                             </option>
                                                             @foreach ($categories as $category)
@@ -66,7 +72,9 @@
                                                     <h5>SubCategory Select <span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <select name="subcategory_id" id="subcategory_id"
-                                                            class="form-control" required="" oninvalid="this.setCustomValidity('Please select the subcategory')" oninput="setCustomValidity('')">
+                                                            class="form-control" required=""
+                                                            oninvalid="this.setCustomValidity('Please select the subcategory')"
+                                                            oninput="setCustomValidity('')">
                                                             <option value="" selected="" disabled="">Select SubCategory
                                                             </option>
 
@@ -89,7 +97,9 @@
                                                     <h5>SubSubCategory Select <span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <select name="subsubcategory_id" id="subsubcategory_id"
-                                                            class="form-control" required="" oninvalid="this.setCustomValidity('Please select the subsubcategory')" oninput="setCustomValidity('')">
+                                                            class="form-control" required=""
+                                                            oninvalid="this.setCustomValidity('Please select the subsubcategory')"
+                                                            oninput="setCustomValidity('')">
                                                             <option value="" selected="" disabled="">Select SubSubCategory
                                                             </option>
 
@@ -120,7 +130,8 @@
                                                     <h5>Product Name Hin<span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <input type="text" name="product_name_hin" id="product_name_hin"
-                                                            class="form-control" required="" value="यह सिर्फ डेमो डेटा है इससे कोई फर्क नहीं पड़ता">
+                                                            class="form-control" required=""
+                                                            value="यह सिर्फ डेमो डेटा है इससे कोई फर्क नहीं पड़ता">
                                                     </div>
                                                     @error('product_name_hin')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -167,8 +178,8 @@
                                                     <h5>Product Tags En<span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <input type="text" name="product_tags_en" id="product_tags_en"
-                                                            class="form-control" value=""
-                                                            data-role="tagsinput" required="">
+                                                            class="form-control" value="" data-role="tagsinput"
+                                                            required="">
                                                     </div>
                                                     @error('product_tags_en')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -187,8 +198,8 @@
                                                     <h5>Product Tags Hin<span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <input type="text" name="product_tags_hin" id="product_tags_hin"
-                                                            class="form-control" value=""
-                                                            data-role="tagsinput" required="">
+                                                            class="form-control" value="" data-role="tagsinput"
+                                                            required="">
                                                     </div>
                                                     @error('product_tags_hin')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -237,7 +248,8 @@
                                                     <h5>Product Color En<span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <input type="text" name="product_color_en" id="product_color_en"
-                                                            class="form-control" value="Red,Black,White" data-role="tagsinput">
+                                                            class="form-control" value="Red,Black,White"
+                                                            data-role="tagsinput">
                                                     </div>
                                                     @error('product_color_en')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -251,7 +263,8 @@
                                                     <h5>Product Color Hin<span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <input type="text" name="product_color_hin" id="product_color_hin"
-                                                            class="form-control" value="Red,Black,White" data-role="tagsinput">
+                                                            class="form-control" value="Red,Black,White"
+                                                            data-role="tagsinput">
                                                     </div>
                                                     @error('product_color_hin')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -298,7 +311,8 @@
                                                     <h5>Main Thumbnail<span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <input type="file" name="product_thumbnail" id="product_thumbnail"
-                                                            class="form-control" onChange="mainThumbUrl(this)"  required="">
+                                                            class="form-control" onChange="mainThumbUrl(this)"
+                                                            required="">
                                                     </div>
                                                     @error('product_thumbnail')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -311,7 +325,8 @@
                                                 <div class="form-group">
                                                     <h5>Multiple Image<span class="text-danger">*</span></h5>
                                                     <div class="controls">
-                                                        <input type="file" name="multi_img[]" class="form-control" multiple=""  id="multiImg" required="">
+                                                        <input type="file" name="multi_img[]" class="form-control"
+                                                            multiple="" id="multiImg" required="">
                                                     </div>
                                                     @error('multi_img')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -330,8 +345,8 @@
                                                     <h5>Short Description English<span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <textarea name="short_desc_en" id="short_desc_en"
-                                                            class="form-control" required="" >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                                        </textarea>
+                                                            class="form-control" required="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                                            </textarea>
 
                                                     </div>
 
@@ -344,7 +359,7 @@
                                                     <div class="controls">
                                                         <textarea name="short_desc_hin" id="short_desc_hin"
                                                             class="form-control" required="">दर्द ही दर्द का प्यार है, मुख्य पारिस्थितिक समस्याएं हैं, लेकिन मैं इस तरह के समय को नीचे गिरने के लिए देता हूं, ताकि कुछ महान दर्द और दर्द हो। कम से कम आने के उद्देश्य से हममें से कौन किसी रोजगार का प्रयोग करे सिवाय उसके परिणाम का लाभ उठाने के। लेकिन फिल्म में जो दर्द है, उसकी निंदा करना लाजमी है, जिस खुशी में वह दर्द में अनाड़ी होने के दर्द से बचना चाहती है, उसका कोई नतीजा नहीं निकलता. 
-                                                        </textarea>
+                                                            </textarea>
 
                                                     </div>
 
@@ -360,7 +375,7 @@
                                                     <h5>Long Description English<span class="text-danger">*</span></h5>
                                                     <div class="controls">
                                                         <textarea id="editor1" name="long_desc_en" rows="10" cols="80">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                                        </textarea>
+                                                            </textarea>
 
                                                     </div>
 
@@ -370,8 +385,8 @@
                                                 <div class="form-group">
                                                     <h5>Long Description Hindi<span class="text-danger">*</span></h5>
                                                     <div class="controls">
-                                                        <textarea id="editor2" name="long_desc_hin" rows="10" cols="80" >दर्द ही दर्द का प्यार है, मुख्य पारिस्थितिक समस्याएं हैं, लेकिन मैं इस तरह के समय को नीचे गिरने के लिए देता हूं, ताकि कुछ महान दर्द और दर्द हो। कम से कम आने के उद्देश्य से हममें से कौन किसी रोजगार का प्रयोग करे सिवाय उसके परिणाम का लाभ उठाने के। लेकिन फिल्म में जो दर्द है, उसकी निंदा करना लाजमी है, जिस खुशी में वह दर्द में अनाड़ी होने के दर्द से बचना चाहती है, उसका कोई नतीजा नहीं निकलता. वे अपवाद हैं जिनके लिए अंधे तरसते हैं, वे नहीं देखते हैं, वे वही हैं जो अपनी जिम्मेदारियों को उस गलती के लिए छोड़ देते हैं जो आत्मा की कठिनाइयों को शांत कर रही है।
-                                                            </textarea>
+                                                        <textarea id="editor2" name="long_desc_hin" rows="10" cols="80">दर्द ही दर्द का प्यार है, मुख्य पारिस्थितिक समस्याएं हैं, लेकिन मैं इस तरह के समय को नीचे गिरने के लिए देता हूं, ताकि कुछ महान दर्द और दर्द हो। कम से कम आने के उद्देश्य से हममें से कौन किसी रोजगार का प्रयोग करे सिवाय उसके परिणाम का लाभ उठाने के। लेकिन फिल्म में जो दर्द है, उसकी निंदा करना लाजमी है, जिस खुशी में वह दर्द में अनाड़ी होने के दर्द से बचना चाहती है, उसका कोई नतीजा नहीं निकलता. वे अपवाद हैं जिनके लिए अंधे तरसते हैं, वे नहीं देखते हैं, वे वही हैं जो अपनी जिम्मेदारियों को उस गलती के लिए छोड़ देते हैं जो आत्मा की कठिनाइयों को शांत कर रही है।
+                                                                </textarea>
 
                                                     </div>
 
