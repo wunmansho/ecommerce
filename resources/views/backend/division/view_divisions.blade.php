@@ -28,8 +28,8 @@
             @foreach ($divisions as $item)
                 <tr>
                     <td>{{ $item->division_name }}</td>
-                    {{-- <td width="20%">  <a href="{{ route('division.edit', $item->id) }}" class="btn btn-info" title"Edit Data"><i class="fa fa-pencil"></i></a>
-                        <a href="{{ route('division.delete', $item->id) }}" class="btn btn-info" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a> --}}
+                    <td width="20%">  <a href="{{ route('division.edit', $item->id) }}" class="btn btn-info" title"Edit Data"><i class="fa fa-pencil"></i></a>
+                        <a href="{{ route('division.delete', $item->id) }}" class="btn btn-info" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a>
                     </td>
 
                 </tr>
@@ -45,7 +45,7 @@
 
                 </div>
                 <!-- /.col -->
-                <!-- -------------- Add Coupon Page ---------------- -->
+                <!-- -------------- Add Division Page ---------------- -->
                 <div class="col-4">
 
                     <div class="box">

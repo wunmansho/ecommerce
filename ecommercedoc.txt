@@ -8923,3 +8923,108 @@ view_divisions
 
 
 (241) Admin Panel Shipping Area Division Create Part 2
+
+view_divisions
+<td width="20%">  <a href="{{ route('division.edit', $item->id) }}" class="btn btn-info" title"Edit Data"><i class="fa fa-pencil"></i></a>
+<a href="{{ route('division.delete', $item->id) }}" class="btn btn-info" id="delete" title"Delete Data"><i class="fa fa-trash"></i></a>
+
+
+web.php
+  Route::get('/edit/{id}', [ShippingAreaController::class, 'DivisionEdit'])->name('division.edit')->middleware('auth:admin'); 
+
+   Route::post('/update/{id}', [ShippingAreaController::class, 'DivisionUpdate'])->name('division.update')->middleware('auth:admin'); 
+
+   Route::get('/delete/{id}', [ShippingAreaController::class, 'DivisionDelete'])->name('division.delete')->middleware('auth:admin'); 
+
+
+ShippingAreaController
+   public function DivisionEdit($id){
+        $division = ShipDivision::findOrFail($id);
+        return view('backend.division.edit_division',compact('division'));
+    }
+
+    public function DivisionUpdate(Request $request,$id){
+        ShipDivision::findOrFail($id)->update([
+            'division_name'  => $request->division_name,
+            'updated_at' => Carbon::now(), 
+        ]);
+        $notification = array(
+            'message' => 'Division Updated Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('manage-division')->with($notification);
+    }
+
+    public function DivisionDelete($id){
+        
+        ShipDivision::findOrFail($id)->delete();
+        $notification = array(
+            'message' => 'Division Deleted Successfully',
+            'alert-type' => 'info',
+        );
+        return redirect()->back()->with($notification);
+    }
+
+    edit_division
+    @extends('admin.admin_master')
+@section('admin')
+    <div class="container-full">
+        <!-- Content Header (Page header) -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+
+
+                <!-- -------------- Edit Division Page ---------------- -->
+                <div class="col-12">
+
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Edit Division</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <form method="post" action="{{ route('division.update',$division->id) }}">
+                                    @csrf
+                                    <div class="form-group">
+                                        <h5>Division Name <span class="text-danger">*</span></h5>
+                                        <div class="controls">
+                                            <input type="text" id="division_name" name="division_name"
+                                                class="form-control" value="{{ $division->division_name }}">
+                                            @error('division_name')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="text-xs-right">
+                                        <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Update">
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+
+
+                </div>
+
+            </div>
+            <!-- /.row -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+
+@endsection
+
+
+
+(242) Admin Panel Shipping Area Create District
+

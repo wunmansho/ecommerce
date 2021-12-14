@@ -250,11 +250,11 @@ Route::prefix('shipping')->group(function(){
  
    Route::post('/store', [ShippingAreaController::class, 'DivisionStore'])->name('division.store')->middleware('auth:admin'); 
 
-   // Route::get('/edit/{id}', [ShippingAreaController::class, 'DivisionEdit'])->name('division.edit')->middleware('auth:admin'); 
+   Route::get('/edit/{id}', [ShippingAreaController::class, 'DivisionEdit'])->name('division.edit')->middleware('auth:admin'); 
 
-   // Route::post('/update/{id}', [ShippingAreaController::class, 'DivisionUpdate'])->name('division.update')->middleware('auth:admin'); 
+   Route::post('/update/{id}', [ShippingAreaController::class, 'DivisionUpdate'])->name('division.update')->middleware('auth:admin'); 
 
-   // Route::get('/delete/{id}', [ShippingAreaController::class, 'DivisionDelete'])->name('division.delete')->middleware('auth:admin'); 
+   Route::get('/delete/{id}', [ShippingAreaController::class, 'DivisionDelete'])->name('division.delete')->middleware('auth:admin'); 
 
 
 });
