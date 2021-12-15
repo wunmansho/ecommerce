@@ -638,5 +638,50 @@ function cartDecrement(rowId){
 //------------ End Cart Decrement ---------//
 </script>
 
+
+{{-- //// Coupon Apply Start //// --}}
+<script type="text/javascript">
+function applyCoupon(){
+  var coupon_name = $('#coupon_name').val();
+ $.ajax({
+            type: 'POST',
+            dataType:'json',
+            data: {coupon_name:coupon_name},
+            url: "{{ url('/coupon-apply')  }}",
+
+            success:function(data){
+            cart();
+            miniCart();
+
+             // Start Message 
+                const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                       showConfirmButton: false,
+                      timer: 3000
+                    })
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        icon: 'success',
+                        title: data.success
+                    })
+
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        icon: 'error',
+                        title: data.error
+                    })
+
+                }
+
+                // End Message 
+
+            }
+        });
+}
+</script>
+{{-- //// Coupon Apply End //// --}}
 </body>
 </html>

@@ -9588,5 +9588,13 @@ ShippingAreaController
     }
 
 
-(247) Coupon Apply With Ajax Part 
+(247) Coupon Apply With Ajax Part 1
+
+I have begun fleshing this out and will include the code when it is further along.
+
+(248) Coupon Apply With Ajax Part 2
+
+
+
+
 
