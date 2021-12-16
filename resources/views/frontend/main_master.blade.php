@@ -650,9 +650,8 @@ function applyCoupon(){
             url: "{{ url('/coupon-apply')  }}",
 
             success:function(data){
-            cart();
-            miniCart();
-
+              couponCalculation();
+              $('#couponField').hide();
              // Start Message 
                 const Toast = Swal.mixin({
                       toast: true,
@@ -709,12 +708,14 @@ function couponCalculation(){
                     `<tr>
                         <th>
                             <div class="cart-sub-total">
+                              <button type="submit" onclick="couponRemove()"><i class="fa fa-times"></i></button>   
+                            </div>
+                            <div class="cart-sub-total">
                                 Subtotal<span class="inner-left-md">$ ${data.subtotal}</span>
                             </div>
                             <div class="cart-sub-total">
                                 Coupon<span class="inner-left-md">${data.coupon_name}</span>
-                                <button type="submit"><i class="fa fa-times"></i>   
-                            </div>
+                             </div>
                             <div class="cart-sub-total">
                                 Discount Amount<span class="inner-left-md">$ ${data.discount_amount}</span>
                             </div>
@@ -736,5 +737,54 @@ function couponCalculation(){
 couponCalculation();
 </script>
 {{-- //// Coupon Apply End //// --}}
+
+{{-- //// Coupon Remove Start //// --}}
+<script type="text/javascript">
+function couponRemove(){
+  $.ajax({
+    type: 'GET',
+    url: "{{ url('/coupon-remove') }}",
+    dataType: 'json',
+    success:function(data){
+      couponCalculation();
+      $('#couponField').show();
+      $('#coupon_name').val('');
+                  // Start Message 
+                  const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                       showConfirmButton: false,
+                      timer: 3000
+                    })
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        icon: 'success',
+                        title: data.success
+                    })
+
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        icon: 'error',
+                        title: data.error
+                    })
+
+                }
+
+                // End Message 
+
+
+
+
+    }
+
+
+    });
+
+}
+
+</script>
+{{-- //// Coupon Remove End //// --}}
 </body>
 </html>

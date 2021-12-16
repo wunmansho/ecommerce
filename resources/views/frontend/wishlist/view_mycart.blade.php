@@ -50,7 +50,7 @@
             @else 
                 
             
-            <table class="table">
+            <table class="table" id="couponField">
                 <thead>
                     <tr>
                         <th>
@@ -84,7 +84,7 @@
                         <tr>
                             <td>
                                 <div class="cart-checkout-btn pull-right">
-                                    <button type="submit" class="btn btn-primary checkout-btn">PROCEED TO CHEKOUT</button>
+                                    <button type="submit" class="btn btn-primary checkout-btn">PROCEED TO CHECKOUT</button>
                                 </div>
                             </td>
                         </tr>
