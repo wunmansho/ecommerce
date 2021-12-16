@@ -9604,11 +9604,315 @@ ShippingAreaController
 (252) Coupon Remove & Discount With Ajax Part 2
 
 (253) Coupon Remove & Discount With Ajax Part 3
+view_mycart Tables taken from shoppingcart.html
+                       @if (Session::has('coupon'))
+
+                        @else
 
 
-254. Checkout Page Design Part 1
+                            <table class="table" id="couponField">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <span class="estimate-title">Discount Code</span>
+                                            <p>Enter your coupon code if you have one..</p>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control unicase-form-control text-input"
+                                                    placeholder="You Coupon.." id="coupon_name">
+                                            </div>
+                                            <div class="clearfix pull-right">
+                                                <button type="submit" class="btn-upper btn btn-primary"
+                                                    onclick="applyCoupon()">APPLY COUPON</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody><!-- /tbody -->
+                            </table><!-- /table -->
+                        @endif
+                    </div><!-- /.estimate-ship-tax -->
+
+                    <div class="col-md-4 col-sm-12 cart-shopping-total">
+                        <table class="table">
+                            <thead id="couponCalcField">
+
+                            </thead><!-- /thead -->
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="cart-checkout-btn pull-right">
+                                            <button type="submit" class="btn btn-primary checkout-btn">PROCEED TO
+                                                CHECKOUT</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody><!-- /tbody -->
+                        </table><!-- /table -->
+main_master  also misc functions where updated to call the functions below
+{{-- //// Coupon Apply Start //// --}}
+<script type="text/javascript">
+function applyCoupon(){
+  var coupon_name = $('#coupon_name').val();
+ $.ajax({
+            type: 'POST',
+            dataType:'json',
+            data: {coupon_name:coupon_name},
+            url: "{{ url('/coupon-apply')  }}",
+
+            success:function(data){
+              couponCalculation();
+              $('#couponField').hide();
+             // Start Message 
+                const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                       showConfirmButton: false,
+                      timer: 3000
+                    })
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        icon: 'success',
+                        title: data.success
+                    })
+
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        icon: 'error',
+                        title: data.error
+                    })
+
+                }
+
+                // End Message 
+
+            }
+        });
+}
+
+function couponCalculation(){
+  $.ajax({
+    type: 'GET',
+    url: "{{ url('/coupon-calculation') }}",
+    dataType: 'json',
+    success:function(data){
+      if (data.total) {
+        $('#couponCalcField').html(
+          `<tr>
+                        <th>
+                            <div class="cart-sub-total">
+                                Subtotal<span class="inner-left-md">$ ${data.total}</span>
+                            </div>
+                            <div class="cart-grand-total">
+                                Grand Total<span class="inner-left-md">$ ${data.total}</span>
+                            </div>
+                        </th>
+                     </tr>`
+ 
+        )
+        
+      } else {
+        $('#couponCalcField').html(
+
+                    `<tr>
+                        <th>
+                            <div class="cart-sub-total">
+                              <button type="submit" onclick="couponRemove()"><i class="fa fa-times"></i></button>   
+                            </div>
+                            <div class="cart-sub-total">
+                                Subtotal<span class="inner-left-md">$ ${data.subtotal}</span>
+                            </div>
+                            <div class="cart-sub-total">
+                                Coupon<span class="inner-left-md">${data.coupon_name}</span>
+                             </div>
+                            <div class="cart-sub-total">
+                                Discount Amount<span class="inner-left-md">$ ${data.discount_amount}</span>
+                            </div>
+ 
+ 
+                            <div class="cart-grand-total">
+                                Grand Total<span class="inner-left-md">$ ${data.total_amount}</span>
+                            </div>
+                        </th>
+                    </tr>`
+        )
+        
+      }
+
+    }
+
+  });
+}
+couponCalculation();
+</script>
+{{-- //// Coupon Apply End //// --}}
+
+{{-- //// Coupon Remove Start //// --}}
+<script type="text/javascript">
+function couponRemove(){
+  $.ajax({
+    type: 'GET',
+    url: "{{ url('/coupon-remove') }}",
+    dataType: 'json',
+    success:function(data){
+      couponCalculation();
+      $('#couponField').show();
+      $('#coupon_name').val('');
+                  // Start Message 
+                  const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                       showConfirmButton: false,
+                      timer: 3000
+                    })
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        icon: 'success',
+                        title: data.success
+                    })
+
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        icon: 'error',
+                        title: data.error
+                    })
+
+                }
+
+                // End Message 
 
 
 
+
+    }
+
+
+    });
+
+}
+
+</script>
+{{-- //// Coupon Remove End //// --}}
+
+
+web.php
+
+// Frontend Coupon Option
+Route::post('/coupon-apply', [CartController::class, 'CouponApply']);
+
+Route::get('/coupon-calculation', [CartController::class, 'CouponCalculation']);
+
+Route::get('/coupon-remove', [CartController::class, 'CouponRemove']);
+
+CartController
+use App\Models\Coupon;
+use Illuminate\Support\Facades\Session;
+   public function CouponApply(Request $request){
+        $coupon = Coupon::where('coupon_name', $request->coupon_name)->where('coupon_validity','>=',Carbon::now()->format('Y-m-d'))->first();
+        if ($coupon) {
+            Session::put('coupon',[
+                'coupon_name' => $coupon->coupon_name,
+                'coupon_discount' => $coupon->coupon_discount,
+                'discount_amount' => round(Cart::total() * $coupon->coupon_discount/100),
+                'total_amount' => round(Cart::total() - Cart::total() * $coupon->coupon_discount/100)
+              
+
+            ]);
+            return response()->json(array(
+                  'success' => 'Coupon Applied Successfully'
+            ));
+        } else {
+            return response()->json(['error' => 'Invalid Coupon']);
+        }
+        
+
+    }
+
+    public function CouponCalculation(){
+        if (Session::has('coupon')) {
+            return response()->json(array(
+                'subtotal' => Cart::total(),
+                'coupon_name' => session()->get('coupon')['coupon_name'],
+                'coupon_discount' => session()->get('coupon')['coupon_discount'],
+                'discount_amount' => session()->get('coupon')['discount_amount'],
+                'total_amount' => session()->get('coupon')['total_amount'],
+
+            ));
+        } else {
+            return response()->json(array(
+                'total' => Cart::total(),
+
+            ));
+        }
+        
+    }
+
+    public function CouponRemove(){
+       Session::forget('coupon');
+       return response()->json(['success' => 'Coupon Removed Successfully']);
+        
+    }
+
+
+    CartPageController
+use Illuminate\Support\Facades\Session;
+use App\Models\Coupon;
+misc additions where made to make updates work properly.  Search for coupon to see.
+
+(254) Checkout Page Design Part 1
+
+view_mycart
+        <a href="{{ route('checkout') }} "  type="submit" class="btn btn-primary checkout-btn">PROCEED TO
+            CHECKOUT</a>
+
+
+web.php
+// Checkout Routes
+
+Route::get('/checkout', [CartController::class, 'CheckoutCreate'])->name('checkout');
+
+
+
+CartController
+   public function CheckoutCreate(){
+        if (Auth::check()) {
+            if (Cart::total() > 0) {
+                $carts = Cart::content();
+                $cartQty = Cart::count();
+                $cartTotal = Cart::total();
+                return view('frontend.checkout.checkout_view',compact('carts','cartQty','cartTotal'));
+            }else{
+                $notification = array(
+                    'message' => 'Your Cart is Empty,  At Least One Item Required',
+                    'alert-type' => 'error'
+                );
+                return redirect()->to('/')->with($notification);
+
+            }
+
+
+            
+        } else {
+            $notification = array(
+                'message' => 'You Need to Login First',
+                'alert-type' => 'error'
+            );
+            return redirect()->route('login')->with($notification);
+        }
+       
+
+
+    }
+
+
+(255) Checkout Page Design Part 2
 
 
