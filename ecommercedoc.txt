@@ -9606,6 +9606,9 @@ ShippingAreaController
 (253) Coupon Remove & Discount With Ajax Part 3
 
 
+254. Checkout Page Design Part 1
+
+
 
 
 
