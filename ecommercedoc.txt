@@ -9963,3 +9963,7 @@ php artisan migrate
 (260) Checkout Page ¦ User Shipping Address Part 2
 
 (261) Stripe Payment Gateway Page Design Part 1
+
+(262) Stripe Payment Gateway Page Design Part 2
+
+(263) Orders & orderItem Database Design Part 1
