@@ -11,6 +11,9 @@ use App\Models\Wishlist;
 use Carbon\Carbon;
 use App\Models\Coupon;
 use Illuminate\Support\Facades\Session;
+use App\Models\ShipDivision;
+use App\Models\ShipDistrict;
+use App\Models\ShipState;
 
 class CartController extends Controller
 {
@@ -151,7 +154,9 @@ class CartController extends Controller
                 $carts = Cart::content();
                 $cartQty = Cart::count();
                 $cartTotal = Cart::total();
-                return view('frontend.checkout.checkout_view',compact('carts','cartQty','cartTotal'));
+
+                $divisions = ShipDivision::orderBy('division_name', 'ASC')->get();
+                return view('frontend.checkout.checkout_view',compact('carts','cartQty','cartTotal','divisions'));
             }else{
                 $notification = array(
                     'message' => 'Your Cart is Empty,  At Least One Item Required',

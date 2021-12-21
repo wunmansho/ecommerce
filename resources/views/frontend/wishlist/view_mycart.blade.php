@@ -1,5 +1,6 @@
 @extends('frontend.main_master')
 @section('content')
+
 @section('title')
     My Cart Page
 @endsection

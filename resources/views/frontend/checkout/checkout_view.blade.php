@@ -1,5 +1,6 @@
 @extends('frontend.main_master')
 @section('content')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 @section('title')
     My Checkout
 @endsection
@@ -40,7 +41,7 @@
     <h4 class="checkout-subtitle"><b>Shipping Address</b></h4>
     <form class="register-form" role="form">
         <div class="form-group">
-            <label class="info-title" for="shipping_name">Shipping Name
+            <label class="info-title" for="shipping_name"><b>Shipping Name</b>
                 <span>*</span></label>
             <input type="text" name="shipping_name"
                 class="form-control unicase-form-control text-input"
@@ -48,7 +49,7 @@
         </div>
 
         <div class="form-group">
-            <label class="info-title" for="shipping_email">Email
+            <label class="info-title" for="shipping_email"><b>Email</b>
                 <span>*</span></label>
             <input type="email" name="shipping_email"
                 class="form-control unicase-form-control text-input"
@@ -56,7 +57,7 @@
         </div>
 
         <div class="form-group">
-            <label class="info-title" for="shipping_phone">Phone
+            <label class="info-title" for="shipping_phone"><b>Phone</b>
                 <span>*</span></label>
             <input type="number" name="shipping_phone"
                 class="form-control unicase-form-control text-input"
@@ -64,7 +65,7 @@
         </div>
 
         <div class="form-group">
-            <label class="info-title" for="post_code">Zip
+            <label class="info-title" for="post_code"><b>Zip</b>
                 <span>*</span></label>
             <input type="text" name="post_code"
                 class="form-control unicase-form-control text-input"
@@ -75,31 +76,74 @@
 
         
 
-     </form>
+    
 </div>
 
 <!-- guest-login -->
 
 <!-- already-registered-login -->
 <div class="col-md-6 col-sm-6 already-registered-login">
-    <h4 class="checkout-subtitle">Already registered?</h4>
-    <p class="text title-tag-line">Please log in below:</p>
-    <form class="register-form" role="form">
-        <div class="form-group">
-            <label class="info-title" for="exampleInputEmail1">Email Address
-                <span>*</span></label>
-            <input type="email"
-                class="form-control unicase-form-control text-input"
-                id="exampleInputEmail1" placeholder="">
+ 
+    <div class="form-group">
+        <h5><b>Division Select</b> <span class="text-danger">*</span></h5>
+        <div class="controls">
+            <select name="division_id" id="division_id" class="form-control"
+                required=""
+                oninvalid="this.setCustomValidity('Please select the division')"
+                oninput="setCustomValidity('')">
+                <option value="" selected="" disabled="">Select Division
+                </option>
+                @foreach ($divisions as $item)
+                    <option value="{{ $item->id }}">
+                        {{ $item->division_name }}</option>
+                @endforeach
+            </select>
+            @error('division_id')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
         </div>
-        <div class="form-group">
-            <label class="info-title" for="exampleInputPassword1">Password
-                <span>*</span></label>
-            <input type="password"
-                class="form-control unicase-form-control text-input"
-                id="exampleInputPassword1" placeholder="">
-            <a href="#" class="forgot-password">Forgot your Password?</a>
+    </div>   
+
+    <div class="form-group">
+        <h5><b>District Select</b> <span class="text-danger">*</span></h5>
+        <div class="controls">
+            <select name="district_id" id="district_id" class="form-control"
+                required=""
+                oninvalid="this.setCustomValidity('Please select the district')"
+                oninput="setCustomValidity('')">
+                <option value="" selected="" disabled="">Select District
+                </option>
+               
+            </select>
+            @error('district_id')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
         </div>
+    </div>   
+
+    <div class="form-group">
+        <h5><b>State Select</b> <span class="text-danger">*</span></h5>
+        <div class="controls">
+            <select name="state_id" id="state_id" class="form-control"
+                required=""
+                oninvalid="this.setCustomValidity('Please select the state')"
+                oninput="setCustomValidity('')">
+                <option value="" selected="" disabled="">Select State
+                </option>
+               
+            </select>
+            @error('state_id')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
+    </div>   
+
+    <div class="form-group">
+        <label class="info-title" for="post_code"><b>Notes</b>
+            <span>*</span></label>
+<textarea class="form-control" cols="30" rows="5" placeholder="Notes" name="notes" id="notes"></textarea>
+        </div>
+
         <button type="submit"
             class="btn-upper btn btn-primary checkout-page-button">Login</button>
     </form>
@@ -179,6 +223,64 @@
     </div><!-- /.container -->
 </div><!-- /.body-content -->
 
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select[name="division_id"]').on('change', function() {
+            var division_id = $(this).val();
+            if (division_id) {
+                $.ajax({
+                    url: "{{ url('/district-get/ajax') }}/" + division_id,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data) {
 
+                        $('select[name="state_id"]').html('');
+                        var d = $('select[name="district_id"]').empty();
+                      
+                      // Here I clear it //
+                       $('select[name="district_id"]').append(
+                            '<option value="' + '' + '">' + '' + '</option>');
+
+                        $.each(data, function(key, value) {
+                            $('select[name="district_id"]').append(
+                                '<option value="' + value.id + '">' + value
+                                .district_name + '</option>');
+                        });
+                    },
+                });
+            } else {
+                alert('danger');
+            }
+        });
+
+
+
+        $('select[name="district_id"]').on('change', function() {
+            var district_id = $(this).val();
+            if (district_id) {
+                $.ajax({
+                    url: "{{ url('/state-get/ajax') }}/" + district_id,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                         var d = $('select[name="state_id"]').empty();
+                         // Here I clear it //
+                       $('select[name="state_id"]').append(
+                            '<option value="' + '' + '">' + '' + '</option>');
+                        $.each(data, function(key, value) {
+                            $('select[name="state_id"]').append(
+                                '<option value="' + value.id + '">' + value
+                                .state_name + '</option>');
+                        });
+                    },
+                });
+            } else {
+                alert('danger');
+            }
+        });
+
+
+    });
+</script>
 
 @endsection
