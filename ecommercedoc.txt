@@ -9961,3 +9961,5 @@ php artisan migrate
 (259) Checkout Page ¦ User Shipping Address Part 1
 
 (260) Checkout Page ¦ User Shipping Address Part 2
+
+(261) Stripe Payment Gateway Page Design Part 1
