@@ -36,64 +36,75 @@
                                     <div class="row">
 
                                         <!-- guest-login -->
-                                        <div class="col-md-6 col-sm-6 guest-login">
-                                            <h4 class="checkout-subtitle">Guest or Register Login</h4>
-                                            <p class="text title-tag-line">Register with us for future convenience:
-                                            </p>
+<div class="col-md-6 col-sm-6 already-registered-login">
+    <h4 class="checkout-subtitle"><b>Shipping Address</b></h4>
+    <form class="register-form" role="form">
+        <div class="form-group">
+            <label class="info-title" for="shipping_name">Shipping Name
+                <span>*</span></label>
+            <input type="text" name="shipping_name"
+                class="form-control unicase-form-control text-input"
+                id="shipping_name" placeholder="Full Name" value="{{ Auth::user()->name }}" required="">
+        </div>
 
-                                            <!-- radio-form  -->
-                                            <form class="register-form" role="form">
-                                                <div class="radio radio-checkout-unicase">
-                                                    <input id="guest" type="radio" name="text" value="guest"
-                                                        checked>
-                                                    <label class="radio-button guest-check" for="guest">Checkout as
-                                                        Guest</label>
-                                                    <br>
-                                                    <input id="register" type="radio" name="text" value="register">
-                                                    <label class="radio-button" for="register">Register</label>
-                                                </div>
-                                            </form>
-                                            <!-- radio-form  -->
+        <div class="form-group">
+            <label class="info-title" for="shipping_email">Email
+                <span>*</span></label>
+            <input type="email" name="shipping_email"
+                class="form-control unicase-form-control text-input"
+                id="shipping_email" placeholder="Email" value="{{ Auth::user()->email }}" required="">
+        </div>
 
-                                            <h4 class="checkout-subtitle outer-top-vs">Register and save time</h4>
-                                            <p class="text title-tag-line ">Register with us for future convenience:
-                                            </p>
+        <div class="form-group">
+            <label class="info-title" for="shipping_phone">Phone
+                <span>*</span></label>
+            <input type="number" name="shipping_phone"
+                class="form-control unicase-form-control text-input"
+                id="shipping_phone" placeholder="Phone" value="{{ Auth::user()->phone }}" required="">
+        </div>
 
-                                            <ul class="text instruction inner-bottom-30">
-                                                <li class="save-time-reg">- Fast and easy check out</li>
-                                                <li>- Easy access to your order history and status</li>
-                                            </ul>
+        <div class="form-group">
+            <label class="info-title" for="post_code">Zip
+                <span>*</span></label>
+            <input type="text" name="post_code"
+                class="form-control unicase-form-control text-input"
+                id="post_code" placeholder="Zip" required="">
+        </div>
 
-                                            <button type="submit"
-                                                class="btn-upper btn btn-primary checkout-page-button checkout-continue ">Continue</button>
-                                        </div>
-                                        <!-- guest-login -->
 
-                                        <!-- already-registered-login -->
-                                        <div class="col-md-6 col-sm-6 already-registered-login">
-                                            <h4 class="checkout-subtitle">Already registered?</h4>
-                                            <p class="text title-tag-line">Please log in below:</p>
-                                            <form class="register-form" role="form">
-                                                <div class="form-group">
-                                                    <label class="info-title" for="exampleInputEmail1">Email Address
-                                                        <span>*</span></label>
-                                                    <input type="email"
-                                                        class="form-control unicase-form-control text-input"
-                                                        id="exampleInputEmail1" placeholder="">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="info-title" for="exampleInputPassword1">Password
-                                                        <span>*</span></label>
-                                                    <input type="password"
-                                                        class="form-control unicase-form-control text-input"
-                                                        id="exampleInputPassword1" placeholder="">
-                                                    <a href="#" class="forgot-password">Forgot your Password?</a>
-                                                </div>
-                                                <button type="submit"
-                                                    class="btn-upper btn btn-primary checkout-page-button">Login</button>
-                                            </form>
-                                        </div>
-                                        <!-- already-registered-login -->
+
+        
+
+     </form>
+</div>
+
+<!-- guest-login -->
+
+<!-- already-registered-login -->
+<div class="col-md-6 col-sm-6 already-registered-login">
+    <h4 class="checkout-subtitle">Already registered?</h4>
+    <p class="text title-tag-line">Please log in below:</p>
+    <form class="register-form" role="form">
+        <div class="form-group">
+            <label class="info-title" for="exampleInputEmail1">Email Address
+                <span>*</span></label>
+            <input type="email"
+                class="form-control unicase-form-control text-input"
+                id="exampleInputEmail1" placeholder="">
+        </div>
+        <div class="form-group">
+            <label class="info-title" for="exampleInputPassword1">Password
+                <span>*</span></label>
+            <input type="password"
+                class="form-control unicase-form-control text-input"
+                id="exampleInputPassword1" placeholder="">
+            <a href="#" class="forgot-password">Forgot your Password?</a>
+        </div>
+        <button type="submit"
+            class="btn-upper btn btn-primary checkout-page-button">Login</button>
+    </form>
+</div>
+<!-- already-registered-login -->
 
                                     </div>
                                 </div>
