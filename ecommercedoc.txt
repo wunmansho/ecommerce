@@ -10821,6 +10821,66 @@ Then in main_master applyCoupon I check validity before I hide the coupon input
                     $('#couponField').hide();
                     }
 
+(269) Read Orders In User Profile Part 1
+
+in dashboard
+<a href="{{ route('my.orders') }}" class="btn btn-primary btn-sm btn-block">Orders</a>
+
+
+in web.php under user prefix
+       Route::get('/my/orders', [AllUserController::class, 'MyOrders'])->name('my.orders');
+
+
+php artisan make:controller User/AllUserController
+
+AllUserController
+use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Models\Order;
+use App\Models\OrderItem;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderMail;
+
+class AllUserController extends Controller
+{
+    public function MyOrders(){
+        $orders = Order::where('user_id', Auth::id())->orderBy('id', 'DESC')->get();
+        return view('frontend.user.order.order_view',compact('orders'));
+    }
+}
+
+frontend.user.order.order_view
+
+
+
+I created user_sidebar to include the dashboard sidebar uniformly in all dashboard menu options
+note the php block that includes the user pic info
+@php
+        $id = Auth::user()->id;
+        $user = App\Models\User::find($id);
+@endphp
+
+
+<div class="col-md-2"><br>
+    <img class="card-img-top" style="border-radius: 50%" src="{{ (!empty($user->profile_photo_path))? url('upload/user_images/'.$user->profile_photo_path):url('upload/no_image.jpg') }}" height="100%" width="100%"><br><br>
+
+   <ul class="list-group list-group-flush">
+        <a href="{{ route('dashboard') }}" class="btn btn-primary btn-sm btn-block">Home</a>
+        <a href="{{ route('user.profile') }}" class="btn btn-primary btn-sm btn-block">Profile Update</a>
+        <a href="{{ route('change.password') }}" class="btn btn-primary btn-sm btn-block">Change
+            Password</a>
+
+        <a href="{{ route('my.orders') }}" class="btn btn-primary btn-sm btn-block">Orders</a>
+
+        <a href="{{ route('user.logout') }}" class="btn btn-danger btn-sm btn-block">Logout</a>
+    </ul>
+</div>
+
+
+
+(270) Read Orders In User Profile Part 2
+
 
 
 

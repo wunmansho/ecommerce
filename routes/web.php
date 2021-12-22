@@ -19,6 +19,7 @@ use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\ShippingAreaController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\StripeController;
+use App\Http\Controllers\User\AllUserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -213,6 +214,8 @@ Route::group(
    
         Route::post('/stripe/order', [StripeController::class, 'StripeOrder'])->name('stripe.order');
  
+        Route::get('/my/orders', [AllUserController::class, 'MyOrders'])->name('my.orders');
+
     }
 );
 
