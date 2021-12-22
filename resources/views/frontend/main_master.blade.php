@@ -675,7 +675,9 @@
 
                 success: function(data) {
                     couponCalculation();
+                    if (data.validity == true) {
                     $('#couponField').hide();
+                    }
                     // Start Message 
                     const Toast = Swal.mixin({
                         toast: true,

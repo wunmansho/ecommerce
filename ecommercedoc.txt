@@ -10803,7 +10803,23 @@ with invoice data embeded like so
 
 (268) Fix Bugs in Coupon Page
 
+in CartController.CouponApply I changed the json responses to include coupon validity true and false
+            return response()->json(array(
+                'validity' => true,
+                  'success' => 'Coupon Applied Successfully',
+            ));
+        } else {
+            
+            return response()->json([
+                'validity' => false,
+                'error' => 'Invalid Coupon',
+            ]);
+        }
 
+Then in main_master applyCoupon I check validity before I hide the coupon input
+                   if (data.validity == true) {
+                    $('#couponField').hide();
+                    }
 
 
 
