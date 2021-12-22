@@ -10752,3 +10752,61 @@ StripeController
 
 
 (267) Send Order Mail After Complete Stripe Payment
+
+In StripeController  StripeOrder method I have added this code to send an email
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderMail;
+
+        // Start send Email  
+        $invoice = Order::findOrFail($order_id);
+        $data = [
+            'invoice_no' => $invoice->invoice_no,
+            'amount' => $total_amount,
+            'name' => $invoice->name,
+            'email' => $invoice->email,
+
+        ];
+
+        Mail::to($request->email)->send(new OrderMail($data));
+        // End send Email
+
+php artisan make:mail OrderMail
+creates app.mail.OrderMail.php
+
+in OrderMail I have made the following Modifications
+
+ public $data;
+
+   public function __construct($data)
+    {
+        $this->data;
+    }
+  public function build()
+    {
+        $order = $this->data;
+        return $this->from('myronrogers.rogers@gmail.com')->view('mail.order_mail'compact('order'))->subject('Email From My Online Shop');
+    }
+
+in views I have created the mail folder and the order_mail.blade file
+this will be the email template.  I am pulling HTML from mailtrap to start the template.
+The MailTrap template is a password reset template so I removed the parts mentioning password reset
+Created My Own Message Heading and inserted some table elements
+with invoice data embeded like so
+
+<td> Invoice No : {{ $order['invoice_no'] }}
+</td>
+<td> Amount : {{ $order['amount'] }}</td>
+<td> Name : {{ $order['name'] }}</td>
+<td> Email : {{ $order['email'] }}</td>
+
+
+
+(268) Fix Bugs in Coupon Page
+
+
+
+
+
+
+
+
