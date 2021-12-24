@@ -10984,7 +10984,9 @@ AllUserController
     }
 
     public function OrderDetails($order_id){
-        $order = Order::where('id', $order_id)->where('user_id', Auth::id())->first();
+        // The with clause below references the relationship 
+        // methods that we have created in Order Model
+        $order = Order::with('division','district','state','user')->where('id', $order_id)->where('user_id', Auth::id())->first();
         $orderItem = OrderItem::where('order_id', $order_id)->orderBy('id','DESC')->get();
         return view('frontend.user.order.order_details',compact('order','orderItem'));
 
@@ -10994,3 +10996,99 @@ AllUserController
 
 
 (272) View Users Order In Profile Part 2
+
+Order Model
+   public function division(){
+    	return $this->belongsTo(ShipDivision::class,'division_id','id');
+    }
+    public function district(){
+    	return $this->belongsTo(ShipDistrict::class,'district_id','id');
+    }
+    public function state(){
+    	return $this->belongsTo(ShipState::class,'state_id','id');
+    }
+    public function user(){
+    	return $this->belongsTo(user::class,'user_id','id');
+    }
+
+AllUserController.OrderDetails
+        // The with clause below references the relationship 
+        // methods that we have created in Order Model
+        $order = Order::with('division','district','state','user')->where('id', $order_id)->where('user_id', Auth::id())->first();
+
+
+order_details
+@extends('frontend.main_master')
+@section('content')
+    <div class="body-content">
+        <div class="container">
+            <div class="row">
+                @include('frontend.common.user_sidebar')
+
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Shipping Details</h4>
+                            <hr>
+                            <div class="card-body" style="background: #E9EBEC;">
+                                <table class="table">
+                                    <tr>
+                                        <th>Shipping Name :</th>
+                                        <th>{{ $order->name }}</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Shipping Phone :</th>
+                                        <th>{{ $order->phone }}</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Shipping Email :</th>
+                                        <th>{{ $order->email }}</th>
+                                    </tr>
+                                    {{-- Begin references to the joins created in  --}}
+                                    {{-- order Model and Passed by  --}}
+                                    {{-- AllUserController.OrderDetails  --}}
+                                    <tr>
+                                        <th>Division :</th>
+                                        <th>{{ $order->division->division_name }}</th>
+                                    </tr>
+                                    <tr>
+                                        <th>District :</th>
+                                        <th>{{ $order->district->district_name }}</th>
+                                    </tr>
+                                    <tr>
+                                        <th>State :</th>
+                                        <th>{{ $order->state->state_name }}</th>
+                                    </tr>
+                                    <tr>
+                                    {{-- End references to the joins created in  --}}
+                                    {{-- order Model and Passed by  --}}
+                                    {{-- AllUserController.OrderDetails  --}}
+                                       
+                                        <th>Zip Code :</th>
+                                        <th>{{ $order->post_code }}</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Order Date :</th>
+                                        <th>{{ $order->order_date }}</th>
+                                    </tr>
+ 
+                                </table>
+                            
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+ 
+ 
+
+
+
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+
+(273) View Users Order In Profile Part 3
