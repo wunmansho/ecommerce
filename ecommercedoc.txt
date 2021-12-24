@@ -10883,6 +10883,114 @@ note the php block that includes the user pic info
 
 (271) View Users Order In Profile Part 1
 
+order_view
+@extends('frontend.main_master')
+@section('content')
+<div class="body-content">
+    <div class="container">
+        <div class="row">
+            @include('frontend.common.user_sidebar')
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-8">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr style="background: #e2e2e2">
+                                <td class="col-md-1">
+                                    <label for=""> Date</label>
+
+                                </td>
+                                <td class="col-md-3">
+                                    <label for=""> Total</label>
+
+                                </td>
+                                <td class="col-md-3">
+                                    <label for=""> Payment</label>
+
+                                </td>
+                                <td class="col-md-2">
+                                    <label for=""> Invoice</label>
+
+                                </td>
+                                <td class="col-md-2">
+                                    <label for=""> Order</label>
+
+                                </td>
+                                <td class="col-md-1">
+                                    <label for=""> Action</label>
+
+                                </td>
+
+
+                            </tr>
+                            @foreach ($orders as $order )
+                            <tr>
+                                <td class="col-md-1">
+                                    <label for="">{{ $order->order_date }}</label>
+
+                                </td>
+                                <td class="col-md-3">
+                                    <label for="">${{ $order->amount }}</label>
+
+                                </td>
+                                <td class="col-md-3">
+                                    <label for="">{{ $order->payment_method }}</label>
+
+                                </td>
+                                <td class="col-md-2">
+                                    <label for="">{{ $order->invoice_no }}</label>
+
+                                </td>
+                                <td class="col-md-2">
+                                    <label for="">
+                                        <span class="badge badge-pill badge-warning" style="background: #418DB9;">{{ $order->status }}</span>
+                                        </label>
+
+                                </td>
+                                <td class="col-md-1">
+                                    <a href="{{ url('user/order_details/'.$order->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i>View  </a>
+                                    <a href="" class="btn btn-sm btn-danger"><i class="fa fa-download" style="color: white;"></i>Invoice  </a>
+
+                                </td>
+
+
+                            </tr>
+                            @endforeach 
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@endsection
+
+
+web.php
+Route::get('/order_details/{order_id}', [AllUserController::class, 'OrderDetails']);
+
+AllUserController
+    public function MyOrders(){
+        $orders = Order::where('user_id', Auth::id())->orderBy('id', 'DESC')->get();
+        return view('frontend.user.order.order_view',compact('orders'));
+    }
+
+    public function OrderDetails($order_id){
+        $order = Order::where('id', $order_id)->where('user_id', Auth::id())->first();
+        $orderItem = OrderItem::where('order_id', $order_id)->orderBy('id','DESC')->get();
+        return view('frontend.user.order.order_details',compact('order','orderItem'));
+
+    }
 
 
 
+
+(272) View Users Order In Profile Part 2
