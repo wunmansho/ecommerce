@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 29, 2021 at 10:00 PM
+-- Generation Time: Dec 28, 2021 at 02:59 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.3.21
 
@@ -115,6 +115,31 @@ INSERT INTO `categories` (`id`, `category_name_en`, `category_name_hin`, `catego
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `coupons`
+--
+
+DROP TABLE IF EXISTS `coupons`;
+CREATE TABLE IF NOT EXISTS `coupons` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `coupon_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `coupon_discount` int(11) NOT NULL,
+  `coupon_validity` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `coupons`
+--
+
+INSERT INTO `coupons` (`id`, `coupon_name`, `coupon_discount`, `coupon_validity`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'HAPPY NEW YEAR', 20, '2022-01-01', 1, '2021-12-13 22:33:31', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `failed_jobs`
 --
 
@@ -143,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -163,7 +188,15 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (11, '2021_11_17_205026_create_sub_sub_categories_table', 7),
 (12, '2021_11_20_181706_create_products_table', 8),
 (13, '2021_11_20_184405_create_multi_imgs_table', 8),
-(14, '2021_11_24_002909_create_sliders_table', 9);
+(14, '2021_11_24_002909_create_sliders_table', 9),
+(15, '2021_12_09_155350_create_wishlists_table', 10),
+(16, '2021_12_12_150402_create_coupons_table', 11),
+(17, '2021_12_14_010943_create_ship_divisions_table', 12),
+(18, '2021_12_14_032742_create_ship_districts_table', 13),
+(19, '2021_12_14_172408_create_ship_states_table', 14),
+(20, '2021_12_21_131553_create_shippings_table', 15),
+(21, '2021_12_21_212331_create_orders_table', 16),
+(22, '2021_12_21_212808_create_order_items_table', 16);
 
 -- --------------------------------------------------------
 
@@ -217,6 +250,101 @@ INSERT INTO `multi_imgs` (`id`, `product_id`, `photo_name`, `created_at`, `updat
 (37, 13, 'upload/products/multi-image/1717790587292305.jpeg', '2021-11-30 00:06:04', NULL),
 (36, 13, 'upload/products/multi-image/1717790587088997.jpeg', '2021-11-30 00:06:04', NULL),
 (40, 13, 'upload/products/multi-image/1717790587731404.jpg', '2021-11-30 00:06:04', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE IF NOT EXISTS `orders` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `division_id` bigint(20) UNSIGNED NOT NULL,
+  `district_id` bigint(20) UNSIGNED NOT NULL,
+  `state_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `post_code` int(11) DEFAULT NULL,
+  `notes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payment_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payment_method` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `transaction_id` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `currency` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` double(8,2) NOT NULL,
+  `order_number` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `invoice_no` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_date` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_month` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_year` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `confirmed_date` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `processing_date` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `picked_date` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `shipped_date` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `delivered_date` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cancel_date` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `return_date` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `return_reason` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `division_id`, `district_id`, `state_id`, `name`, `email`, `phone`, `post_code`, `notes`, `payment_type`, `payment_method`, `transaction_id`, `currency`, `amount`, `order_number`, `invoice_no`, `order_date`, `order_month`, `order_year`, `confirmed_date`, `processing_date`, `picked_date`, `shipped_date`, `delivered_date`, `cancel_date`, `return_date`, `return_reason`, `status`, `created_at`, `updated_at`) VALUES
+(1, 2, 1, 1, 1, 'myronrogers.rogers@gmail.com', 'myronrogers.rogers@gmail.com', '9048918679', 32206, 'Test', 'card_1K9J0tHKzSPTGjObJnoPwR5P', 'Stripe', 'txn_3K9J0uHKzSPTGjOb1katU2xd', 'usd', 2720.00, '61c276006f16b', 'EOS40654586', '22 December 2021', 'December', '2021', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pending', '2021-12-22 05:49:05', NULL),
+(2, 2, 1, 1, 1, 'myronrogers.rogers@gmail.com', 'myronrogers.rogers@gmail.com', '9048918679', 32206, 'Test', 'card_1K9J3BHKzSPTGjObXNgZfJ32', 'Stripe', 'txn_3K9J3DHKzSPTGjOb0emqe2gy', 'usd', 2720.00, '61c2768e9ae16', 'EOS89916945', '22 December 2021', 'December', '2021', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pending', '2021-12-22 05:51:27', NULL),
+(3, 2, 1, 1, 1, 'myronrogers.rogers@gmail.com', 'myronrogers.rogers@gmail.com', '9048918679', 32206, 'Test', 'card_1K9J9zHKzSPTGjObMaZpRi8V', 'Stripe', 'txn_3K9JA0HKzSPTGjOb0DLGdVrp', 'usd', 2720.00, '61c27833e65d7', 'EOS22842892', '22 December 2021', 'December', '2021', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pending', '2021-12-22 05:58:29', NULL),
+(4, 2, 1, 1, 1, 'myronrogers.rogers@gmail.com', 'myronrogers.rogers@gmail.com', '9048918679', 32206, 'Test', 'card_1K9JNgHKzSPTGjOb7qeu8AsR', 'Stripe', 'txn_3K9JNhHKzSPTGjOb0vVNIgSg', 'usd', 2720.00, '61c27b8535dc2', 'EOS29455219', '22 December 2021', 'December', '2021', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pending', '2021-12-22 06:12:38', NULL),
+(5, 2, 1, 1, 1, 'Myron', 'myronrogers.rogers@gmail.com', '9049002340', 32206, 'Test', 'card_1K9W5LHKzSPTGjOba0ESi6lu', 'Stripe', 'txn_3K9W5NHKzSPTGjOb0mWkuR2l', 'usd', 480.00, '61c33a48c82f7', 'MYM48430203', '22 December 2021', 'December', '2021', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pending', '2021-12-22 19:46:34', NULL),
+(6, 2, 1, 1, 1, 'myronrogers.rogers@gmail.com', 'myronrogers.rogers@gmail.com', '9048918679', 32206, 'Test', 'card_1K9WNUHKzSPTGjObkapGbALS', 'Stripe', 'txn_3K9WNVHKzSPTGjOb17QCUW1O', 'usd', 480.00, '61c33eacbea6e', 'MYM64911600', '22 December 2021', 'December', '2021', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pending', '2021-12-22 20:05:18', NULL),
+(7, 2, 1, 1, 1, 'myronrogers.rogers@gmail.com', 'myronrogers.rogers@gmail.com', '9048178679', 32206, 'Test', 'card_1K9WVtHKzSPTGjObAmKKMwyw', 'Stripe', 'txn_3K9WVvHKzSPTGjOb0FUHI9d8', 'usd', 480.00, '61c340b6eca68', 'MYM71671195', '22 December 2021', 'December', '2021', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pending', '2021-12-22 20:14:00', NULL),
+(8, 2, 1, 1, 1, 'wunmansho.wunmansho@gmail.com', 'wunmansho.wunmansho@gmail.com', '9048918679', 32206, 'Test', 'card_1K9WfiHKzSPTGjObipgnbkM9', 'Stripe', 'txn_3K9WfkHKzSPTGjOb0jnckmrB', 'usd', 160.00, '61c34317f212b', 'MYM29976881', '22 December 2021', 'December', '2021', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pending', '2021-12-22 20:24:09', NULL),
+(9, 2, 1, 1, 1, 'wunmansho.wunmansho@gmail.com', 'wunmansho.wunmansho@gmail.com', '9048918679', 32206, 'Test', 'card_1K9WqmHKzSPTGjObiIgNTmHV', 'Stripe', 'txn_3K9WqnHKzSPTGjOb1jC65gGa', 'usd', 160.00, '61c345c53c3ef', 'MYM22357561', '22 December 2021', 'December', '2021', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pending', '2021-12-22 20:35:34', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+DROP TABLE IF EXISTS `order_items`;
+CREATE TABLE IF NOT EXISTS `order_items` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `color` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `size` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `qty` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` double(8,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `order_items_order_id_foreign` (`order_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `color`, `size`, `qty`, `price`, `created_at`, `updated_at`) VALUES
+(1, 3, 11, 'Black', 'Large', '1', 2000.00, '2021-12-22 05:58:29', NULL),
+(2, 3, 13, 'Black', 'Small', '1', 200.00, '2021-12-22 05:58:29', NULL),
+(3, 3, 9, NULL, NULL, '1', 1200.00, '2021-12-22 05:58:29', NULL),
+(4, 4, 11, 'Black', 'Large', '1', 2000.00, '2021-12-22 06:12:38', NULL),
+(5, 4, 13, 'Black', 'Small', '1', 200.00, '2021-12-22 06:12:38', NULL),
+(6, 4, 9, NULL, NULL, '1', 1200.00, '2021-12-22 06:12:38', NULL),
+(7, 5, 13, 'Black', 'Small', '3', 200.00, '2021-12-22 19:46:35', NULL),
+(8, 6, 13, 'Black', 'Small', '3', 200.00, '2021-12-22 20:06:53', NULL),
+(9, 7, 13, 'Black', 'Small', '3', 200.00, '2021-12-22 20:14:00', NULL),
+(10, 8, 13, 'Black', 'Small', '1', 200.00, '2021-12-22 20:24:09', NULL),
+(11, 9, 13, 'Black', 'Small', '1', 200.00, '2021-12-22 20:35:35', NULL);
 
 -- --------------------------------------------------------
 
@@ -301,17 +429,17 @@ CREATE TABLE IF NOT EXISTS `products` (
 --
 
 INSERT INTO `products` (`id`, `brand_id`, `category_id`, `subcategory_id`, `subsubcategory_id`, `product_name_en`, `product_name_hin`, `product_slug_en`, `product_slug_hin`, `product_code`, `product_qty`, `product_tags_en`, `product_tags_hin`, `product_size_en`, `product_size_hin`, `product_color_en`, `product_color_hin`, `selling_price`, `discount_price`, `short_desc_en`, `short_desc_hin`, `long_desc_en`, `long_desc_hin`, `product_thumbnail`, `hot_deals`, `featured`, `special_offer`, `special_deals`, `status`, `created_at`, `updated_at`) VALUES
-(11, 1, 8, 11, 23, 'Samsung 26.5 inch LED Backlit', 'सैमसंग 26.5 इंच एलईडी बैकलिट', 'samsung-26.5-inch-led-backlit', 'सैमसंग-26.5-इंच-एलईडी-बैकलिट', '322343255', '400', 'test,', 'test,', 'Small,Midium,Large', 'Small,Midium,Large', 'red,Black,Amet', 'red,Black,Large', '2000', NULL, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञा', 'Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br />\r\n&nbsp;', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एलडस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692435521667396.jpeg', NULL, NULL, NULL, NULL, 1, '2021-02-25 01:32:57', '2021-02-25 01:32:57'),
-(9, 3, 8, 11, 22, 'Canon G3012 Multi-function', 'कैनन G3012 मल्टी-फंक्शन', 'canon-g3012-multi-function', 'कैनन-G3012-मल्टी-फंक्शन', '3223432666', '197', 'test,', 'test,', 'Small,Midium,Large', 'Small,Midium,Large', 'red,Black,Amet', 'red,Black,Large', '2000', '1200', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञा', 'Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एलडस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692435293558991.jpeg', NULL, 1, NULL, 1, 1, '2021-02-25 02:20:35', '2021-03-30 23:37:18'),
-(8, 2, 8, 11, 22, 'Epson L3100 Multi-function', 'एप्सों L3100 मल्टी-फंक्शन', 'epson-l3100-multi-function', 'एप्सों-L3100-मल्टी-फंक्शन', '3223432444', '200', 'test,', 'test,', 'Small,Midium,Large', 'Small,Midium,Large', 'red,Black,Amet', 'red,Black,Large', '2000', '1500', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञा', 'Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एलडस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692435198078978.jpeg', NULL, 1, NULL, NULL, 1, '2021-02-25 01:50:04', '2021-02-25 01:50:04'),
-(13, 10, 8, 26, 58, 'Lenovo  Yoga Smartpad', 'यह सिर्फ डेमो डेटा है इससे कोई फर्क नहीं पड़ता', 'lenovo--yoga-smartpad', 'यह-सिर्फ-डेमो-डेटा-है-इससे-कोई-फर्क-नहीं-पड़ता', '122234', '200', 'Lenovo', 'Lenovo', 'Small', 'Small', 'Black', 'Black', '300.00', '200.00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'दर्द ही दर्द का प्यार है, मुख्य पारिस्थितिक समस्याएं हैं, लेकिन मैं इस तरह के समय को नीचे गिरने के लिए देता हूं, ताकि कुछ महान दर्द और दर्द हो। कम से कम आने के उद्देश्य से हममें से कौन किसी रोजगार का प्रयोग करे सिवाय उसके परिणाम का लाभ उठाने के। लेकिन फिल्म में जो दर्द है, उसकी निंदा करना लाजमी है, जिस खुशी में वह दर्द में अनाड़ी होने के दर्द से बचना चाहती है, उसका कोई नतीजा नहीं निकलता.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'दर्द ही दर्द का प्यार है, मुख्य पारिस्थितिक समस्याएं हैं, लेकिन मैं इस तरह के समय को नीचे गिरने के लिए देता हूं, ताकि कुछ महान दर्द और दर्द हो। कम से कम आने के उद्देश्य से हममें से कौन किसी रोजगार का प्रयोग करे सिवाय उसके परिणाम का लाभ उठाने के। लेकिन फिल्म में जो दर्द है, उसकी निंदा करना लाजमी है, जिस खुशी में वह दर्द में अनाड़ी होने के दर्द से बचना चाहती है, उसका कोई नतीजा नहीं निकलता. वे अपवाद हैं जिनके लिए अंधे तरसते हैं, वे नहीं देखते हैं, वे वही हैं जो अपनी जिम्मेदारियों को उस गलती के लिए छोड़ देते हैं जो आत्मा की कठिनाइयों को शांत कर रही है।', 'upload/products/thumbnail/1717790586611408.png', NULL, 1, NULL, NULL, 1, '2021-11-30 05:06:03', '2021-11-30 01:27:30'),
-(4, 3, 7, 7, 10, 'Printed Men Round Neck Black', 'प्रिंटेड मेन राउंड नेक ब्लैक', 'printed-men-round-neck-black', 'प्रिंटेड-मेन-राउंड-नेक-ब्लैक', '45345323', '400', 'Round Neck', 'Round Neck', 'Small,Midium,Large', 'Small,Midium,Large', 'red,Black,Amet', 'red,Black,Large', '400', NULL, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञा', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एलडस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692434616868994.jpeg', 1, 1, 1, NULL, 1, '2021-02-26 00:36:22', '2021-02-26 00:36:22'),
-(1, 4, 7, 7, 10, 'Printed Men Round Neck', 'प्रिंटेड मेन राउंड नेक', 'printed-men-round-neck', 'प्रिंटेड-मेन-राउंड-नेक', '234234', '200', 'Round Neck', 'Round Neck', 'Small,Midium,Large', 'Small,Midium,Large', 'red,Black,white', 'red,Black,white', '500', '400', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अ', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, शेष अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एल्दस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692065307871661.jpeg', 1, NULL, 1, NULL, 1, '2021-02-26 00:36:49', '2021-02-26 00:36:49'),
-(3, 6, 8, 14, 23, 'Amkette EvoFox Fireblade LED11', 'Amkette EvoFox Fireblade LED11', 'amkette-evofox-fireblade-led11', 'amkette-evofox-fireblade-led11', '222222', '200', 'test', 'test', 'Large', 'Large', 'red,Black,white', 'red,Black,white', '1300', '1100', 'Lorem Ipsum is simply dummy text of the printing and typesetting11', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के11', '111Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum', '11लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, शेष अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एल्दस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692067277609010.jpeg', 1, 1, NULL, NULL, 1, '2021-02-28 01:16:30', '2021-11-30 04:17:25'),
-(5, 2, 7, 7, 10, 'Printed Men Hooded Neck Orange', 'प्रिंटेड मेन हूडेड नेक ऑरेंज', 'printed-men-hooded-neck-orange', 'प्रिंटेड-मेन-हूडेड-नेक-ऑरेंज', '322343243', '0', 'Hooded Neck', 'Hooded Neck', 'Small,Midium', 'Small,Midium', 'red,Black', 'red,Black', '399', '300', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञा', 'Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type\r\n\r\nand scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने\r\n\r\nके लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एलडस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692434756119029.jpeg', NULL, 1, NULL, 1, 1, '2021-02-28 00:47:36', '2021-02-28 00:47:36'),
-(7, 4, 7, 9, 16, 'Running Shoes For Men', 'पुरुषों के लिए जूते चलाना', 'running-shoes-for-men', 'पुरुषों-के-लिए-जूते-चलाना', '45345344', '400', 'test,', 'test,', 'Small,Midium,Large', 'Small,Midium,Large', 'red,Black,Amet', 'red,Black,Large', '2000', '1200', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञा', 'Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एलडस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692435014662276.jpeg', NULL, NULL, 1, 1, 1, '2021-02-25 02:06:52', '2021-02-25 02:06:52'),
-(6, 2, 7, 7, 11, 'Striped Men Round Neck Blue', 'धारीदार पुरुष गोल नीली नीली', 'striped-men-round-neck-blue', 'धारीदार-पुरुष-गोल-नीली-नीली', '322343244', '200', 'Round Neck', 'Round Neck', 'Small,Midium,Large', 'Small,Midium,Large', 'red,Black,Amet', 'red,Black,Large', '399', '300', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञा', 'Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एलडस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692434892084466.jpeg', NULL, NULL, 1, NULL, 1, '2021-02-26 00:37:28', '2021-02-26 00:37:28'),
-(10, 3, 8, 14, 23, 'Samsung 24 inch Curved Full', 'सैमसंग 24 इंच कर्व्ड फुल', 'samsung-24-inch-curved-full', 'सैमसंग-24-इंच-कर्व्ड-फुल', '32234326546', '400', 'test', 'test', NULL, NULL, 'red,Black,Amet', 'red,Black,Large', '1200', '1100', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञा', 'Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एलडस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692435396611543.jpeg', NULL, 1, NULL, NULL, 1, '2021-02-28 04:01:40', '2021-11-30 04:08:20');
+(11, 3, 8, 14, 23, 'Samsung 26.5 inch LED Backlit', 'सैमसंग 26.5 इंच एलईडी बैकलिट', 'samsung-26.5-inch-led-backlit', 'सैमसंग-26.5-इंच-एलईडी-बैकलिट', '322343255', '400', 'test', 'test', 'Large', 'Large', 'Black', 'Black', '2000', NULL, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञा', 'Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\r\n&nbsp;', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एलडस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692435521667396.jpeg', NULL, NULL, 1, NULL, 1, '2021-02-25 01:32:57', '2021-12-07 03:59:22'),
+(9, 3, 8, 11, 22, 'Canon G3012 Multi-function', 'कैनन G3012 मल्टी-फंक्शन', 'canon-g3012-multi-function', 'कैनन-G3012-मल्टी-फंक्शन', '3223432666', '197', 'test', 'test', '', '', '', '', '2000', '1200', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञा', 'Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एलडस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692435293558991.jpeg', NULL, 1, NULL, 1, 1, '2021-02-25 02:20:35', '2021-03-30 23:37:18'),
+(8, 2, 8, 11, 22, 'Epson L3100 Multi-function', 'एप्सों L3100 मल्टी-फंक्शन', 'epson-l3100-multi-function', 'एप्सों-L3100-मल्टी-फंक्शन', '3223432444', '200', 'test', 'test', '', '', '', '', '2000', '1500', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञा', 'Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एलडस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692435198078978.jpeg', NULL, 1, NULL, NULL, 1, '2021-02-25 01:50:04', '2021-02-25 01:50:04'),
+(13, 10, 8, 26, 58, 'Lenovo  Yoga Smartpad', 'यह सिर्फ डेमो डेटा है इससे कोई फर्क नहीं पड़ता', 'lenovo--yoga-smartpad', 'यह-सिर्फ-डेमो-डेटा-है-इससे-कोई-फर्क-नहीं-पड़ता', '122234', '200', 'Lenovo', 'Lenovo', 'Small', 'Small', 'Black', 'Black', '300.00', '200.00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'दर्द ही दर्द का प्यार है, मुख्य पारिस्थितिक समस्याएं हैं, लेकिन मैं इस तरह के समय को नीचे गिरने के लिए देता हूं, ताकि कुछ महान दर्द और दर्द हो। कम से कम आने के उद्देश्य से हममें से कौन किसी रोजगार का प्रयोग करे सिवाय उसके परिणाम का लाभ उठाने के। लेकिन फिल्म में जो दर्द है, उसकी निंदा करना लाजमी है, जिस खुशी में वह दर्द में अनाड़ी होने के दर्द से बचना चाहती है, उसका कोई नतीजा नहीं निकलता.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'दर्द ही दर्द का प्यार है, मुख्य पारिस्थितिक समस्याएं हैं, लेकिन मैं इस तरह के समय को नीचे गिरने के लिए देता हूं, ताकि कुछ महान दर्द और दर्द हो। कम से कम आने के उद्देश्य से हममें से कौन किसी रोजगार का प्रयोग करे सिवाय उसके परिणाम का लाभ उठाने के। लेकिन फिल्म में जो दर्द है, उसकी निंदा करना लाजमी है, जिस खुशी में वह दर्द में अनाड़ी होने के दर्द से बचना चाहती है, उसका कोई नतीजा नहीं निकलता. वे अपवाद हैं जिनके लिए अंधे तरसते हैं, वे नहीं देखते हैं, वे वही हैं जो अपनी जिम्मेदारियों को उस गलती के लिए छोड़ देते हैं जो आत्मा की कठिनाइयों को शांत कर रही है।', 'upload/products/thumbnail/1717790586611408.png', NULL, 1, NULL, 1, 1, '2021-11-30 05:06:03', '2021-12-01 02:13:11'),
+(4, 3, 7, 7, 10, 'Printed Men Round Neck Black', 'प्रिंटेड मेन राउंड नेक ब्लैक', 'printed-men-round-neck-black', 'प्रिंटेड-मेन-राउंड-नेक-ब्लैक', '45345323', '400', 'Round Neck', 'Round Neck', 'Small,Medium,Large', 'Small,Medium,Large', '', '', '400', NULL, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञा', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एलडस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692434616868994.jpeg', 1, 1, 1, NULL, 1, '2021-02-26 00:36:22', '2021-02-26 00:36:22'),
+(1, 4, 7, 10, 10, 'Printed Men Round Neck', 'प्रिंटेड मेन राउंड नेक', 'printed-men-round-neck', 'प्रिंटेड-मेन-राउंड-नेक', '234234', '200', 'Round Neck', 'Round Neck', 'Small,Medium,Large', 'Small,Medium,Large', '', '', '500', '400', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अ', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, शेष अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एल्दस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692065307871661.jpeg', 1, NULL, 1, NULL, 1, '2021-02-26 00:36:49', '2021-12-02 22:29:55'),
+(3, 6, 8, 14, 23, 'Amkette EvoFox Fireblade LED11', 'Amkette EvoFox Fireblade LED11', 'amkette-evofox-fireblade-led11', 'Amkette-EvoFox-Fireblade-LED11', '222222', '200', 'test', 'test', NULL, NULL, '', '', '1300', '1100', 'Lorem Ipsum is simply dummy text of the printing and typesetting11', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के11', '111Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum', '11लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, शेष अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एल्दस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692067277609010.jpeg', 1, 1, NULL, NULL, 1, '2021-02-28 01:16:30', '2021-12-07 04:39:06'),
+(5, 6, 7, 10, 11, 'Printed Men Hooded Neck Orange', 'प्रिंटेड मेन हूडेड नेक ऑरेंज', 'printed-men-hooded-neck-orange', 'प्रिंटेड-मेन-हूडेड-नेक-ऑरेंज', '322343243', '200', 'Hooded Neck', 'Hooded Neck', 'Small,Medium,Large', 'Small,Medium,Large', 'Orange', 'Orange', '399', '300', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञा', 'Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एलडस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692434756119029.jpeg', NULL, 1, NULL, 1, 1, '2021-02-28 00:47:36', '2021-12-02 22:14:50'),
+(7, 4, 7, 9, 16, 'Running Shoes For Men', 'पुरुषों के लिए जूते चलाना', 'running-shoes-for-men', 'पुरुषों-के-लिए-जूते-चलाना', '45345344', '400', 'test', 'test', '9,9.5,10,10.5,11,11.5,12', '9,9.5,10,10.5,11,11.5,12', '', '', '2000', '1200', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञा', 'Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एलडस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692435014662276.jpeg', NULL, NULL, 1, 1, 1, '2021-02-25 02:06:52', '2021-02-25 02:06:52'),
+(6, 6, 7, 10, 11, 'Striped Men Round Neck Blue', 'धारीदार पुरुष गोल नीली नीली', 'striped-men-round-neck-blue', 'धारीदार-पुरुष-गोल-नीली-नीली', '322343244', '200', 'Round Neck', 'Round Neck', 'Small,Medium,Large', 'Small,Medium,Large', 'Blue', 'Blue', '399', '300', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञा', 'Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एलडस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692434892084466.jpeg', NULL, NULL, 1, NULL, 1, '2021-02-26 00:37:28', '2021-12-02 22:18:06'),
+(10, 3, 8, 14, 23, 'Samsung 24 inch Curved Full', 'सैमसंग 24 इंच कर्व्ड फुल', 'samsung-24-inch-curved-full', 'सैमसंग-24-इंच-कर्व्ड-फुल', '32234326546', '400', 'test', 'test', NULL, NULL, NULL, NULL, '1200', '1100', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dum', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञा', 'Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'लोरम इप्सम केवल मुद्रण और टंकण उद्योग का डमी पाठ है। लोरम इप्सम 1500 के दशक के बाद से उद्योग का मानक डमी पाठ रहा है, जब एक अज्ञात प्रिंटर ने एक प्रकार की गली ली और एक प्रकार की पुस्तक बनाने के लिए इसे छान डाला। यह न केवल पाँच शताब्दियों तक जीवित रहा है, बल्कि इलेक्ट्रॉनिक टंकण में भी छलांग लगाता है, अनिवार्य रूप से अपरिवर्तित रहता है। इसे 1960 के दशक में लॉरेम इप्सम मार्ग के साथ लेटसेट शीट जारी करने के साथ लोकप्रिय किया गया था, और हाल ही में एलडस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरम इप्सम के संस्करण भी शामिल हैं।', 'upload/products/thumbnail/1692435396611543.jpeg', NULL, 1, NULL, NULL, 1, '2021-02-28 04:01:40', '2021-12-07 04:50:22');
 
 -- --------------------------------------------------------
 
@@ -337,7 +465,84 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('wRDAUAuHhMsjS9V9vX4PKT8MFQM3CXstm3lcsQJd', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36', 'YTo5OntzOjY6Il90b2tlbiI7czo0MDoiRTFJSFRaQ0ZleFdvTjRtcEd5eVk5dzNMWWcxMHdOdnZHWVN2VExsRCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NjI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9kdWN0L2RldGFpbHMvMTMvbGVub3ZvLS15b2dhLXNtYXJ0cGFkIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMCRUU0xyNS5zSEM2RFVUb1EvL2hzU2F1TktxVzFzTGFsRVNGU1dORlNUci85RWhxa092YkdHRyI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkVFNMcjUuc0hDNkRVVG9RLy9oc1NhdU5LcVcxc0xhbEVTRlNXTkZTVHIvOUVocWtPdmJHR0ciO3M6NTI6ImxvZ2luX2FkbWluXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjE5OiJwYXNzd29yZF9oYXNoX2FkbWluIjtzOjYwOiIkMnkkMTAka010aXU2TGUyNFVudGJoL3VIUnouZWJwZTJoLkJweDM4ei9DM1lvNkNNeXVjanl2cVlrdG0iO30=', 1638223059);
+('JPQFAza9c8qtYze28LMtOt86fVnqK15izKY1ytTw', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36', 'YTo5OntzOjY6Il90b2tlbiI7czo0MDoiUmVYOU9tVEp2UXRUZ2I4d1RZc21Zd2FoOFJkeVhCMk94cW5Ob2NkcCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jaGVja291dCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMCRUU0xyNS5zSEM2RFVUb1EvL2hzU2F1TktxVzFzTGFsRVNGU1dORlNUci85RWhxa092YkdHRyI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkVFNMcjUuc0hDNkRVVG9RLy9oc1NhdU5LcVcxc0xhbEVTRlNXTkZTVHIvOUVocWtPdmJHR0ciO3M6NTI6ImxvZ2luX2FkbWluXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjE5OiJwYXNzd29yZF9oYXNoX2FkbWluIjtzOjYwOiIkMnkkMTAka010aXU2TGUyNFVudGJoL3VIUnouZWJwZTJoLkJweDM4ei9DM1lvNkNNeXVjanl2cVlrdG0iO3M6NDoiY2FydCI7YToxOntzOjc6ImRlZmF1bHQiO086Mjk6IklsbHVtaW5hdGVcU3VwcG9ydFxDb2xsZWN0aW9uIjoyOntzOjg6IgAqAGl0ZW1zIjthOjE6e3M6MzI6IjQ0YmJjMzg2ZDQxNzc2M2NlNTNmYzJkN2RiOWFkNTg4IjtPOjMyOiJHbG91ZGVtYW5zXFNob3BwaW5nY2FydFxDYXJ0SXRlbSI6MTA6e3M6NToicm93SWQiO3M6MzI6IjQ0YmJjMzg2ZDQxNzc2M2NlNTNmYzJkN2RiOWFkNTg4IjtzOjI6ImlkIjtzOjI6IjExIjtzOjM6InF0eSI7czoxOiIxIjtzOjQ6Im5hbWUiO3M6Mjk6IlNhbXN1bmcgMjYuNSBpbmNoIExFRCBCYWNrbGl0IjtzOjU6InByaWNlIjtkOjIwMDA7czo2OiJ3ZWlnaHQiO2Q6MTtzOjc6Im9wdGlvbnMiO086Mzk6Ikdsb3VkZW1hbnNcU2hvcHBpbmdjYXJ0XENhcnRJdGVtT3B0aW9ucyI6Mjp7czo4OiIAKgBpdGVtcyI7YTozOntzOjU6ImltYWdlIjtzOjQ3OiJ1cGxvYWQvcHJvZHVjdHMvdGh1bWJuYWlsLzE2OTI0MzU1MjE2NjczOTYuanBlZyI7czo1OiJjb2xvciI7czo1OiJCbGFjayI7czo0OiJzaXplIjtzOjU6IkxhcmdlIjt9czoyODoiACoAZXNjYXBlV2hlbkNhc3RpbmdUb1N0cmluZyI7YjowO31zOjc6InRheFJhdGUiO2k6MDtzOjQ5OiIAR2xvdWRlbWFuc1xTaG9wcGluZ2NhcnRcQ2FydEl0ZW0AYXNzb2NpYXRlZE1vZGVsIjtOO3M6NDY6IgBHbG91ZGVtYW5zXFNob3BwaW5nY2FydFxDYXJ0SXRlbQBkaXNjb3VudFJhdGUiO2k6MDt9fXM6Mjg6IgAqAGVzY2FwZVdoZW5DYXN0aW5nVG9TdHJpbmciO2I6MDt9fX0=', 1640703363);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ship_districts`
+--
+
+DROP TABLE IF EXISTS `ship_districts`;
+CREATE TABLE IF NOT EXISTS `ship_districts` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `division_id` bigint(20) UNSIGNED NOT NULL,
+  `district_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ship_districts`
+--
+
+INSERT INTO `ship_districts` (`id`, `division_id`, `district_name`, `created_at`, `updated_at`) VALUES
+(1, 1, 'District 1A', '2021-12-14 21:03:24', NULL),
+(3, 1, 'District 1B', '2021-12-15 01:57:58', NULL),
+(4, 1, 'District 1C', '2021-12-15 02:01:02', NULL),
+(5, 3, 'District 2A', '2021-12-15 02:03:04', NULL),
+(6, 3, 'District 2B', '2021-12-15 02:05:00', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ship_divisions`
+--
+
+DROP TABLE IF EXISTS `ship_divisions`;
+CREATE TABLE IF NOT EXISTS `ship_divisions` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `division_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ship_divisions`
+--
+
+INSERT INTO `ship_divisions` (`id`, `division_name`, `created_at`, `updated_at`) VALUES
+(1, 'Division 1', '2021-12-14 07:01:48', NULL),
+(3, 'Division 2', '2021-12-15 01:53:08', NULL),
+(4, 'Division 3', '2021-12-15 01:56:17', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ship_states`
+--
+
+DROP TABLE IF EXISTS `ship_states`;
+CREATE TABLE IF NOT EXISTS `ship_states` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `division_id` bigint(20) UNSIGNED NOT NULL,
+  `district_id` bigint(20) UNSIGNED NOT NULL,
+  `state_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ship_states`
+--
+
+INSERT INTO `ship_states` (`id`, `division_id`, `district_id`, `state_name`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 'Oklahoma', '2021-12-15 02:54:10', NULL),
+(2, 1, 3, 'Texas', '2021-12-15 02:55:07', NULL),
+(3, 1, 1, 'Kansas', '2021-12-15 03:02:40', NULL);
 
 -- --------------------------------------------------------
 
@@ -513,7 +718,30 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `phone`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `remember_token`, `current_team_id`, `profile_photo_path`, `created_at`, `updated_at`) VALUES
 (1, 'User', 'user@gmail.com', NULL, NULL, '$2y$10$PkN00Yc4LdZJkMxraq4Wo.Ao/Vhd5sD68KroaHMpc5pvtHbR6i4UW', NULL, NULL, NULL, NULL, 'profile-photos/92ra8pMNQBSCqUZUZe4ve3hhQ5mxEb7kfynecQz6.png', '2021-10-29 02:50:49', '2021-10-29 03:12:52'),
-(2, 'Myron', 'myronrogers.rogers@gmail.com', '9048918679', NULL, '$2y$10$TSLr5.sHC6DUToQ//hsSauNKqW1sLalESFSWNFSTr/9EhqkOvbGGG', NULL, NULL, '7aASkY1bIDbkyklODVlywdenGV9np5oUhxA3eOxquwwKInPx7AUddTlNgSax', NULL, '202111042041sylvester.png', '2021-11-03 22:14:43', '2021-11-13 22:38:12');
+(2, 'Myron', 'myronrogers.rogers@gmail.com', '9048918679', NULL, '$2y$10$TSLr5.sHC6DUToQ//hsSauNKqW1sLalESFSWNFSTr/9EhqkOvbGGG', NULL, NULL, 'PFY1Fvc3GiejVSH1C4be2hZPKVn64K41YKQJAW0diVSkrla7YQVY3Hf7S30w', NULL, '202111042041sylvester.png', '2021-11-03 22:14:43', '2021-11-13 22:38:12');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wishlists`
+--
+
+DROP TABLE IF EXISTS `wishlists`;
+CREATE TABLE IF NOT EXISTS `wishlists` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `wishlists`
+--
+
+INSERT INTO `wishlists` (`id`, `user_id`, `product_id`, `created_at`, `updated_at`) VALUES
+(1, 2, 11, '2021-12-09 22:24:41', NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

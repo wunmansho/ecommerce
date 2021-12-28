@@ -11329,3 +11329,239 @@ class OrderItem extends Model
 
 
 (274) Add Cash on Delivery Payment Method
+
+cash
+@extends('frontend.main_master')
+@section('content')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+@section('title')
+    Cash On Delivery
+@endsection
+
+<div class="breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-inner">
+            <ul class="list-inline list-unstyled">
+                <li><a href="home.html">Home</a></li>
+                <li class='active'>Cash On Delivery</li>
+            </ul>
+        </div><!-- /.breadcrumb-inner -->
+    </div><!-- /.container -->
+</div><!-- /.breadcrumb -->
+
+
+<div class="body-content">
+    <div class="container">
+        <div class="checkout-box ">
+            <div class="row">
+
+                <div class="col-md-6">
+                    <!-- checkout-progress-sidebar -->
+                    <div class="checkout-progress-sidebar ">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="unicase-checkout-title">Your Shopping Total</h4>
+                                </div>
+                                <div class="">
+                                    <ul class="nav nav-checkout-progress list-unstyled">
+
+                                        <li>
+                                            @if (Session::has('coupon'))
+                                                <strong>Subtotal: </strong> ${{ $cartTotal }}
+                                                <hr>
+                                                <strong>Coupon Name: </strong>
+                                                {{ Session()->get('coupon')['coupon_name'] }}
+                                                ( {{ session()->get('coupon')['coupon_discount'] }} % )
+                                                <hr>
+                                                <strong>Coupon Discount: </strong>
+                                                ${{ Session()->get('coupon')['discount_amount'] }}
+                                                <hr>
+
+                                                <strong>Grand Total: </strong>
+                                                ${{ Session()->get('coupon')['total_amount'] }}
+                                                <hr>
+
+
+                                            @else
+                                                <strong>Subtotal: </strong> ${{ $cartTotal }}
+                                                <hr>
+                                                <strong>Grand Total: </strong> ${{ $cartTotal }}
+                                                <hr>
+                                            @endif
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- checkout-progress-sidebar -->
+                </div>
+
+
+
+                <div class="col-md-6">
+                    <!-- checkout-progress-sidebar -->
+                    <div class="checkout-progress-sidebar ">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="unicase-checkout-title">Select Payment Method</h4>
+                                </div>
+
+                                <form action="{{ route('cash.order') }}" method="post" id="payment-form">
+                                    @csrf
+                                    <div class="form-row">
+                                        <img src="{{ asset('frontend/assets/images/payments/cash.png') }}">
+                                        <label for="card-element">
+                                            <input type="hidden" name="name" value="{{ $data['shipping_name'] }}">
+                                            <input type="hidden" name="email" value="{{ $data['shipping_email'] }}">
+                                            <input type="hidden" name="phone" value="{{ $data['shipping_phone'] }}">
+                                            <input type="hidden" name="post_code" value="{{ $data['post_code'] }}">
+                                            <input type="hidden" name="division_id"
+                                                value="{{ $data['division_id'] }}">
+                                            <input type="hidden" name="district_id"
+                                                value="{{ $data['district_id'] }}">
+                                            <input type="hidden" name="state_id" value="{{ $data['state_id'] }}">
+                                            <input type="hidden" name="notes" value="{{ $data['notes'] }}">
+
+
+
+
+
+                                        </label>
+
+                                     </div>
+                                    <br>
+                                    <button class="btn btn-primary">Submit Payment</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- checkout-progress-sidebar -->
+
+                    </form>
+
+                </div>
+
+
+
+
+
+
+
+
+            </div><!-- /.checkout-box -->
+            <!-- ============================================== BRANDS CAROUSEL ============================================== -->
+
+            <!-- ============================================== BRANDS CAROUSEL : END ============================================== -->
+        </div><!-- /.container -->
+    </div><!-- /.body-content -->
+
+
+@endsection
+
+
+web.php
+        Route::post('/cash/order', [CashController::class, 'CashOrder'])->name('cash.order');
+
+php artisan make:controller User/CashController
+
+
+
+
+CashController
+Here I am cloning StripOrder from StripeController 
+into CashOrder and then removing Stripe specific stuff.
+use Illuminate\Support\Facades\Session;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Models\Order;
+use App\Models\OrderItem;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderMail;
+
+class CashController extends Controller
+{
+    public function CashOrder(Request $request)
+    {
+
+        if (Session::has('coupon')) {
+            $total_amount = Session::get('coupon')['total_amount'];
+        } else {
+            $total_amount = round(Cart::total());
+        }
+
+
+
+        //   dd($charge);
+
+        $order_id = Order::insertGetId([
+            'user_id' => Auth::id(),
+            'division_id' => $request->division_id,
+            'district_id' => $request->district_id,
+            'state_id' => $request->state_id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'post_code' => $request->post_code,
+            'notes' => $request->notes,
+            'payment_type' => 'Cash On Delivery',
+            'payment_method' => 'Cash On Delivery',
+ 
+            'currency' => 'USD',
+            'amount' => $total_amount,
+ 
+            'invoice_no' => 'MYM' . mt_rand(10000000, 99999999),
+            'order_date' => Carbon::now()->format('d F Y'),
+            'order_month' => Carbon::now()->format('F'),
+            'order_year' => Carbon::now()->format('Y'),
+            'status' => 'Pending',
+            'created_at' => Carbon::now(),
+        ]);
+        // Start send Email  
+        $invoice = Order::findOrFail($order_id);
+        $data = [
+            'invoice_no' => $invoice->invoice_no,
+            'amount' => $total_amount,
+            'name' => $invoice->name,
+            'email' => $invoice->email,
+
+        ];
+
+        Mail::to($request->email)->send(new OrderMail($data));
+        // End send Email
+
+
+        $carts = Cart::content();
+        foreach ($carts as $cart) {
+            OrderItem::insert([
+                'order_id' => $order_id,
+                'product_id' => $cart->id,
+                'color' => $cart->options->color,
+                'size' => $cart->options->size,
+                'qty' => $cart->qty,
+                'price' => $cart->price,
+                'created_at' => Carbon::now(),
+
+            ]);
+        }
+
+        if (Session::has('coupon')) {
+            Session::forget('coupon');
+        }
+
+        Cart::destroy();
+        $notification = array(
+            'message' => 'Your Order Has Been Placed Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('dashboard')->with($notification);
+    }
+}
+
+
+
+(275) Make Order Invoice & Generate PDF Part 1

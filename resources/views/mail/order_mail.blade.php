@@ -65,7 +65,7 @@ style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, '
 Hello!</h1>
 <p
 style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">
-You are receiving this email from your Store Product .</p>
+You are receiving this email from Mymart .</p>
 <table class="action" align="center" width="100%" cellpadding="0"
 cellspacing="0" role="presentation"
 style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; margin: 30px auto; padding: 0; text-align: center; width: 100%;">

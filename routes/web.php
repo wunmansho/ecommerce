@@ -20,6 +20,8 @@ use App\Http\Controllers\Backend\ShippingAreaController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\AllUserController;
+use App\Http\Controllers\User\CashController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -214,6 +216,9 @@ Route::group(
    
         Route::post('/stripe/order', [StripeController::class, 'StripeOrder'])->name('stripe.order');
  
+        Route::post('/cash/order', [CashController::class, 'CashOrder'])->name('cash.order');
+
+
         Route::get('/my/orders', [AllUserController::class, 'MyOrders'])->name('my.orders');
 
         Route::get('/order_details/{order_id}', [AllUserController::class, 'OrderDetails']);
