@@ -28,4 +28,14 @@ class AllUserController extends Controller
         return view('frontend.user.order.order_details',compact('order','orderItem'));
 
     }
+
+    public function InvoiceDownload($order_id){
+        //  The with clause below references the relationship 
+        //  methods that we have created in Order Model
+        $order = Order::with('division','district','state','user')->where('id', $order_id)->where('user_id', Auth::id())->first();
+        $orderItem = OrderItem::with('product')->where('order_id', $order_id)->orderBy('id','DESC')->get();
+        return view('frontend.user.order.order_invoice',compact('order','orderItem'));
+
+
+    }
 }

@@ -11565,3 +11565,48 @@ class CashController extends Controller
 
 
 (275) Make Order Invoice & Generate PDF Part 1
+
+order_view
+<a href="{{ url('user/invoice_download/'.$order->id) }}" class="btn btn-sm btn-danger" style="margin-top: 5px;"><i class="fa fa-download" style="color: white;"></i>Invoice  </a>
+
+
+web.php
+Route::get('/invoice_download/{order_id}', [AllUserController::class, 'InvoiceDownload']);
+
+AllUserController
+here I clone OrderDetails
+    public function InvoiceDownload($order_id){
+        //  The with clause below references the relationship 
+        //  methods that we have created in Order Model
+        $order = Order::with('division','district','state','user')->where('id', $order_id)->where('user_id', Auth::id())->first();
+        $orderItem = OrderItem::with('product')->where('order_id', $order_id)->orderBy('id','DESC')->get();
+        return view('frontend.user.order.order_invoice',compact('order','orderItem'));
+
+
+    }
+
+first I install dompdf 
+https://github.com/barryvdh/laravel-dompdf
+like so
+composer require barryvdh/laravel-dompdf
+
+After updating composer, add the ServiceProvider to the providers array in config/app.php
+
+Barryvdh\DomPDF\ServiceProvider::class,
+You can optionally use the facade for shorter code. Add this to your facades:
+
+'PDF' => Barryvdh\DomPDF\Facade::class,
+
+from the Invoice Design HTML Code.txt file in templates I copied the 
+code into order_detals
+
+
+    
+(276) Make Order Invoice & Generate PDF Part 2
+
+
+
+
+
+
+
